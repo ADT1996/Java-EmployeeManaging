@@ -11,12 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -24,11 +20,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "degree")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Degree.findAll", query = "SELECT d FROM Degree d")
-    , @NamedQuery(name = "Degree.findById", query = "SELECT d FROM Degree d WHERE d.id = :id")
-    , @NamedQuery(name = "Degree.findByDegree", query = "SELECT d FROM Degree d WHERE d.degree = :degree")})
 public class Degree implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -70,7 +61,6 @@ public class Degree implements Serializable {
         this.degree = degree;
     }
 
-    @XmlTransient
     public Collection<Employee> getEmployeeCollection() {
         return employeeCollection;
     }

@@ -11,12 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -24,11 +20,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "folk")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Folk.findAll", query = "SELECT f FROM Folk f")
-    , @NamedQuery(name = "Folk.findById", query = "SELECT f FROM Folk f WHERE f.id = :id")
-    , @NamedQuery(name = "Folk.findByFolk", query = "SELECT f FROM Folk f WHERE f.folk = :folk")})
 public class Folk implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -70,7 +61,6 @@ public class Folk implements Serializable {
         this.folk = folk;
     }
 
-    @XmlTransient
     public Collection<Employee> getEmployeeCollection() {
         return employeeCollection;
     }

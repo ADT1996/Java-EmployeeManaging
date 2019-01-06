@@ -8,15 +8,12 @@ package ims.dto;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -24,11 +21,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "city")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "City.findAll", query = "SELECT c FROM City c")
-    , @NamedQuery(name = "City.findByIdcity", query = "SELECT c FROM City c WHERE c.idcity = :idcity")
-    , @NamedQuery(name = "City.findByCity", query = "SELECT c FROM City c WHERE c.city = :city")})
 public class City implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,14 +31,8 @@ public class City implements Serializable {
     @Basic(optional = false)
     @Column(name = "City")
     private String city;
-    @OneToMany(mappedBy = "nativeLand")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
     private Collection<Employee> employeeCollection;
-    @OneToMany(mappedBy = "takenCodePlace")
-    private Collection<Employee> employeeCollection1;
-    @OneToMany(mappedBy = "takenLaborPlace")
-    private Collection<Employee> employeeCollection2;
-    @OneToMany(mappedBy = "city")
-    private Collection<Employee> employeeCollection3;
 
     public City() {
     }
@@ -76,40 +62,12 @@ public class City implements Serializable {
         this.city = city;
     }
 
-    @XmlTransient
     public Collection<Employee> getEmployeeCollection() {
         return employeeCollection;
     }
 
     public void setEmployeeCollection(Collection<Employee> employeeCollection) {
         this.employeeCollection = employeeCollection;
-    }
-
-    @XmlTransient
-    public Collection<Employee> getEmployeeCollection1() {
-        return employeeCollection1;
-    }
-
-    public void setEmployeeCollection1(Collection<Employee> employeeCollection1) {
-        this.employeeCollection1 = employeeCollection1;
-    }
-
-    @XmlTransient
-    public Collection<Employee> getEmployeeCollection2() {
-        return employeeCollection2;
-    }
-
-    public void setEmployeeCollection2(Collection<Employee> employeeCollection2) {
-        this.employeeCollection2 = employeeCollection2;
-    }
-
-    @XmlTransient
-    public Collection<Employee> getEmployeeCollection3() {
-        return employeeCollection3;
-    }
-
-    public void setEmployeeCollection3(Collection<Employee> employeeCollection3) {
-        this.employeeCollection3 = employeeCollection3;
     }
 
     @Override

@@ -15,20 +15,19 @@
     <class>ims.dal.EmployeePosition</class>
     <class>ims.dal.Nationality</class>
     <class>ims.dal.Foreignlanguage</class>
-    <class>ims.dto.NewEntity</class>
-    <class>ims.dto.Employee</class>
-    <class>ims.dto.Nationality</class>
-    <class>ims.dto.Degree</class>
-    <class>ims.dto.Folk</class>
-    <class>ims.dto.City</class>
-    <class>ims.dto.Learning</class>
-    <class>ims.dto.Religion</class>
-    <class>ims.dto.EmployeePosition</class>
-    <class>ims.dto.Foreignlanguage</class>
     <class>ims.dto.Typestaff</class>
-    <class>ims.dto.Job</class>
-    <class>ims.dto.Computing</class>
+    <class>ims.dto.EmployeePosition</class>
     <class>ims.dto.Deparment</class>
+    <class>ims.dto.Job</class>
+    <class>ims.dto.Employee</class>
+    <class>ims.dto.Learning</class>
+    <class>ims.dto.Foreignlanguage</class>
+    <class>ims.dto.Computing</class>
+    <class>ims.dto.Folk</class>
+    <class>ims.dto.Religion</class>
+    <class>ims.dto.Nationality</class>
+    <class>ims.dto.City</class>
+    <class>ims.dto.Degree</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/employeemanaging?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

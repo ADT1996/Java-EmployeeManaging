@@ -7,6 +7,7 @@ package ims.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +19,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -26,32 +26,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "employee")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")
-    , @NamedQuery(name = "Employee.findById", query = "SELECT e FROM Employee e WHERE e.id = :id")
-    , @NamedQuery(name = "Employee.findByFullName", query = "SELECT e FROM Employee e WHERE e.fullName = :fullName")
-    , @NamedQuery(name = "Employee.findByNickName", query = "SELECT e FROM Employee e WHERE e.nickName = :nickName")
-    , @NamedQuery(name = "Employee.findByGender", query = "SELECT e FROM Employee e WHERE e.gender = :gender")
-    , @NamedQuery(name = "Employee.findByMarried", query = "SELECT e FROM Employee e WHERE e.married = :married")
-    , @NamedQuery(name = "Employee.findByMobieNumber", query = "SELECT e FROM Employee e WHERE e.mobieNumber = :mobieNumber")
-    , @NamedQuery(name = "Employee.findByPhoneHome", query = "SELECT e FROM Employee e WHERE e.phoneHome = :phoneHome")
-    , @NamedQuery(name = "Employee.findByEmail", query = "SELECT e FROM Employee e WHERE e.email = :email")
-    , @NamedQuery(name = "Employee.findByBirthDay", query = "SELECT e FROM Employee e WHERE e.birthDay = :birthDay")
-    , @NamedQuery(name = "Employee.findByBirthPlace", query = "SELECT e FROM Employee e WHERE e.birthPlace = :birthPlace")
-    , @NamedQuery(name = "Employee.findByPersonCode", query = "SELECT e FROM Employee e WHERE e.personCode = :personCode")
-    , @NamedQuery(name = "Employee.findByTakenCodeDay", query = "SELECT e FROM Employee e WHERE e.takenCodeDay = :takenCodeDay")
-    , @NamedQuery(name = "Employee.findByAddress", query = "SELECT e FROM Employee e WHERE e.address = :address")
-    , @NamedQuery(name = "Employee.findByTabernacle", query = "SELECT e FROM Employee e WHERE e.tabernacle = :tabernacle")
-    , @NamedQuery(name = "Employee.findByStartDay", query = "SELECT e FROM Employee e WHERE e.startDay = :startDay")
-    , @NamedQuery(name = "Employee.findByBaseSalary", query = "SELECT e FROM Employee e WHERE e.baseSalary = :baseSalary")
-    , @NamedQuery(name = "Employee.findBySalaryCoefficient", query = "SELECT e FROM Employee e WHERE e.salaryCoefficient = :salaryCoefficient")
-    , @NamedQuery(name = "Employee.findBySalary", query = "SELECT e FROM Employee e WHERE e.salary = :salary")
-    , @NamedQuery(name = "Employee.findBySalaryAllowance", query = "SELECT e FROM Employee e WHERE e.salaryAllowance = :salaryAllowance")
-    , @NamedQuery(name = "Employee.findByNumberLabor", query = "SELECT e FROM Employee e WHERE e.numberLabor = :numberLabor")
-    , @NamedQuery(name = "Employee.findByTakenLaborDay", query = "SELECT e FROM Employee e WHERE e.takenLaborDay = :takenLaborDay")
-    , @NamedQuery(name = "Employee.findByIdBank", query = "SELECT e FROM Employee e WHERE e.idBank = :idBank")
-    , @NamedQuery(name = "Employee.findByBank", query = "SELECT e FROM Employee e WHERE e.bank = :bank")})
+    @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")})
 public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,6 +35,9 @@ public class Employee implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id")
     private Integer id;
+    @Basic(optional = false)
+    @Column(name = "publicKey")
+    private String publicKey;
     @Basic(optional = false)
     @Column(name = "FullName")
     private String fullName;
@@ -76,16 +55,27 @@ public class Employee implements Serializable {
     private Integer phoneHome;
     @Column(name = "Email")
     private String email;
+    @Basic(optional = false)
     @Column(name = "BirthDay")
     @Temporal(TemporalType.DATE)
     private Date birthDay;
+    @Basic(optional = false)
     @Column(name = "BirthPlace")
     private String birthPlace;
+    @Basic(optional = false)
     @Column(name = "PersonCode")
-    private Long personCode;
+    private long personCode;
+    @Basic(optional = false)
     @Column(name = "TakenCodeDay")
     @Temporal(TemporalType.DATE)
     private Date takenCodeDay;
+    @Basic(optional = false)
+    @Column(name = "TakenCodePlace")
+    private String takenCodePlace;
+    @Basic(optional = false)
+    @Column(name = "NativeLand")
+    private String nativeLand;
+    @Basic(optional = false)
     @Column(name = "Address")
     private String address;
     @Column(name = "Tabernacle")
@@ -100,33 +90,28 @@ public class Employee implements Serializable {
     @Basic(optional = false)
     @Column(name = "SalaryCoefficient")
     private float salaryCoefficient;
+    @Basic(optional = false)
     @Column(name = "Salary")
-    private Integer salary;
+    private int salary;
+    @Basic(optional = false)
     @Column(name = "SalaryAllowance")
-    private Integer salaryAllowance;
+    private int salaryAllowance;
     @Column(name = "NumberLabor")
     private Integer numberLabor;
     @Column(name = "TakenLaborDay")
     @Temporal(TemporalType.DATE)
     private Date takenLaborDay;
+    @Column(name = "TakenLaborPlace")
+    private String takenLaborPlace;
     @Column(name = "IdBank")
     private String idBank;
     @Column(name = "Bank")
     private String bank;
-    @JoinColumn(name = "NativeLand", referencedColumnName = "idcity")
+    @JoinColumn(name = "Folk", referencedColumnName = "id")
     @ManyToOne
-    private City nativeLand;
-    @JoinColumn(name = "TakenCodePlace", referencedColumnName = "idcity")
-    @ManyToOne
-    private City takenCodePlace;
-    @JoinColumn(name = "TakenLaborPlace", referencedColumnName = "idcity")
-    @ManyToOne
-    private City takenLaborPlace;
-    @JoinColumn(name = "Learning", referencedColumnName = "id")
-    @ManyToOne
-    private Learning learning;
+    private Folk folk;
     @JoinColumn(name = "City", referencedColumnName = "idcity")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private City city;
     @JoinColumn(name = "Computing", referencedColumnName = "id")
     @ManyToOne
@@ -134,30 +119,30 @@ public class Employee implements Serializable {
     @JoinColumn(name = "Degree", referencedColumnName = "id")
     @ManyToOne
     private Degree degree;
+    @JoinColumn(name = "TypeStaff", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Typestaff typeStaff;
     @JoinColumn(name = "Deparment", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Deparment deparment;
     @JoinColumn(name = "Position", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private EmployeePosition position;
-    @JoinColumn(name = "Religion", referencedColumnName = "id")
-    @ManyToOne
-    private Religion religion;
-    @JoinColumn(name = "Folk", referencedColumnName = "id")
-    @ManyToOne
-    private Folk folk;
-    @JoinColumn(name = "Nationality", referencedColumnName = "id")
-    @ManyToOne
-    private Nationality nationality;
     @JoinColumn(name = "ForeignLanguage", referencedColumnName = "id")
     @ManyToOne
     private Foreignlanguage foreignLanguage;
-    @JoinColumn(name = "TypeStaff", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Typestaff typeStaff;
     @JoinColumn(name = "Job", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Job job;
+    @JoinColumn(name = "Learning", referencedColumnName = "id")
+    @ManyToOne
+    private Learning learning;
+    @JoinColumn(name = "Nationality", referencedColumnName = "id")
+    @ManyToOne
+    private Nationality nationality;
+    @JoinColumn(name = "Religion", referencedColumnName = "id")
+    @ManyToOne
+    private Religion religion;
 
     public Employee() {
     }
@@ -166,14 +151,24 @@ public class Employee implements Serializable {
         this.id = id;
     }
 
-    public Employee(Integer id, String fullName, boolean gender, boolean married, Date startDay, int baseSalary, float salaryCoefficient) {
+    public Employee(Integer id, String publicKey, String fullName, boolean gender, boolean married, Date birthDay, String birthPlace, long personCode, Date takenCodeDay, String takenCodePlace, String nativeLand, String address, Date startDay, int baseSalary, float salaryCoefficient, int salary, int salaryAllowance) {
         this.id = id;
+        this.publicKey = publicKey;
         this.fullName = fullName;
         this.gender = gender;
         this.married = married;
+        this.birthDay = birthDay;
+        this.birthPlace = birthPlace;
+        this.personCode = personCode;
+        this.takenCodeDay = takenCodeDay;
+        this.takenCodePlace = takenCodePlace;
+        this.nativeLand = nativeLand;
+        this.address = address;
         this.startDay = startDay;
         this.baseSalary = baseSalary;
         this.salaryCoefficient = salaryCoefficient;
+        this.salary = salary;
+        this.salaryAllowance = salaryAllowance;
     }
 
     public Integer getId() {
@@ -182,6 +177,14 @@ public class Employee implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getPublicKey() {
+        return publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
     }
 
     public String getFullName() {
@@ -256,11 +259,11 @@ public class Employee implements Serializable {
         this.birthPlace = birthPlace;
     }
 
-    public Long getPersonCode() {
+    public long getPersonCode() {
         return personCode;
     }
 
-    public void setPersonCode(Long personCode) {
+    public void setPersonCode(long personCode) {
         this.personCode = personCode;
     }
 
@@ -270,6 +273,22 @@ public class Employee implements Serializable {
 
     public void setTakenCodeDay(Date takenCodeDay) {
         this.takenCodeDay = takenCodeDay;
+    }
+
+    public String getTakenCodePlace() {
+        return takenCodePlace;
+    }
+
+    public void setTakenCodePlace(String takenCodePlace) {
+        this.takenCodePlace = takenCodePlace;
+    }
+
+    public String getNativeLand() {
+        return nativeLand;
+    }
+
+    public void setNativeLand(String nativeLand) {
+        this.nativeLand = nativeLand;
     }
 
     public String getAddress() {
@@ -312,19 +331,19 @@ public class Employee implements Serializable {
         this.salaryCoefficient = salaryCoefficient;
     }
 
-    public Integer getSalary() {
+    public int getSalary() {
         return salary;
     }
 
-    public void setSalary(Integer salary) {
+    public void setSalary(int salary) {
         this.salary = salary;
     }
 
-    public Integer getSalaryAllowance() {
+    public int getSalaryAllowance() {
         return salaryAllowance;
     }
 
-    public void setSalaryAllowance(Integer salaryAllowance) {
+    public void setSalaryAllowance(int salaryAllowance) {
         this.salaryAllowance = salaryAllowance;
     }
 
@@ -344,6 +363,14 @@ public class Employee implements Serializable {
         this.takenLaborDay = takenLaborDay;
     }
 
+    public String getTakenLaborPlace() {
+        return takenLaborPlace;
+    }
+
+    public void setTakenLaborPlace(String takenLaborPlace) {
+        this.takenLaborPlace = takenLaborPlace;
+    }
+
     public String getIdBank() {
         return idBank;
     }
@@ -360,36 +387,12 @@ public class Employee implements Serializable {
         this.bank = bank;
     }
 
-    public City getNativeLand() {
-        return nativeLand;
+    public Folk getFolk() {
+        return folk;
     }
 
-    public void setNativeLand(City nativeLand) {
-        this.nativeLand = nativeLand;
-    }
-
-    public City getTakenCodePlace() {
-        return takenCodePlace;
-    }
-
-    public void setTakenCodePlace(City takenCodePlace) {
-        this.takenCodePlace = takenCodePlace;
-    }
-
-    public City getTakenLaborPlace() {
-        return takenLaborPlace;
-    }
-
-    public void setTakenLaborPlace(City takenLaborPlace) {
-        this.takenLaborPlace = takenLaborPlace;
-    }
-
-    public Learning getLearning() {
-        return learning;
-    }
-
-    public void setLearning(Learning learning) {
-        this.learning = learning;
+    public void setFolk(Folk folk) {
+        this.folk = folk;
     }
 
     public City getCity() {
@@ -416,6 +419,14 @@ public class Employee implements Serializable {
         this.degree = degree;
     }
 
+    public Typestaff getTypeStaff() {
+        return typeStaff;
+    }
+
+    public void setTypeStaff(Typestaff typeStaff) {
+        this.typeStaff = typeStaff;
+    }
+
     public Deparment getDeparment() {
         return deparment;
     }
@@ -432,20 +443,28 @@ public class Employee implements Serializable {
         this.position = position;
     }
 
-    public Religion getReligion() {
-        return religion;
+    public Foreignlanguage getForeignLanguage() {
+        return foreignLanguage;
     }
 
-    public void setReligion(Religion religion) {
-        this.religion = religion;
+    public void setForeignLanguage(Foreignlanguage foreignLanguage) {
+        this.foreignLanguage = foreignLanguage;
     }
 
-    public Folk getFolk() {
-        return folk;
+    public Job getJob() {
+        return job;
     }
 
-    public void setFolk(Folk folk) {
-        this.folk = folk;
+    public void setJob(Job job) {
+        this.job = job;
+    }
+
+    public Learning getLearning() {
+        return learning;
+    }
+
+    public void setLearning(Learning learning) {
+        this.learning = learning;
     }
 
     public Nationality getNationality() {
@@ -456,28 +475,12 @@ public class Employee implements Serializable {
         this.nationality = nationality;
     }
 
-    public Foreignlanguage getForeignLanguage() {
-        return foreignLanguage;
+    public Religion getReligion() {
+        return religion;
     }
 
-    public void setForeignLanguage(Foreignlanguage foreignLanguage) {
-        this.foreignLanguage = foreignLanguage;
-    }
-
-    public Typestaff getTypeStaff() {
-        return typeStaff;
-    }
-
-    public void setTypeStaff(Typestaff typeStaff) {
-        this.typeStaff = typeStaff;
-    }
-
-    public Job getJob() {
-        return job;
-    }
-
-    public void setJob(Job job) {
-        this.job = job;
+    public void setReligion(Religion religion) {
+        this.religion = religion;
     }
 
     @Override
