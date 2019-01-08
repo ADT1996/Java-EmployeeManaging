@@ -7,6 +7,7 @@ package ims.bll;
 
 import ims.bll.exceptions.EmployeeException;
 import ims.dal.EmployeeJpaController;
+import ims.dal.exceptions.NonexistentEntityException;
 import ims.dto.Employee;
 import ims.util.UtilClass;
 import java.util.List;
@@ -16,15 +17,19 @@ import java.util.List;
  * @author abc
  */
 public class EmployeeBLL {
-    public Employee findByid(String id) {
+    public Employee findById(String id) {
         return new EmployeeJpaController(UtilClass.getEMF()).findEmployee(id);
     }
     
-    public List<Employee> findEmployeeEntities() {
+    public List<Employee> findRange(int maxResult, int beginRow) {
+        return new EmployeeJpaController(UtilClass.getEMF()).findEmployeeEntities(maxResult, beginRow);
+    }
+    
+    public List<Employee> findAll() {
         return new EmployeeJpaController(UtilClass.getEMF()).findEmployeeEntities();
     }
     
-    public boolean isValid(Employee employee) throws EmployeeException {
+    private void valid(Employee employee) throws EmployeeException {
         if (employee.getId().trim().isEmpty()) {
             throw new EmployeeException("Mã nhân viên không được bỏ trống"
                     ,"Thông tin bắt buộc");
@@ -148,8 +153,34 @@ public class EmployeeBLL {
             }
         }
         
-        
-        
-        return true;
+        if(employee.getLearning() != null || employee.getDegree() != null) {
+            if (employee.getLearning() == null) {
+                throw new EmployeeException("Chưa chọn học vấn"
+                        ,"Bằng cấp đã được chọn");
+            }
+            
+            if (employee.getDegree()== null) {
+                throw new EmployeeException("Chưa chọn bằng cấp"
+                        ,"Học vấn đã được chọn");
+            }
+        }
+    }
+    
+    public void edit(Employee enployee) throws Exception {
+        valid(enployee);
+        new EmployeeJpaController(UtilClass.getEMF()).edit(enployee);
+    }
+    
+    public void create(Employee employee) throws Exception {
+        valid(employee);
+        new EmployeeJpaController(UtilClass.getEMF()).create(employee);
+    }
+    
+    public void delete(String id) throws NonexistentEntityException {
+        new EmployeeJpaController(UtilClass.getEMF()).destroy(id);
+    }
+    
+    public int count() {
+        return new EmployeeJpaController(UtilClass.getEMF()).getEmployeeCount();
     }
 }

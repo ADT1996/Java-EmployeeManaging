@@ -243,7 +243,7 @@ public final class Employee extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
 
         jLayeredPane2.setLayout(new java.awt.GridBagLayout());
 
@@ -353,7 +353,7 @@ public final class Employee extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jLayeredPane2.add(jLabel24, gridBagConstraints);
 
-        txtBirthDay.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yy"))));
+        txtBirthDay.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd-MM-yyyy"))));
         txtBirthDay.setToolTipText("MM/dd/yy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -410,7 +410,7 @@ public final class Employee extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jLayeredPane2.add(jLabel28, gridBagConstraints);
 
-        txtTakenCodeDay.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yy"))));
+        txtTakenCodeDay.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd-MM-yyyy"))));
         txtTakenCodeDay.setToolTipText("MM/dd/yy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
@@ -529,7 +529,7 @@ public final class Employee extends javax.swing.JFrame {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
 
         jLayeredPane1.setLayout(new java.awt.GridBagLayout());
 
@@ -581,7 +581,7 @@ public final class Employee extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 25;
         jLayeredPane1.add(jLabel3, gridBagConstraints);
 
-        txtDateStart.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yy"))));
+        txtDateStart.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd-MM-yyyy"))));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 2;
@@ -704,7 +704,7 @@ public final class Employee extends javax.swing.JFrame {
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     jLayeredPane1.add(jLabel12, gridBagConstraints);
 
-    txtTakenLaborDay.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yy"))));
+    txtTakenLaborDay.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd-MM-yyyy"))));
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 5;
     gridBagConstraints.gridy = 5;
@@ -939,7 +939,7 @@ public final class Employee extends javax.swing.JFrame {
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     jLayeredPane1.add(jLabel45, gridBagConstraints);
 
-    txtBaseSalary.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+    txtBaseSalary.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
     txtBaseSalary.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
     txtBaseSalary.addKeyListener(new java.awt.event.KeyAdapter() {
         public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -954,7 +954,7 @@ public final class Employee extends javax.swing.JFrame {
     jLayeredPane1.add(txtBaseSalary, gridBagConstraints);
 
     txtSalary.setEditable(false);
-    txtSalary.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+    txtSalary.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
     txtSalary.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
@@ -963,9 +963,8 @@ public final class Employee extends javax.swing.JFrame {
     gridBagConstraints.ipadx = 100;
     jLayeredPane1.add(txtSalary, gridBagConstraints);
 
-    txtAllowance.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+    txtAllowance.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
     txtAllowance.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-    txtAllowance.setText("0");
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 10;
     gridBagConstraints.gridy = 4;
@@ -1116,7 +1115,8 @@ public final class Employee extends javax.swing.JFrame {
             if (('0' <= evt.getKeyChar() && evt.getKeyChar() <= '9')
                     || evt.getKeyChar() == KeyEvent.VK_DELETE
                     || evt.getKeyChar() == KeyEvent.VK_BACK_SPACE
-                    || evt.getKeyChar() == KeyEvent.VK_ENTER) {
+                    || evt.getKeyChar() == KeyEvent.VK_ENTER
+                    || evt.getKeyChar() == KeyEvent.VK_ESCAPE) {
                 
                 Long x = (Long) txtBaseSalary.getFormatter().stringToValue(txtBaseSalary.getText());
                 Object y = txtCoefficient.getFormatter().stringToValue(txtCoefficient.getText());
@@ -1289,7 +1289,7 @@ public final class Employee extends javax.swing.JFrame {
         combJob.setSelectedItem(UtilClass.NOSELECTEDITEM);
         combPosition.setSelectedItem(UtilClass.NOSELECTEDITEM);
         txtBaseSalary.setText("0");
-        txtCoefficient.setText("1");
+        txtCoefficient.setText("1.00");
         txtSalary.setText("0");
         txtAllowance.setText("0");
         txtNumberLabor.setText(UtilClass.EMPTY_STRING);

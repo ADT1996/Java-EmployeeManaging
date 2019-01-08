@@ -144,7 +144,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
             <LineBorder>
-              <Color PropertyName="color" blue="cc" green="cc" red="cc" type="rgb"/>
+              <Color PropertyName="color" blue="99" green="99" red="99" type="rgb"/>
             </LineBorder>
           </Border>
         </Property>
@@ -319,7 +319,7 @@
             <Component class="javax.swing.JFormattedTextField" name="txtBirthDay">
               <Properties>
                 <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                  <Format format="MM/dd/yy" subtype="-1" type="1"/>
+                  <Format format="dd-MM-yyyy" subtype="-1" type="1"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="MM/dd/yy"/>
               </Properties>
@@ -404,7 +404,7 @@
             <Component class="javax.swing.JFormattedTextField" name="txtTakenCodeDay">
               <Properties>
                 <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                  <Format format="MM/dd/yy" subtype="-1" type="1"/>
+                  <Format format="dd-MM-yyyy" subtype="-1" type="1"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="MM/dd/yy"/>
               </Properties>
@@ -545,7 +545,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
             <LineBorder>
-              <Color PropertyName="color" blue="cc" green="cc" red="cc" type="rgb"/>
+              <Color PropertyName="color" blue="99" green="99" red="99" type="rgb"/>
             </LineBorder>
           </Border>
         </Property>
@@ -631,7 +631,7 @@
             <Component class="javax.swing.JFormattedTextField" name="txtDateStart">
               <Properties>
                 <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                  <Format format="MM/dd/yy" subtype="-1" type="1"/>
+                  <Format format="dd-MM-yyyy" subtype="-1" type="1"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -795,7 +795,7 @@
             <Component class="javax.swing.JFormattedTextField" name="txtTakenLaborDay">
               <Properties>
                 <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                  <Format format="MM/dd/yy" subtype="-1" type="1"/>
+                  <Format format="dd-MM-yyyy" subtype="-1" type="1"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -1124,7 +1124,7 @@
             <Component class="javax.swing.JFormattedTextField" name="txtBaseSalary">
               <Properties>
                 <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                  <Format subtype="1" type="0"/>
+                  <Format format="#0" subtype="-1" type="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="4"/>
               </Properties>
@@ -1141,7 +1141,7 @@
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                  <Format subtype="1" type="0"/>
+                  <Format format="#0" subtype="-1" type="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="4"/>
               </Properties>
@@ -1154,10 +1154,9 @@
             <Component class="javax.swing.JFormattedTextField" name="txtAllowance">
               <Properties>
                 <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                  <Format subtype="1" type="0"/>
+                  <Format format="#0" subtype="-1" type="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="0"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

@@ -233,7 +233,7 @@ public class EmployeeList extends javax.swing.JFrame implements WindowListener{
         model = (DefaultTableModel) tbEmployees.getModel();
         employees = new ArrayList<>();
 
-        List<Employee> listEmp = new EmployeeBLL().findEmployeeEntities();
+        List<Employee> listEmp = new EmployeeBLL().findAll();
         row = 0;
         
         for(Employee employee : listEmp) {
