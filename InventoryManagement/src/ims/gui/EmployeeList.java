@@ -6,7 +6,7 @@
 
 package ims.gui;
 
-import ims.bll.EmployeeJpaController;
+import ims.bll.EmployeeBLL;
 import ims.util.UtilClass;
 import ims.dto.Employee;
 
@@ -232,9 +232,8 @@ public class EmployeeList extends javax.swing.JFrame implements WindowListener{
     public void windowOpened(WindowEvent e) {
         model = (DefaultTableModel) tbEmployees.getModel();
         employees = new ArrayList<>();
-        
-        EmployeeJpaController empJpa = new EmployeeJpaController(UtilClass.getEMF());
-        List<Employee> listEmp = empJpa.findEmployeeEntities();
+
+        List<Employee> listEmp = new EmployeeBLL().findEmployeeEntities();
         row = 0;
         
         for(Employee employee : listEmp) {

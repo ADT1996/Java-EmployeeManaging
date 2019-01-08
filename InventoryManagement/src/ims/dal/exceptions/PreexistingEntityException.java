@@ -1,4 +1,4 @@
-package ims.bll.exceptions;
+package ims.dal.exceptions;
 
 public class PreexistingEntityException extends Exception {
     public PreexistingEntityException(String message, Throwable cause) {

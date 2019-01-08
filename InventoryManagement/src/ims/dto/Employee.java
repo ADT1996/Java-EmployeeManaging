@@ -27,9 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "employee", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"Email"})
-    , @UniqueConstraint(columnNames = {"MobieNumber"})
-    , @UniqueConstraint(columnNames = {"PersonCode"})})
+    @UniqueConstraint(columnNames = {"MobieNumber"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")})
@@ -87,10 +85,10 @@ public class Employee implements Serializable {
     private double factorSalary;
     @Basic(optional = false)
     @Column(name = "Salary", nullable = false)
-    private long salary;
+    private int salary;
     @Basic(optional = false)
     @Column(name = "AllowedSalary", nullable = false)
-    private long allowedSalary;
+    private int allowedSalary;
     @Column(name = "LaborCode")
     private Integer laborCode;
     @Column(name = "TakenLaborPlace", length = 50)
@@ -102,12 +100,12 @@ public class Employee implements Serializable {
     private String bankId;
     @Column(name = "Bank", length = 50)
     private String bank;
-    @JoinColumn(name = "Computing", referencedColumnName = "id")
-    @ManyToOne
-    private Computing computing;
     @JoinColumn(name = "City", referencedColumnName = "idcity")
     @ManyToOne
     private City city;
+    @JoinColumn(name = "Computing", referencedColumnName = "id")
+    @ManyToOne
+    private Computing computing;
     @JoinColumn(name = "Degree", referencedColumnName = "id")
     @ManyToOne
     private Degree degree;
@@ -123,9 +121,6 @@ public class Employee implements Serializable {
     @JoinColumn(name = "ForeignLanguage", referencedColumnName = "id")
     @ManyToOne
     private Foreignlanguage foreignLanguage;
-    @JoinColumn(name = "TypeStaff", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private Typestaff typeStaff;
     @JoinColumn(name = "Job", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Job job;
@@ -138,6 +133,9 @@ public class Employee implements Serializable {
     @JoinColumn(name = "Religion", referencedColumnName = "id")
     @ManyToOne
     private Religion religion;
+    @JoinColumn(name = "TypeStaff", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Typestaff typeStaff;
 
     public Employee() {
     }
@@ -146,7 +144,7 @@ public class Employee implements Serializable {
         this.id = id;
     }
 
-    public Employee(String id, String fullName, boolean gender, boolean marries, Date startDate, long baseSalary, double factorSalary, long salary, long allowedSalary) {
+    public Employee(String id, String fullName, boolean gender, boolean marries, Date startDate, long baseSalary, double factorSalary, int salary, int allowedSalary) {
         this.id = id;
         this.fullName = fullName;
         this.gender = gender;
@@ -310,19 +308,19 @@ public class Employee implements Serializable {
         this.factorSalary = factorSalary;
     }
 
-    public long getSalary() {
+    public int getSalary() {
         return salary;
     }
 
-    public void setSalary(long salary) {
+    public void setSalary(int salary) {
         this.salary = salary;
     }
 
-    public long getAllowedSalary() {
+    public int getAllowedSalary() {
         return allowedSalary;
     }
 
-    public void setAllowedSalary(long allowedSalary) {
+    public void setAllowedSalary(int allowedSalary) {
         this.allowedSalary = allowedSalary;
     }
 
@@ -366,20 +364,20 @@ public class Employee implements Serializable {
         this.bank = bank;
     }
 
-    public Computing getComputing() {
-        return computing;
-    }
-
-    public void setComputing(Computing computing) {
-        this.computing = computing;
-    }
-
     public City getCity() {
         return city;
     }
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public Computing getComputing() {
+        return computing;
+    }
+
+    public void setComputing(Computing computing) {
+        this.computing = computing;
     }
 
     public Degree getDegree() {
@@ -422,14 +420,6 @@ public class Employee implements Serializable {
         this.foreignLanguage = foreignLanguage;
     }
 
-    public Typestaff getTypeStaff() {
-        return typeStaff;
-    }
-
-    public void setTypeStaff(Typestaff typeStaff) {
-        this.typeStaff = typeStaff;
-    }
-
     public Job getJob() {
         return job;
     }
@@ -460,6 +450,14 @@ public class Employee implements Serializable {
 
     public void setReligion(Religion religion) {
         this.religion = religion;
+    }
+
+    public Typestaff getTypeStaff() {
+        return typeStaff;
+    }
+
+    public void setTypeStaff(Typestaff typeStaff) {
+        this.typeStaff = typeStaff;
     }
 
     @Override

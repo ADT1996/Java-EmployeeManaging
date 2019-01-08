@@ -1,4 +1,4 @@
-package ims.bll.exceptions;
+package ims.dal.exceptions;
 
 public class NonexistentEntityException extends Exception {
     public NonexistentEntityException(String message, Throwable cause) {

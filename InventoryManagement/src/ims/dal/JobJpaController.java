@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ims.bll;
+package ims.dal;
 
-import ims.bll.exceptions.IllegalOrphanException;
-import ims.bll.exceptions.NonexistentEntityException;
+import ims.dal.exceptions.IllegalOrphanException;
+import ims.dal.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;

@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ims.bll;
+package ims.dal;
 
-import ims.bll.exceptions.NonexistentEntityException;
+import ims.dal.exceptions.NonexistentEntityException;
+import ims.dto.Degree;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import ims.dto.Employee;
-import ims.dto.Folk;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,9 +23,9 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author abc
  */
-public class FolkJpaController implements Serializable {
+public class DegreeJpaController implements Serializable {
 
-    public FolkJpaController(EntityManagerFactory emf) {
+    public DegreeJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -34,28 +34,28 @@ public class FolkJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Folk folk) {
-        if (folk.getEmployeeCollection() == null) {
-            folk.setEmployeeCollection(new ArrayList<Employee>());
+    public void create(Degree degree) {
+        if (degree.getEmployeeCollection() == null) {
+            degree.setEmployeeCollection(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : folk.getEmployeeCollection()) {
+            for (Employee employeeCollectionEmployeeToAttach : degree.getEmployeeCollection()) {
                 employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
                 attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
             }
-            folk.setEmployeeCollection(attachedEmployeeCollection);
-            em.persist(folk);
-            for (Employee employeeCollectionEmployee : folk.getEmployeeCollection()) {
-                Folk oldFolkOfEmployeeCollectionEmployee = employeeCollectionEmployee.getFolk();
-                employeeCollectionEmployee.setFolk(folk);
+            degree.setEmployeeCollection(attachedEmployeeCollection);
+            em.persist(degree);
+            for (Employee employeeCollectionEmployee : degree.getEmployeeCollection()) {
+                Degree oldDegreeOfEmployeeCollectionEmployee = employeeCollectionEmployee.getDegree();
+                employeeCollectionEmployee.setDegree(degree);
                 employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldFolkOfEmployeeCollectionEmployee != null) {
-                    oldFolkOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldFolkOfEmployeeCollectionEmployee = em.merge(oldFolkOfEmployeeCollectionEmployee);
+                if (oldDegreeOfEmployeeCollectionEmployee != null) {
+                    oldDegreeOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
+                    oldDegreeOfEmployeeCollectionEmployee = em.merge(oldDegreeOfEmployeeCollectionEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -66,36 +66,36 @@ public class FolkJpaController implements Serializable {
         }
     }
 
-    public void edit(Folk folk) throws NonexistentEntityException, Exception {
+    public void edit(Degree degree) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Folk persistentFolk = em.find(Folk.class, folk.getId());
-            Collection<Employee> employeeCollectionOld = persistentFolk.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = folk.getEmployeeCollection();
+            Degree persistentDegree = em.find(Degree.class, degree.getId());
+            Collection<Employee> employeeCollectionOld = persistentDegree.getEmployeeCollection();
+            Collection<Employee> employeeCollectionNew = degree.getEmployeeCollection();
             Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
             for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
                 employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
                 attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
             }
             employeeCollectionNew = attachedEmployeeCollectionNew;
-            folk.setEmployeeCollection(employeeCollectionNew);
-            folk = em.merge(folk);
+            degree.setEmployeeCollection(employeeCollectionNew);
+            degree = em.merge(degree);
             for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
                 if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
-                    employeeCollectionOldEmployee.setFolk(null);
+                    employeeCollectionOldEmployee.setDegree(null);
                     employeeCollectionOldEmployee = em.merge(employeeCollectionOldEmployee);
                 }
             }
             for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
                 if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    Folk oldFolkOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getFolk();
-                    employeeCollectionNewEmployee.setFolk(folk);
+                    Degree oldDegreeOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getDegree();
+                    employeeCollectionNewEmployee.setDegree(degree);
                     employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldFolkOfEmployeeCollectionNewEmployee != null && !oldFolkOfEmployeeCollectionNewEmployee.equals(folk)) {
-                        oldFolkOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldFolkOfEmployeeCollectionNewEmployee = em.merge(oldFolkOfEmployeeCollectionNewEmployee);
+                    if (oldDegreeOfEmployeeCollectionNewEmployee != null && !oldDegreeOfEmployeeCollectionNewEmployee.equals(degree)) {
+                        oldDegreeOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
+                        oldDegreeOfEmployeeCollectionNewEmployee = em.merge(oldDegreeOfEmployeeCollectionNewEmployee);
                     }
                 }
             }
@@ -103,9 +103,9 @@ public class FolkJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = folk.getId();
-                if (findFolk(id) == null) {
-                    throw new NonexistentEntityException("The folk with id " + id + " no longer exists.");
+                Integer id = degree.getId();
+                if (findDegree(id) == null) {
+                    throw new NonexistentEntityException("The degree with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -121,19 +121,19 @@ public class FolkJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Folk folk;
+            Degree degree;
             try {
-                folk = em.getReference(Folk.class, id);
-                folk.getId();
+                degree = em.getReference(Degree.class, id);
+                degree.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The folk with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The degree with id " + id + " no longer exists.", enfe);
             }
-            Collection<Employee> employeeCollection = folk.getEmployeeCollection();
+            Collection<Employee> employeeCollection = degree.getEmployeeCollection();
             for (Employee employeeCollectionEmployee : employeeCollection) {
-                employeeCollectionEmployee.setFolk(null);
+                employeeCollectionEmployee.setDegree(null);
                 employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
             }
-            em.remove(folk);
+            em.remove(degree);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -142,19 +142,19 @@ public class FolkJpaController implements Serializable {
         }
     }
 
-    public List<Folk> findFolkEntities() {
-        return findFolkEntities(true, -1, -1);
+    public List<Degree> findDegreeEntities() {
+        return findDegreeEntities(true, -1, -1);
     }
 
-    public List<Folk> findFolkEntities(int maxResults, int firstResult) {
-        return findFolkEntities(false, maxResults, firstResult);
+    public List<Degree> findDegreeEntities(int maxResults, int firstResult) {
+        return findDegreeEntities(false, maxResults, firstResult);
     }
 
-    private List<Folk> findFolkEntities(boolean all, int maxResults, int firstResult) {
+    private List<Degree> findDegreeEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Folk.class));
+            cq.select(cq.from(Degree.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -166,20 +166,20 @@ public class FolkJpaController implements Serializable {
         }
     }
 
-    public Folk findFolk(Integer id) {
+    public Degree findDegree(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Folk.class, id);
+            return em.find(Degree.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getFolkCount() {
+    public int getDegreeCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Folk> rt = cq.from(Folk.class);
+            Root<Degree> rt = cq.from(Degree.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

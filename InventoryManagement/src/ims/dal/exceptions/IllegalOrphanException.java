@@ -1,4 +1,4 @@
-package ims.bll.exceptions;
+package ims.dal.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

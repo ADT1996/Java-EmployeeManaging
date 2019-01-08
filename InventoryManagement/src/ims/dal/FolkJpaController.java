@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ims.bll;
+package ims.dal;
 
-import ims.bll.exceptions.NonexistentEntityException;
+import ims.dal.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import ims.dto.Employee;
-import ims.dto.Foreignlanguage;
+import ims.dto.Folk;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,9 +23,9 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author abc
  */
-public class ForeignlanguageJpaController implements Serializable {
+public class FolkJpaController implements Serializable {
 
-    public ForeignlanguageJpaController(EntityManagerFactory emf) {
+    public FolkJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -34,28 +34,28 @@ public class ForeignlanguageJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Foreignlanguage foreignlanguage) {
-        if (foreignlanguage.getEmployeeCollection() == null) {
-            foreignlanguage.setEmployeeCollection(new ArrayList<Employee>());
+    public void create(Folk folk) {
+        if (folk.getEmployeeCollection() == null) {
+            folk.setEmployeeCollection(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : foreignlanguage.getEmployeeCollection()) {
+            for (Employee employeeCollectionEmployeeToAttach : folk.getEmployeeCollection()) {
                 employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
                 attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
             }
-            foreignlanguage.setEmployeeCollection(attachedEmployeeCollection);
-            em.persist(foreignlanguage);
-            for (Employee employeeCollectionEmployee : foreignlanguage.getEmployeeCollection()) {
-                Foreignlanguage oldForeignLanguageOfEmployeeCollectionEmployee = employeeCollectionEmployee.getForeignLanguage();
-                employeeCollectionEmployee.setForeignLanguage(foreignlanguage);
+            folk.setEmployeeCollection(attachedEmployeeCollection);
+            em.persist(folk);
+            for (Employee employeeCollectionEmployee : folk.getEmployeeCollection()) {
+                Folk oldFolkOfEmployeeCollectionEmployee = employeeCollectionEmployee.getFolk();
+                employeeCollectionEmployee.setFolk(folk);
                 employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldForeignLanguageOfEmployeeCollectionEmployee != null) {
-                    oldForeignLanguageOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldForeignLanguageOfEmployeeCollectionEmployee = em.merge(oldForeignLanguageOfEmployeeCollectionEmployee);
+                if (oldFolkOfEmployeeCollectionEmployee != null) {
+                    oldFolkOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
+                    oldFolkOfEmployeeCollectionEmployee = em.merge(oldFolkOfEmployeeCollectionEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -66,36 +66,36 @@ public class ForeignlanguageJpaController implements Serializable {
         }
     }
 
-    public void edit(Foreignlanguage foreignlanguage) throws NonexistentEntityException, Exception {
+    public void edit(Folk folk) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Foreignlanguage persistentForeignlanguage = em.find(Foreignlanguage.class, foreignlanguage.getId());
-            Collection<Employee> employeeCollectionOld = persistentForeignlanguage.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = foreignlanguage.getEmployeeCollection();
+            Folk persistentFolk = em.find(Folk.class, folk.getId());
+            Collection<Employee> employeeCollectionOld = persistentFolk.getEmployeeCollection();
+            Collection<Employee> employeeCollectionNew = folk.getEmployeeCollection();
             Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
             for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
                 employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
                 attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
             }
             employeeCollectionNew = attachedEmployeeCollectionNew;
-            foreignlanguage.setEmployeeCollection(employeeCollectionNew);
-            foreignlanguage = em.merge(foreignlanguage);
+            folk.setEmployeeCollection(employeeCollectionNew);
+            folk = em.merge(folk);
             for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
                 if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
-                    employeeCollectionOldEmployee.setForeignLanguage(null);
+                    employeeCollectionOldEmployee.setFolk(null);
                     employeeCollectionOldEmployee = em.merge(employeeCollectionOldEmployee);
                 }
             }
             for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
                 if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    Foreignlanguage oldForeignLanguageOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getForeignLanguage();
-                    employeeCollectionNewEmployee.setForeignLanguage(foreignlanguage);
+                    Folk oldFolkOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getFolk();
+                    employeeCollectionNewEmployee.setFolk(folk);
                     employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldForeignLanguageOfEmployeeCollectionNewEmployee != null && !oldForeignLanguageOfEmployeeCollectionNewEmployee.equals(foreignlanguage)) {
-                        oldForeignLanguageOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldForeignLanguageOfEmployeeCollectionNewEmployee = em.merge(oldForeignLanguageOfEmployeeCollectionNewEmployee);
+                    if (oldFolkOfEmployeeCollectionNewEmployee != null && !oldFolkOfEmployeeCollectionNewEmployee.equals(folk)) {
+                        oldFolkOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
+                        oldFolkOfEmployeeCollectionNewEmployee = em.merge(oldFolkOfEmployeeCollectionNewEmployee);
                     }
                 }
             }
@@ -103,9 +103,9 @@ public class ForeignlanguageJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = foreignlanguage.getId();
-                if (findForeignlanguage(id) == null) {
-                    throw new NonexistentEntityException("The foreignlanguage with id " + id + " no longer exists.");
+                Integer id = folk.getId();
+                if (findFolk(id) == null) {
+                    throw new NonexistentEntityException("The folk with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -121,19 +121,19 @@ public class ForeignlanguageJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Foreignlanguage foreignlanguage;
+            Folk folk;
             try {
-                foreignlanguage = em.getReference(Foreignlanguage.class, id);
-                foreignlanguage.getId();
+                folk = em.getReference(Folk.class, id);
+                folk.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The foreignlanguage with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The folk with id " + id + " no longer exists.", enfe);
             }
-            Collection<Employee> employeeCollection = foreignlanguage.getEmployeeCollection();
+            Collection<Employee> employeeCollection = folk.getEmployeeCollection();
             for (Employee employeeCollectionEmployee : employeeCollection) {
-                employeeCollectionEmployee.setForeignLanguage(null);
+                employeeCollectionEmployee.setFolk(null);
                 employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
             }
-            em.remove(foreignlanguage);
+            em.remove(folk);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -142,19 +142,19 @@ public class ForeignlanguageJpaController implements Serializable {
         }
     }
 
-    public List<Foreignlanguage> findForeignlanguageEntities() {
-        return findForeignlanguageEntities(true, -1, -1);
+    public List<Folk> findFolkEntities() {
+        return findFolkEntities(true, -1, -1);
     }
 
-    public List<Foreignlanguage> findForeignlanguageEntities(int maxResults, int firstResult) {
-        return findForeignlanguageEntities(false, maxResults, firstResult);
+    public List<Folk> findFolkEntities(int maxResults, int firstResult) {
+        return findFolkEntities(false, maxResults, firstResult);
     }
 
-    private List<Foreignlanguage> findForeignlanguageEntities(boolean all, int maxResults, int firstResult) {
+    private List<Folk> findFolkEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Foreignlanguage.class));
+            cq.select(cq.from(Folk.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -166,20 +166,20 @@ public class ForeignlanguageJpaController implements Serializable {
         }
     }
 
-    public Foreignlanguage findForeignlanguage(Integer id) {
+    public Folk findFolk(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Foreignlanguage.class, id);
+            return em.find(Folk.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getForeignlanguageCount() {
+    public int getFolkCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Foreignlanguage> rt = cq.from(Foreignlanguage.class);
+            Root<Folk> rt = cq.from(Folk.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

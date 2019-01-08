@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ims.bll;
+package ims.dal;
 
-import ims.bll.exceptions.NonexistentEntityException;
-import ims.dto.Degree;
+import ims.dal.exceptions.NonexistentEntityException;
+import ims.dto.Computing;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -23,9 +23,9 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author abc
  */
-public class DegreeJpaController implements Serializable {
+public class ComputingJpaController implements Serializable {
 
-    public DegreeJpaController(EntityManagerFactory emf) {
+    public ComputingJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -34,28 +34,28 @@ public class DegreeJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Degree degree) {
-        if (degree.getEmployeeCollection() == null) {
-            degree.setEmployeeCollection(new ArrayList<Employee>());
+    public void create(Computing computing) {
+        if (computing.getEmployeeCollection() == null) {
+            computing.setEmployeeCollection(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : degree.getEmployeeCollection()) {
+            for (Employee employeeCollectionEmployeeToAttach : computing.getEmployeeCollection()) {
                 employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
                 attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
             }
-            degree.setEmployeeCollection(attachedEmployeeCollection);
-            em.persist(degree);
-            for (Employee employeeCollectionEmployee : degree.getEmployeeCollection()) {
-                Degree oldDegreeOfEmployeeCollectionEmployee = employeeCollectionEmployee.getDegree();
-                employeeCollectionEmployee.setDegree(degree);
+            computing.setEmployeeCollection(attachedEmployeeCollection);
+            em.persist(computing);
+            for (Employee employeeCollectionEmployee : computing.getEmployeeCollection()) {
+                Computing oldComputingOfEmployeeCollectionEmployee = employeeCollectionEmployee.getComputing();
+                employeeCollectionEmployee.setComputing(computing);
                 employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldDegreeOfEmployeeCollectionEmployee != null) {
-                    oldDegreeOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldDegreeOfEmployeeCollectionEmployee = em.merge(oldDegreeOfEmployeeCollectionEmployee);
+                if (oldComputingOfEmployeeCollectionEmployee != null) {
+                    oldComputingOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
+                    oldComputingOfEmployeeCollectionEmployee = em.merge(oldComputingOfEmployeeCollectionEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -66,36 +66,36 @@ public class DegreeJpaController implements Serializable {
         }
     }
 
-    public void edit(Degree degree) throws NonexistentEntityException, Exception {
+    public void edit(Computing computing) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Degree persistentDegree = em.find(Degree.class, degree.getId());
-            Collection<Employee> employeeCollectionOld = persistentDegree.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = degree.getEmployeeCollection();
+            Computing persistentComputing = em.find(Computing.class, computing.getId());
+            Collection<Employee> employeeCollectionOld = persistentComputing.getEmployeeCollection();
+            Collection<Employee> employeeCollectionNew = computing.getEmployeeCollection();
             Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
             for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
                 employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
                 attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
             }
             employeeCollectionNew = attachedEmployeeCollectionNew;
-            degree.setEmployeeCollection(employeeCollectionNew);
-            degree = em.merge(degree);
+            computing.setEmployeeCollection(employeeCollectionNew);
+            computing = em.merge(computing);
             for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
                 if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
-                    employeeCollectionOldEmployee.setDegree(null);
+                    employeeCollectionOldEmployee.setComputing(null);
                     employeeCollectionOldEmployee = em.merge(employeeCollectionOldEmployee);
                 }
             }
             for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
                 if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    Degree oldDegreeOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getDegree();
-                    employeeCollectionNewEmployee.setDegree(degree);
+                    Computing oldComputingOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getComputing();
+                    employeeCollectionNewEmployee.setComputing(computing);
                     employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldDegreeOfEmployeeCollectionNewEmployee != null && !oldDegreeOfEmployeeCollectionNewEmployee.equals(degree)) {
-                        oldDegreeOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldDegreeOfEmployeeCollectionNewEmployee = em.merge(oldDegreeOfEmployeeCollectionNewEmployee);
+                    if (oldComputingOfEmployeeCollectionNewEmployee != null && !oldComputingOfEmployeeCollectionNewEmployee.equals(computing)) {
+                        oldComputingOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
+                        oldComputingOfEmployeeCollectionNewEmployee = em.merge(oldComputingOfEmployeeCollectionNewEmployee);
                     }
                 }
             }
@@ -103,9 +103,9 @@ public class DegreeJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = degree.getId();
-                if (findDegree(id) == null) {
-                    throw new NonexistentEntityException("The degree with id " + id + " no longer exists.");
+                Integer id = computing.getId();
+                if (findComputing(id) == null) {
+                    throw new NonexistentEntityException("The computing with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -121,19 +121,19 @@ public class DegreeJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Degree degree;
+            Computing computing;
             try {
-                degree = em.getReference(Degree.class, id);
-                degree.getId();
+                computing = em.getReference(Computing.class, id);
+                computing.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The degree with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The computing with id " + id + " no longer exists.", enfe);
             }
-            Collection<Employee> employeeCollection = degree.getEmployeeCollection();
+            Collection<Employee> employeeCollection = computing.getEmployeeCollection();
             for (Employee employeeCollectionEmployee : employeeCollection) {
-                employeeCollectionEmployee.setDegree(null);
+                employeeCollectionEmployee.setComputing(null);
                 employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
             }
-            em.remove(degree);
+            em.remove(computing);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -142,19 +142,19 @@ public class DegreeJpaController implements Serializable {
         }
     }
 
-    public List<Degree> findDegreeEntities() {
-        return findDegreeEntities(true, -1, -1);
+    public List<Computing> findComputingEntities() {
+        return findComputingEntities(true, -1, -1);
     }
 
-    public List<Degree> findDegreeEntities(int maxResults, int firstResult) {
-        return findDegreeEntities(false, maxResults, firstResult);
+    public List<Computing> findComputingEntities(int maxResults, int firstResult) {
+        return findComputingEntities(false, maxResults, firstResult);
     }
 
-    private List<Degree> findDegreeEntities(boolean all, int maxResults, int firstResult) {
+    private List<Computing> findComputingEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Degree.class));
+            cq.select(cq.from(Computing.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -166,20 +166,20 @@ public class DegreeJpaController implements Serializable {
         }
     }
 
-    public Degree findDegree(Integer id) {
+    public Computing findComputing(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Degree.class, id);
+            return em.find(Computing.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getDegreeCount() {
+    public int getComputingCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Degree> rt = cq.from(Degree.class);
+            Root<Computing> rt = cq.from(Computing.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

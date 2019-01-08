@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ims.bll;
+package ims.dal;
 
-import ims.bll.exceptions.NonexistentEntityException;
-import ims.bll.exceptions.PreexistingEntityException;
+import ims.dal.exceptions.NonexistentEntityException;
+import ims.dal.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -21,10 +21,10 @@ import ims.dto.EmployeePosition;
 import ims.dto.Folk;
 import ims.dto.Foreignlanguage;
 import ims.dto.Job;
-import ims.dto.Typestaff;
 import ims.dto.Learning;
 import ims.dto.Nationality;
 import ims.dto.Religion;
+import ims.dto.Typestaff;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -89,11 +89,6 @@ public class EmployeeJpaController implements Serializable {
                 job = em.getReference(job.getClass(), job.getId());
                 employee.setJob(job);
             }
-            Typestaff typeStaff = employee.getTypeStaff();
-            if (typeStaff != null) {
-                typeStaff = em.getReference(typeStaff.getClass(), typeStaff.getId());
-                employee.setTypeStaff(typeStaff);
-            }
             Learning learning = employee.getLearning();
             if (learning != null) {
                 learning = em.getReference(learning.getClass(), learning.getId());
@@ -108,6 +103,11 @@ public class EmployeeJpaController implements Serializable {
             if (religion != null) {
                 religion = em.getReference(religion.getClass(), religion.getId());
                 employee.setReligion(religion);
+            }
+            Typestaff typeStaff = employee.getTypeStaff();
+            if (typeStaff != null) {
+                typeStaff = em.getReference(typeStaff.getClass(), typeStaff.getId());
+                employee.setTypeStaff(typeStaff);
             }
             em.persist(employee);
             if (city != null) {
@@ -142,10 +142,6 @@ public class EmployeeJpaController implements Serializable {
                 job.getEmployeeCollection().add(employee);
                 job = em.merge(job);
             }
-            if (typeStaff != null) {
-                typeStaff.getEmployeeCollection().add(employee);
-                typeStaff = em.merge(typeStaff);
-            }
             if (learning != null) {
                 learning.getEmployeeCollection().add(employee);
                 learning = em.merge(learning);
@@ -157,6 +153,10 @@ public class EmployeeJpaController implements Serializable {
             if (religion != null) {
                 religion.getEmployeeCollection().add(employee);
                 religion = em.merge(religion);
+            }
+            if (typeStaff != null) {
+                typeStaff.getEmployeeCollection().add(employee);
+                typeStaff = em.merge(typeStaff);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -193,14 +193,14 @@ public class EmployeeJpaController implements Serializable {
             Foreignlanguage foreignLanguageNew = employee.getForeignLanguage();
             Job jobOld = persistentEmployee.getJob();
             Job jobNew = employee.getJob();
-            Typestaff typeStaffOld = persistentEmployee.getTypeStaff();
-            Typestaff typeStaffNew = employee.getTypeStaff();
             Learning learningOld = persistentEmployee.getLearning();
             Learning learningNew = employee.getLearning();
             Nationality nationalityOld = persistentEmployee.getNationality();
             Nationality nationalityNew = employee.getNationality();
             Religion religionOld = persistentEmployee.getReligion();
             Religion religionNew = employee.getReligion();
+            Typestaff typeStaffOld = persistentEmployee.getTypeStaff();
+            Typestaff typeStaffNew = employee.getTypeStaff();
             if (cityNew != null) {
                 cityNew = em.getReference(cityNew.getClass(), cityNew.getIdcity());
                 employee.setCity(cityNew);
@@ -233,10 +233,6 @@ public class EmployeeJpaController implements Serializable {
                 jobNew = em.getReference(jobNew.getClass(), jobNew.getId());
                 employee.setJob(jobNew);
             }
-            if (typeStaffNew != null) {
-                typeStaffNew = em.getReference(typeStaffNew.getClass(), typeStaffNew.getId());
-                employee.setTypeStaff(typeStaffNew);
-            }
             if (learningNew != null) {
                 learningNew = em.getReference(learningNew.getClass(), learningNew.getId());
                 employee.setLearning(learningNew);
@@ -248,6 +244,10 @@ public class EmployeeJpaController implements Serializable {
             if (religionNew != null) {
                 religionNew = em.getReference(religionNew.getClass(), religionNew.getId());
                 employee.setReligion(religionNew);
+            }
+            if (typeStaffNew != null) {
+                typeStaffNew = em.getReference(typeStaffNew.getClass(), typeStaffNew.getId());
+                employee.setTypeStaff(typeStaffNew);
             }
             employee = em.merge(employee);
             if (cityOld != null && !cityOld.equals(cityNew)) {
@@ -314,14 +314,6 @@ public class EmployeeJpaController implements Serializable {
                 jobNew.getEmployeeCollection().add(employee);
                 jobNew = em.merge(jobNew);
             }
-            if (typeStaffOld != null && !typeStaffOld.equals(typeStaffNew)) {
-                typeStaffOld.getEmployeeCollection().remove(employee);
-                typeStaffOld = em.merge(typeStaffOld);
-            }
-            if (typeStaffNew != null && !typeStaffNew.equals(typeStaffOld)) {
-                typeStaffNew.getEmployeeCollection().add(employee);
-                typeStaffNew = em.merge(typeStaffNew);
-            }
             if (learningOld != null && !learningOld.equals(learningNew)) {
                 learningOld.getEmployeeCollection().remove(employee);
                 learningOld = em.merge(learningOld);
@@ -345,6 +337,14 @@ public class EmployeeJpaController implements Serializable {
             if (religionNew != null && !religionNew.equals(religionOld)) {
                 religionNew.getEmployeeCollection().add(employee);
                 religionNew = em.merge(religionNew);
+            }
+            if (typeStaffOld != null && !typeStaffOld.equals(typeStaffNew)) {
+                typeStaffOld.getEmployeeCollection().remove(employee);
+                typeStaffOld = em.merge(typeStaffOld);
+            }
+            if (typeStaffNew != null && !typeStaffNew.equals(typeStaffOld)) {
+                typeStaffNew.getEmployeeCollection().add(employee);
+                typeStaffNew = em.merge(typeStaffNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -415,11 +415,6 @@ public class EmployeeJpaController implements Serializable {
                 job.getEmployeeCollection().remove(employee);
                 job = em.merge(job);
             }
-            Typestaff typeStaff = employee.getTypeStaff();
-            if (typeStaff != null) {
-                typeStaff.getEmployeeCollection().remove(employee);
-                typeStaff = em.merge(typeStaff);
-            }
             Learning learning = employee.getLearning();
             if (learning != null) {
                 learning.getEmployeeCollection().remove(employee);
@@ -434,6 +429,11 @@ public class EmployeeJpaController implements Serializable {
             if (religion != null) {
                 religion.getEmployeeCollection().remove(employee);
                 religion = em.merge(religion);
+            }
+            Typestaff typeStaff = employee.getTypeStaff();
+            if (typeStaff != null) {
+                typeStaff.getEmployeeCollection().remove(employee);
+                typeStaff = em.merge(typeStaff);
             }
             em.remove(employee);
             em.getTransaction().commit();

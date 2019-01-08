@@ -7,18 +7,6 @@ package ims.gui;
 
 import com.sun.istack.internal.NotNull;
 
-import ims.bll.CityJpaController;
-import ims.bll.ComputingJpaController;
-import ims.bll.DegreeJpaController;
-import ims.bll.DeparmentJpaController;
-import ims.bll.EmployeePositionJpaController;
-import ims.bll.FolkJpaController;
-import ims.bll.ForeignlanguageJpaController;
-import ims.bll.JobJpaController;
-import ims.bll.LearningJpaController;
-import ims.bll.NationalityJpaController;
-import ims.bll.ReligionJpaController;
-import ims.bll.TypestaffJpaController;
 import ims.dto.City;
 import ims.dto.Computing;
 import ims.dto.Degree;
@@ -31,6 +19,18 @@ import ims.dto.Learning;
 import ims.dto.Nationality;
 import ims.dto.Religion;
 import ims.dto.Typestaff;
+import ims.bll.CityBLL;
+import ims.bll.ComputingBLL;
+import ims.bll.DegreeBLL;
+import ims.bll.DeparmentBLL;
+import ims.bll.FolkBLL;
+import ims.bll.ForeignLanguageBLL;
+import ims.bll.LearningBLL;
+import ims.bll.JobBLL;
+import ims.bll.NationalityBLL;
+import ims.bll.PositionBLL;
+import ims.bll.ReligionBLL;
+import ims.bll.TypeStaffBLL;
 import ims.util.UtilClass;
 
 import java.awt.Dimension;
@@ -38,6 +38,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -98,9 +99,7 @@ public final class Employee extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        employee1 = new ims.dto.Employee();
         btNew = new javax.swing.JButton();
         btEdit = new javax.swing.JButton();
         btDelete = new javax.swing.JButton();
@@ -121,8 +120,6 @@ public final class Employee extends javax.swing.JFrame {
         chbMarried = new javax.swing.JCheckBox();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        txtMobie = new javax.swing.JFormattedTextField();
-        txtPhone = new javax.swing.JFormattedTextField();
         jLabel23 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
@@ -146,6 +143,8 @@ public final class Employee extends javax.swing.JFrame {
         txtBirthPlace = new javax.swing.JTextField();
         txtTakenCodePlace = new javax.swing.JTextField();
         txtNativeLand = new javax.swing.JTextField();
+        txtMobie = new javax.swing.JTextField();
+        txtPhone = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jLabel1 = new javax.swing.JLabel();
@@ -275,10 +274,6 @@ public final class Employee extends javax.swing.JFrame {
         gridBagConstraints.ipady = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jLayeredPane2.add(jLabel18, gridBagConstraints);
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${id}"), txtEmployeeCode, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -293,10 +288,6 @@ public final class Employee extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jLayeredPane2.add(jLabel19, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${fullName}"), txtFullName, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 2;
@@ -311,10 +302,6 @@ public final class Employee extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 40;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jLayeredPane2.add(jLabel20, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${nickName}"), txtNickName, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 2;
@@ -323,20 +310,12 @@ public final class Employee extends javax.swing.JFrame {
         jLayeredPane2.add(txtNickName, gridBagConstraints);
 
         chbGender.setText("Nữ");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${gender}"), chbGender, org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 2;
         jLayeredPane2.add(chbGender, gridBagConstraints);
 
         chbMarried.setText("Có gia đình");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${marries}"), chbMarried, org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 9;
         gridBagConstraints.gridy = 2;
@@ -357,40 +336,12 @@ public final class Employee extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jLayeredPane2.add(jLabel22, gridBagConstraints);
 
-        txtMobie.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        txtMobie.setToolTipText("");
-        txtMobie.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${mobieNumber}"), txtMobie, org.jdesktop.beansbinding.BeanProperty.create("value"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jLayeredPane2.add(txtMobie, gridBagConstraints);
-
-        txtPhone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${phone}"), txtPhone, org.jdesktop.beansbinding.BeanProperty.create("value"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jLayeredPane2.add(txtPhone, gridBagConstraints);
-
         jLabel23.setText(" Địa chỉ Email");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jLayeredPane2.add(jLabel23, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${email}"), txtEmail, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 3;
@@ -408,10 +359,6 @@ public final class Employee extends javax.swing.JFrame {
 
         txtBirthDay.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yy"))));
         txtBirthDay.setToolTipText("MM/dd/yy");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${birthDay}"), txtBirthDay, org.jdesktop.beansbinding.BeanProperty.create("value"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -434,15 +381,9 @@ public final class Employee extends javax.swing.JFrame {
         jLayeredPane2.add(jLabel26, gridBagConstraints);
 
         combCity.setModel(new DefaultComboBoxModel(
-            new CityJpaController(UtilClass.getEMF())
-            .findCityEntities()
-            .toArray(new City[0])
+            new CityBLL().findCityEntities()
         ));
         combCity.setToolTipText("");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${city}"), combCity, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 4;
@@ -460,10 +401,6 @@ public final class Employee extends javax.swing.JFrame {
 
         txtPersonCode.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         txtPersonCode.setToolTipText("Chỉ nhập số");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${personCode}"), txtPersonCode, org.jdesktop.beansbinding.BeanProperty.create("value"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
@@ -479,10 +416,6 @@ public final class Employee extends javax.swing.JFrame {
 
         txtTakenCodeDay.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yy"))));
         txtTakenCodeDay.setToolTipText("MM/dd/yy");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${takenPCDate}"), txtTakenCodeDay, org.jdesktop.beansbinding.BeanProperty.create("value"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 5;
@@ -519,20 +452,12 @@ public final class Employee extends javax.swing.JFrame {
         gridBagConstraints.ipady = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jLayeredPane2.add(jLabel32, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${address}"), txtAddress, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(txtAddress, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${tabernacle}"), txtTabernacle, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
@@ -563,35 +488,33 @@ public final class Employee extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 20;
         jLayeredPane2.add(jLabel47, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${birthPlace}"), txtBirthPlace, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(txtBirthPlace, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${takenPCPlace}"), txtTakenCodePlace, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(txtTakenCodePlace, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${nativeLand}"), txtNativeLand, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(txtNativeLand, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jLayeredPane2.add(txtMobie, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jLayeredPane2.add(txtPhone, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -643,87 +566,65 @@ public final class Employee extends javax.swing.JFrame {
         jLayeredPane1.add(jLabel2, gridBagConstraints);
 
         combTypeStaff.setModel(new DefaultComboBoxModel(
-            new TypestaffJpaController(UtilClass.getEMF())
-            .findTypestaffEntities()
-            .toArray(new Typestaff[0])
+            new TypeStaffBLL()
+            .findTypeStaffEntities()
+        ));
+        combTypeStaff.setToolTipText("");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 50;
+        jLayeredPane1.add(combTypeStaff, gridBagConstraints);
+
+        jLabel3.setText(" Ngày vào làm");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 25;
+        jLayeredPane1.add(jLabel3, gridBagConstraints);
+
+        txtDateStart.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yy"))));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 100;
+        jLayeredPane1.add(txtDateStart, gridBagConstraints);
+
+        jLabel4.setText(" Phòng ban");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 15;
+        jLayeredPane1.add(jLabel4, gridBagConstraints);
+
+        combDeparment.setModel(new DefaultComboBoxModel(
+            new DeparmentBLL()
+            .findDeparmentEntities()
+        ));
+        combDeparment.setToolTipText("");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jLayeredPane1.add(combDeparment, gridBagConstraints);
+
+        jLabel5.setText("Công việc");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipady = 15;
+        jLayeredPane1.add(jLabel5, gridBagConstraints);
+
+        combJob.setModel(new DefaultComboBoxModel(
+            new JobBLL().findJobEntities()
         )
     );
-    combTypeStaff.setToolTipText("");
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${typeStaff}"), combTypeStaff, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-    bindingGroup.addBinding(binding);
-
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 2;
-    gridBagConstraints.gridy = 2;
-    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    gridBagConstraints.ipadx = 50;
-    jLayeredPane1.add(combTypeStaff, gridBagConstraints);
-
-    jLabel3.setText(" Ngày vào làm");
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 3;
-    gridBagConstraints.gridy = 2;
-    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    gridBagConstraints.ipadx = 25;
-    jLayeredPane1.add(jLabel3, gridBagConstraints);
-
-    txtDateStart.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yy"))));
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${startDate}"), txtDateStart, org.jdesktop.beansbinding.BeanProperty.create("value"));
-    bindingGroup.addBinding(binding);
-
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 5;
-    gridBagConstraints.gridy = 2;
-    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    gridBagConstraints.ipadx = 100;
-    jLayeredPane1.add(txtDateStart, gridBagConstraints);
-
-    jLabel4.setText(" Phòng ban");
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 6;
-    gridBagConstraints.gridy = 2;
-    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    gridBagConstraints.ipadx = 15;
-    jLayeredPane1.add(jLabel4, gridBagConstraints);
-
-    combDeparment.setModel(new DefaultComboBoxModel(
-        new DeparmentJpaController(
-            UtilClass.getEMF())
-        .findDeparmentEntities()
-        .toArray(new Deparment[0]))
-    );
-    combDeparment.setToolTipText("");
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${deparment}"), combDeparment, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-    bindingGroup.addBinding(binding);
-
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 8;
-    gridBagConstraints.gridy = 2;
-    gridBagConstraints.gridwidth = 3;
-    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(combDeparment, gridBagConstraints);
-
-    jLabel5.setText("Công việc");
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 3;
-    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    gridBagConstraints.ipady = 15;
-    jLayeredPane1.add(jLabel5, gridBagConstraints);
-
-    combJob.setModel(new DefaultComboBoxModel(
-        new JobJpaController(UtilClass.getEMF())
-        .findJobEntities()
-        .toArray(new Job[0])
-    )
-    );
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${job}"), combJob, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.gridy = 3;
@@ -739,14 +640,9 @@ public final class Employee extends javax.swing.JFrame {
     jLayeredPane1.add(jLabel6, gridBagConstraints);
 
     combPosition.setModel(new DefaultComboBoxModel(
-        new EmployeePositionJpaController(UtilClass.getEMF())
+        new PositionBLL()
         .findEmployeePositionEntities()
-        .toArray(new EmployeePosition[0])
     ));
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${position}"), combPosition, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
     gridBagConstraints.gridy = 3;
@@ -813,10 +709,6 @@ public final class Employee extends javax.swing.JFrame {
     jLayeredPane1.add(jLabel12, gridBagConstraints);
 
     txtTakenLaborDay.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yy"))));
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${takenLaborDate}"), txtTakenLaborDay, org.jdesktop.beansbinding.BeanProperty.create("value"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 5;
     gridBagConstraints.gridy = 5;
@@ -837,10 +729,6 @@ public final class Employee extends javax.swing.JFrame {
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipady = 15;
     jLayeredPane1.add(jLabel14, gridBagConstraints);
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${bankId}"), txtIdBank, org.jdesktop.beansbinding.BeanProperty.create("text"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.gridy = 6;
@@ -854,10 +742,6 @@ public final class Employee extends javax.swing.JFrame {
     gridBagConstraints.gridy = 6;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     jLayeredPane1.add(jLabel15, gridBagConstraints);
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${bank}"), txtBank, org.jdesktop.beansbinding.BeanProperty.create("text"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
     gridBagConstraints.gridy = 6;
@@ -874,16 +758,11 @@ public final class Employee extends javax.swing.JFrame {
     jLayeredPane1.add(jLabel16, gridBagConstraints);
 
     combLearning.setModel(new DefaultComboBoxModel(
-        new LearningJpaController(UtilClass.getEMF())
+        new LearningBLL()
         .findLearningEntities()
-        .toArray(new Learning[0])
     )
     );
     combLearning.setToolTipText("");
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${learning}"), combLearning, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.gridy = 7;
@@ -899,15 +778,10 @@ public final class Employee extends javax.swing.JFrame {
     jLayeredPane1.add(jLabel33, gridBagConstraints);
 
     combDegree.setModel(new DefaultComboBoxModel(
-        new DegreeJpaController(UtilClass.getEMF())
+        new DegreeBLL()
         .findDegreeEntities()
-        .toArray(new Degree[0])
     ));
     combDegree.setToolTipText("");
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${degree}"), combDegree, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
     gridBagConstraints.gridy = 7;
@@ -924,15 +798,10 @@ public final class Employee extends javax.swing.JFrame {
     jLayeredPane1.add(jLabel34, gridBagConstraints);
 
     combForeignLanguage.setModel(new DefaultComboBoxModel(
-        new ForeignlanguageJpaController(UtilClass.getEMF())
+        new ForeignLanguageBLL()
         .findForeignlanguageEntities()
-        .toArray(new Foreignlanguage[0])
     ));
     combForeignLanguage.setToolTipText("");
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${foreignLanguage}"), combForeignLanguage, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.gridy = 8;
@@ -948,15 +817,10 @@ public final class Employee extends javax.swing.JFrame {
     jLayeredPane1.add(jLabel35, gridBagConstraints);
 
     combComputing.setModel(new DefaultComboBoxModel(
-        new ComputingJpaController(UtilClass.getEMF())
+        new ComputingBLL()
         .findComputingEntities()
-        .toArray(new Computing[0])
     ));
     combComputing.setToolTipText("");
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${computing}"), combComputing, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
     gridBagConstraints.gridy = 8;
@@ -973,15 +837,10 @@ public final class Employee extends javax.swing.JFrame {
     jLayeredPane1.add(jLabel36, gridBagConstraints);
 
     combFolk.setModel(new DefaultComboBoxModel(
-        new FolkJpaController(UtilClass.getEMF())
+        new FolkBLL()
         .findFolkEntities()
-        .toArray(new Folk[0])
     ));
     combFolk.setToolTipText("");
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${folk}"), combFolk, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.gridy = 9;
@@ -996,15 +855,10 @@ public final class Employee extends javax.swing.JFrame {
     jLayeredPane1.add(jLabel37, gridBagConstraints);
 
     combNationality.setModel(new DefaultComboBoxModel(
-        new NationalityJpaController(UtilClass.getEMF())
+        new NationalityBLL()
         .findNationalityEntities()
-        .toArray(new Nationality[0])
     ));
     combNationality.setToolTipText("");
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${nationality}"), combNationality, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 5;
     gridBagConstraints.gridy = 9;
@@ -1019,15 +873,10 @@ public final class Employee extends javax.swing.JFrame {
     jLayeredPane1.add(jLabel38, gridBagConstraints);
 
     combReligion.setModel(new DefaultComboBoxModel(
-        new ReligionJpaController(UtilClass.getEMF())
+        new ReligionBLL()
         .findReligionEntities()
-        .toArray(new Religion[0])
     ));
     combReligion.setToolTipText("");
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${religion}"), combReligion, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
     gridBagConstraints.gridy = 9;
@@ -1111,10 +960,6 @@ public final class Employee extends javax.swing.JFrame {
     txtSalary.setEditable(false);
     txtSalary.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
     txtSalary.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${salary}"), txtSalary, org.jdesktop.beansbinding.BeanProperty.create("value"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
     gridBagConstraints.gridy = 4;
@@ -1125,20 +970,12 @@ public final class Employee extends javax.swing.JFrame {
     txtAllowance.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
     txtAllowance.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
     txtAllowance.setText("0");
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${allowedSalary}"), txtAllowance, org.jdesktop.beansbinding.BeanProperty.create("value"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 10;
     gridBagConstraints.gridy = 4;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipadx = 100;
     jLayeredPane1.add(txtAllowance, gridBagConstraints);
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${takenLaborPlace}"), txtTakenLaborPlace, org.jdesktop.beansbinding.BeanProperty.create("text"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
     gridBagConstraints.gridy = 5;
@@ -1147,10 +984,6 @@ public final class Employee extends javax.swing.JFrame {
     jLayeredPane1.add(txtTakenLaborPlace, gridBagConstraints);
 
     txtNumberLabor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, employee1, org.jdesktop.beansbinding.ELProperty.create("${laborCode}"), txtNumberLabor, org.jdesktop.beansbinding.BeanProperty.create("value"));
-    bindingGroup.addBinding(binding);
-
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.gridy = 5;
@@ -1210,8 +1043,6 @@ public final class Employee extends javax.swing.JFrame {
             .addContainerGap())
     );
 
-    bindingGroup.bind();
-
     pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1222,9 +1053,13 @@ public final class Employee extends javax.swing.JFrame {
         action = ACTION.INSERT;
     }//GEN-LAST:event_btNewActionPerformed
 
+    
+    
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
         
         if(action == ACTION.INSERT) {
+            
+        } else if (action == ACTION.EDIT) {
             
         }
         
@@ -1254,20 +1089,27 @@ public final class Employee extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        if (action == ACTION.VIEW) {
-            stateButton(true);
-            activeForm(false);
-        } else {
-            stateButton(false);
-            activeForm(true);
-            
-            if (action == ACTION.EDIT) {
-                
-                txtEmployeeCode.setEditable(false);
-                employee1 = employee;
-            } else if (action == ACTION.INSERT) {
-                cleanForm();
+        try {
+            if (action == ACTION.VIEW) {
+                stateButton(true);
+                activeForm(false);
+            } else {
+                stateButton(false);
+                activeForm(true);
+
+                if (action == ACTION.EDIT) {
+                    txtEmployeeCode.setEditable(false);
+                    loadEmployee(employee);
+                } else if (action == ACTION.INSERT) {
+                    cleanForm();
+                }
             }
+
+            if (employee != null) {
+                loadEmployee(employee);
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowOpened
 
@@ -1277,23 +1119,17 @@ public final class Employee extends javax.swing.JFrame {
             if (('0' <= evt.getKeyChar() && evt.getKeyChar() <= '9')
                     || evt.getKeyChar() == KeyEvent.VK_DELETE
                     || evt.getKeyChar() == KeyEvent.VK_BACK_SPACE
-                    || evt.getKeyChar() == ','
-                    || evt.getKeyChar() == '.'
                     || evt.getKeyChar() == KeyEvent.VK_ENTER) {
                 
                 Long x = (Long) txtBaseSalary.getFormatter().stringToValue(txtBaseSalary.getText());
                 Object y = txtCoefficient.getFormatter().stringToValue(txtCoefficient.getText());
                 Object z;
-                
-                employee1.setBaseSalary(x);
                 if (y instanceof Long) {
                     z = x * ((Long) y);
-                    employee1.setFactorSalary(Double.parseDouble(y.toString()));
                 } else {
                     z = (Double) y * x;
-                    employee1.setFactorSalary((Double) y);
                 }
-                employee1.setSalary((long) z);
+                
                 String k = txtSalary.getFormatter().valueToString(z);
                 txtSalary.setText(k);
             }
@@ -1346,7 +1182,53 @@ public final class Employee extends javax.swing.JFrame {
         });
     }
     
+    private ims.dto.Employee toEmployee() {
+        
+        ims.dto.Employee localEmployee = new ims.dto.Employee();
+        
+        localEmployee.setId(txtEmployeeCode.getText());
+        localEmployee.setFullName(txtFullName.getText());
+        localEmployee.setNickName(txtNickName.getText());
+        localEmployee.setGender(chbGender.isSelected());
+        localEmployee.setMarries(chbMarried.isSelected());
+        localEmployee.setMobieNumber(txtMobie.getText());
+        localEmployee.setPhone(txtPhone.getText());
+        localEmployee.setEmail(txtEmail.getText());
+        localEmployee.setBirthDay((Date) txtBirthDay.getValue());
+        localEmployee.setBirthPlace(txtBirthPlace.getText());
+        localEmployee.setCity((City) combCity.getSelectedItem());
+        localEmployee.setNativeLand(txtNativeLand.getText());
+        localEmployee.setAddress(txtPersonCode.getText());
+        localEmployee.setTakenPCDate((Date) txtTakenCodeDay.getValue());
+        localEmployee.setTakenPCPlace(txtTakenCodePlace.getText());
+        localEmployee.setTabernacle(txtTabernacle.getText());
+        localEmployee.setTypeStaff((Typestaff) combTypeStaff.getSelectedItem());
+        localEmployee.setStartDate((Date) txtDateStart.getValue());
+        localEmployee.setDegree((Degree) combDeparment.getSelectedItem());
+        localEmployee.setJob((Job) combJob.getSelectedItem());
+        localEmployee.setPosition((EmployeePosition) combPosition.getSelectedItem());
+        localEmployee.setBaseSalary((long) txtBaseSalary.getValue());
+        localEmployee.setFactorSalary((double) txtCoefficient.getValue());
+        localEmployee.setSalary((int) txtSalary.getValue());
+        localEmployee.setAllowedSalary((int) txtAllowance.getValue());
+        localEmployee.setBaseSalary((long) txtNumberLabor.getValue());
+        localEmployee.setTakenLaborDate((Date) txtTakenLaborDay.getValue());
+        localEmployee.setTakenLaborPlace(txtTakenCodePlace.getText());
+        localEmployee.setBankId(txtIdBank.getText());
+        localEmployee.setBank(txtBank.getText());
+        localEmployee.setLearning((Learning) combLearning.getSelectedItem());
+        localEmployee.setDegree((Degree) combDegree.getSelectedItem());
+        localEmployee.setForeignLanguage((Foreignlanguage) combForeignLanguage.getSelectedItem());
+        localEmployee.setComputing((Computing) combComputing.getSelectedItem());
+        localEmployee.setFolk((Folk) combFolk.getSelectedItem());
+        localEmployee.setNationality((Nationality) combNationality.getSelectedItem());
+        localEmployee.setReligion((Religion) combReligion.getSelectedItem());
+        
+        return localEmployee;
+    }
+    
     private void activeForm(boolean isActive) {
+        
         txtEmployeeCode.setEditable(isActive);
         txtFullName.setEditable(isActive);
         txtNickName.setEditable(isActive);
@@ -1388,6 +1270,7 @@ public final class Employee extends javax.swing.JFrame {
     }
     
     private void cleanForm() {
+        
         txtEmployeeCode.setText(UtilClass.EMPTY_STRING);
         txtFullName.setText(UtilClass.EMPTY_STRING);
         txtNickName.setText(UtilClass.EMPTY_STRING);
@@ -1434,6 +1317,9 @@ public final class Employee extends javax.swing.JFrame {
         String personCodeDay = txtTakenCodeDay.getFormatter().valueToString(employee.getTakenPCDate());
         String startDate = txtDateStart.getFormatter().valueToString(employee.getStartDate());
         String labordate = txtTakenLaborDay.getFormatter().valueToString(employee.getTakenLaborDate());
+        String salary = txtSalary.getFormatter().valueToString(employee.getSalary());
+        String factorySalary = txtCoefficient.getFormatter().valueToString(employee.getFactorSalary());
+        String baseLarary = txtBaseSalary.getFormatter().valueToString(employee.getBaseSalary());
         
         txtEmployeeCode.setText(employee.getId());
         txtFullName.setText(employee.getFullName());
@@ -1457,9 +1343,9 @@ public final class Employee extends javax.swing.JFrame {
         combDeparment.setSelectedItem(employee.getDeparment());
         combJob.setSelectedItem(employee.getJob());
         combPosition.setSelectedItem(employee.getPosition());
-        txtBaseSalary.setText(String.valueOf(employee.getBaseSalary()));
-        txtCoefficient.setText(String.valueOf(employee.getFactorSalary()));
-        txtSalary.setText(String.valueOf(employee.getBaseSalary() * employee.getFactorSalary()));
+        txtBaseSalary.setText(baseLarary);
+        txtCoefficient.setText(factorySalary);
+        txtSalary.setText(salary);
         txtAllowance.setText(String.valueOf(employee.getAllowedSalary()));
         txtNumberLabor.setText(employee.getLaborCode().toString());
         txtTakenLaborDay.setText(labordate);
@@ -1497,7 +1383,6 @@ public final class Employee extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> combPosition;
     private javax.swing.JComboBox<String> combReligion;
     private javax.swing.JComboBox<String> combTypeStaff;
-    private ims.dto.Employee employee1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1563,18 +1448,17 @@ public final class Employee extends javax.swing.JFrame {
     private javax.swing.JTextField txtEmployeeCode;
     private javax.swing.JTextField txtFullName;
     private javax.swing.JTextField txtIdBank;
-    private javax.swing.JFormattedTextField txtMobie;
+    private javax.swing.JTextField txtMobie;
     private javax.swing.JTextField txtNativeLand;
     private javax.swing.JTextField txtNickName;
     private javax.swing.JFormattedTextField txtNumberLabor;
     private javax.swing.JFormattedTextField txtPersonCode;
-    private javax.swing.JFormattedTextField txtPhone;
+    private javax.swing.JTextField txtPhone;
     private javax.swing.JFormattedTextField txtSalary;
     private javax.swing.JTextField txtTabernacle;
     private javax.swing.JFormattedTextField txtTakenCodeDay;
     private javax.swing.JTextField txtTakenCodePlace;
     private javax.swing.JFormattedTextField txtTakenLaborDay;
     private javax.swing.JTextField txtTakenLaborPlace;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

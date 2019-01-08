@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ims.bll;
+package ims.dal;
 
-import ims.bll.exceptions.NonexistentEntityException;
+import ims.dal.exceptions.NonexistentEntityException;
 import ims.dto.City;
 import java.io.Serializable;
 import javax.persistence.Query;

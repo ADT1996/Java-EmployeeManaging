@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ims.bll;
+package ims.dal;
 
-import ims.bll.exceptions.NonexistentEntityException;
+import ims.dal.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import ims.dto.Employee;
-import ims.dto.Religion;
+import ims.dto.Learning;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,9 +23,9 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author abc
  */
-public class ReligionJpaController implements Serializable {
+public class LearningJpaController implements Serializable {
 
-    public ReligionJpaController(EntityManagerFactory emf) {
+    public LearningJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -34,28 +34,28 @@ public class ReligionJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Religion religion) {
-        if (religion.getEmployeeCollection() == null) {
-            religion.setEmployeeCollection(new ArrayList<Employee>());
+    public void create(Learning learning) {
+        if (learning.getEmployeeCollection() == null) {
+            learning.setEmployeeCollection(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : religion.getEmployeeCollection()) {
+            for (Employee employeeCollectionEmployeeToAttach : learning.getEmployeeCollection()) {
                 employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
                 attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
             }
-            religion.setEmployeeCollection(attachedEmployeeCollection);
-            em.persist(religion);
-            for (Employee employeeCollectionEmployee : religion.getEmployeeCollection()) {
-                Religion oldReligionOfEmployeeCollectionEmployee = employeeCollectionEmployee.getReligion();
-                employeeCollectionEmployee.setReligion(religion);
+            learning.setEmployeeCollection(attachedEmployeeCollection);
+            em.persist(learning);
+            for (Employee employeeCollectionEmployee : learning.getEmployeeCollection()) {
+                Learning oldLearningOfEmployeeCollectionEmployee = employeeCollectionEmployee.getLearning();
+                employeeCollectionEmployee.setLearning(learning);
                 employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldReligionOfEmployeeCollectionEmployee != null) {
-                    oldReligionOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldReligionOfEmployeeCollectionEmployee = em.merge(oldReligionOfEmployeeCollectionEmployee);
+                if (oldLearningOfEmployeeCollectionEmployee != null) {
+                    oldLearningOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
+                    oldLearningOfEmployeeCollectionEmployee = em.merge(oldLearningOfEmployeeCollectionEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -66,36 +66,36 @@ public class ReligionJpaController implements Serializable {
         }
     }
 
-    public void edit(Religion religion) throws NonexistentEntityException, Exception {
+    public void edit(Learning learning) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Religion persistentReligion = em.find(Religion.class, religion.getId());
-            Collection<Employee> employeeCollectionOld = persistentReligion.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = religion.getEmployeeCollection();
+            Learning persistentLearning = em.find(Learning.class, learning.getId());
+            Collection<Employee> employeeCollectionOld = persistentLearning.getEmployeeCollection();
+            Collection<Employee> employeeCollectionNew = learning.getEmployeeCollection();
             Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
             for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
                 employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
                 attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
             }
             employeeCollectionNew = attachedEmployeeCollectionNew;
-            religion.setEmployeeCollection(employeeCollectionNew);
-            religion = em.merge(religion);
+            learning.setEmployeeCollection(employeeCollectionNew);
+            learning = em.merge(learning);
             for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
                 if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
-                    employeeCollectionOldEmployee.setReligion(null);
+                    employeeCollectionOldEmployee.setLearning(null);
                     employeeCollectionOldEmployee = em.merge(employeeCollectionOldEmployee);
                 }
             }
             for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
                 if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    Religion oldReligionOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getReligion();
-                    employeeCollectionNewEmployee.setReligion(religion);
+                    Learning oldLearningOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getLearning();
+                    employeeCollectionNewEmployee.setLearning(learning);
                     employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldReligionOfEmployeeCollectionNewEmployee != null && !oldReligionOfEmployeeCollectionNewEmployee.equals(religion)) {
-                        oldReligionOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldReligionOfEmployeeCollectionNewEmployee = em.merge(oldReligionOfEmployeeCollectionNewEmployee);
+                    if (oldLearningOfEmployeeCollectionNewEmployee != null && !oldLearningOfEmployeeCollectionNewEmployee.equals(learning)) {
+                        oldLearningOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
+                        oldLearningOfEmployeeCollectionNewEmployee = em.merge(oldLearningOfEmployeeCollectionNewEmployee);
                     }
                 }
             }
@@ -103,9 +103,9 @@ public class ReligionJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = religion.getId();
-                if (findReligion(id) == null) {
-                    throw new NonexistentEntityException("The religion with id " + id + " no longer exists.");
+                Integer id = learning.getId();
+                if (findLearning(id) == null) {
+                    throw new NonexistentEntityException("The learning with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -121,19 +121,19 @@ public class ReligionJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Religion religion;
+            Learning learning;
             try {
-                religion = em.getReference(Religion.class, id);
-                religion.getId();
+                learning = em.getReference(Learning.class, id);
+                learning.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The religion with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The learning with id " + id + " no longer exists.", enfe);
             }
-            Collection<Employee> employeeCollection = religion.getEmployeeCollection();
+            Collection<Employee> employeeCollection = learning.getEmployeeCollection();
             for (Employee employeeCollectionEmployee : employeeCollection) {
-                employeeCollectionEmployee.setReligion(null);
+                employeeCollectionEmployee.setLearning(null);
                 employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
             }
-            em.remove(religion);
+            em.remove(learning);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -142,19 +142,19 @@ public class ReligionJpaController implements Serializable {
         }
     }
 
-    public List<Religion> findReligionEntities() {
-        return findReligionEntities(true, -1, -1);
+    public List<Learning> findLearningEntities() {
+        return findLearningEntities(true, -1, -1);
     }
 
-    public List<Religion> findReligionEntities(int maxResults, int firstResult) {
-        return findReligionEntities(false, maxResults, firstResult);
+    public List<Learning> findLearningEntities(int maxResults, int firstResult) {
+        return findLearningEntities(false, maxResults, firstResult);
     }
 
-    private List<Religion> findReligionEntities(boolean all, int maxResults, int firstResult) {
+    private List<Learning> findLearningEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Religion.class));
+            cq.select(cq.from(Learning.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -166,20 +166,20 @@ public class ReligionJpaController implements Serializable {
         }
     }
 
-    public Religion findReligion(Integer id) {
+    public Learning findLearning(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Religion.class, id);
+            return em.find(Learning.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getReligionCount() {
+    public int getLearningCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Religion> rt = cq.from(Religion.class);
+            Root<Learning> rt = cq.from(Learning.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
