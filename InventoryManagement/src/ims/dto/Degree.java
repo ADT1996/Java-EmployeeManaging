@@ -10,9 +10,15 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -20,15 +26,19 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "degree")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Degree.findAll", query = "SELECT d FROM Degree d")})
 public class Degree implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "Degree")
+    @Column(name = "Degree", nullable = false, length = 45)
     private String degree;
     @OneToMany(mappedBy = "degree")
     private Collection<Employee> employeeCollection;
@@ -61,6 +71,7 @@ public class Degree implements Serializable {
         this.degree = degree;
     }
 
+    @XmlTransient
     public Collection<Employee> getEmployeeCollection() {
         return employeeCollection;
     }
@@ -91,7 +102,7 @@ public class Degree implements Serializable {
 
     @Override
     public String toString() {
-        return "ims.dto.Degree[ id=" + id + " ]";
+        return degree;
     }
     
 }

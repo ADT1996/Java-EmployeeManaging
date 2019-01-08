@@ -10,9 +10,15 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -20,15 +26,19 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "nationality")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Nationality.findAll", query = "SELECT n FROM Nationality n")})
 public class Nationality implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "Nationality")
+    @Column(name = "Nationality", nullable = false, length = 45)
     private String nationality;
     @OneToMany(mappedBy = "nationality")
     private Collection<Employee> employeeCollection;
@@ -61,6 +71,7 @@ public class Nationality implements Serializable {
         this.nationality = nationality;
     }
 
+    @XmlTransient
     public Collection<Employee> getEmployeeCollection() {
         return employeeCollection;
     }
@@ -91,7 +102,7 @@ public class Nationality implements Serializable {
 
     @Override
     public String toString() {
-        return "ims.dto.Nationality[ id=" + id + " ]";
+        return nationality;
     }
     
 }

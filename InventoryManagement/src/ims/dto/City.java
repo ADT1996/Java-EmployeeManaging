@@ -8,12 +8,17 @@ package ims.dto;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -21,17 +26,20 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "city")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "City.findAll", query = "SELECT c FROM City c")})
 public class City implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idcity")
+    @Column(name = "idcity", nullable = false)
     private Integer idcity;
-    @Basic(optional = false)
-    @Column(name = "City")
+    @Column(name = "city", length = 50)
     private String city;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    @OneToMany(mappedBy = "city")
     private Collection<Employee> employeeCollection;
 
     public City() {
@@ -39,11 +47,6 @@ public class City implements Serializable {
 
     public City(Integer idcity) {
         this.idcity = idcity;
-    }
-
-    public City(Integer idcity, String city) {
-        this.idcity = idcity;
-        this.city = city;
     }
 
     public Integer getIdcity() {
@@ -62,6 +65,7 @@ public class City implements Serializable {
         this.city = city;
     }
 
+    @XmlTransient
     public Collection<Employee> getEmployeeCollection() {
         return employeeCollection;
     }
@@ -92,7 +96,7 @@ public class City implements Serializable {
 
     @Override
     public String toString() {
-        return "ims.dto.City[ idcity=" + idcity + " ]";
+        return city;
     }
     
 }

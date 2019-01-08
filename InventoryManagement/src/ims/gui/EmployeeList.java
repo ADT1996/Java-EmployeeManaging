@@ -6,15 +6,30 @@
 
 package ims.gui;
 
+import ims.bll.EmployeeJpaController;
+import ims.util.UtilClass;
+import ims.dto.Employee;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
  * @author NAT
  */
-public class EmployeeList extends javax.swing.JFrame {
+public class EmployeeList extends javax.swing.JFrame implements WindowListener{
 
+    private int row;
+    private DefaultTableModel model;
+    private List<Employee> employees;
+    
     /** Creates new form EmployeeList */
     public EmployeeList() {
         initComponents();
@@ -37,47 +52,52 @@ public class EmployeeList extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
-        btNew = new javax.swing.JButton();
+        btnNew = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
-        jButton2 = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
-        jButton3 = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
         jButton4 = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
-        jButton5 = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbEmployees = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jToolBar1.setRollover(true);
 
-        btNew.setText("Thêm ");
-        btNew.setFocusable(false);
-        btNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btNew.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btNew.addActionListener(new java.awt.event.ActionListener() {
+        btnNew.setText("Thêm ");
+        btnNew.setFocusable(false);
+        btnNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNew.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btNewActionPerformed(evt);
+                btnNewActionPerformed(evt);
             }
         });
-        jToolBar1.add(btNew);
+        jToolBar1.add(btnNew);
         jToolBar1.add(jSeparator1);
 
-        jButton2.setText("Sửa");
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton2);
+        btnEdit.setText("Sửa");
+        btnEdit.setFocusable(false);
+        btnEdit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEdit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnEdit);
         jToolBar1.add(jSeparator2);
 
-        jButton3.setText("Xóa");
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton3);
+        btnDelete.setText("Xóa");
+        btnDelete.setFocusable(false);
+        btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(btnDelete);
         jToolBar1.add(jSeparator3);
 
         jButton4.setText("In");
@@ -87,29 +107,49 @@ public class EmployeeList extends javax.swing.JFrame {
         jToolBar1.add(jButton4);
         jToolBar1.add(jSeparator4);
 
-        jButton5.setText("Thoát");
-        jButton5.setFocusable(false);
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton5);
+        btnExit.setText("Thoát");
+        btnExit.setFocusable(false);
+        btnExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnExit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnExit);
 
         getContentPane().add(jToolBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 830, 25));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbEmployees.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Mã ", "Họ", "Tên", "Ngày sinh", "Nơi sinh"
+                "Mã nhân viên", "Họ", "Tên", "Ngày sinh", "Nơi sinh"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(100);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tbEmployees);
+        if (tbEmployees.getColumnModel().getColumnCount() > 0) {
+            tbEmployees.getColumnModel().getColumn(0).setResizable(false);
+            tbEmployees.getColumnModel().getColumn(1).setResizable(false);
+            tbEmployees.getColumnModel().getColumn(2).setResizable(false);
+            tbEmployees.getColumnModel().getColumn(3).setResizable(false);
+            tbEmployees.getColumnModel().getColumn(4).setResizable(false);
         }
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 830, 450));
@@ -117,11 +157,27 @@ public class EmployeeList extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNewActionPerformed
-        Employee emGui= new Employee();
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        ims.gui.Employee emGui= new ims.gui.Employee();
         emGui.setVisible(true);
-    }//GEN-LAST:event_btNewActionPerformed
+    }//GEN-LAST:event_btnNewActionPerformed
 
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        int pos = tbEmployees.getSelectedRow();
+        if(pos != -1) {
+            ims.gui.Employee emGui= new ims.gui.Employee(employees.get(pos),ims.gui.Employee.ACTION.EDIT);
+        emGui.setVisible(true);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+
+    
     /**
      * @param args the command line arguments
      */
@@ -158,18 +214,63 @@ public class EmployeeList extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btNew;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnNew;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
-    private javax.swing.JTable jTable1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JTable tbEmployees;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        model = (DefaultTableModel) tbEmployees.getModel();
+        employees = new ArrayList<>();
+        
+        EmployeeJpaController empJpa = new EmployeeJpaController(UtilClass.getEMF());
+        List<Employee> listEmp = empJpa.findEmployeeEntities();
+        row = 0;
+        
+        for(Employee employee : listEmp) {
+            addEmployee(employee);
+        }
+    }
+
+    private void addEmployee(Employee employee) {
+        model.addRow(new Object[0]);
+        String fullName = employee.getFullName();
+        int lastChar = fullName.lastIndexOf(' ');
+        model.setValueAt(employee.getId(), row, 0);
+        model.setValueAt(fullName.substring(0, lastChar), row, 1);
+        model.setValueAt(fullName.substring(lastChar), row, 2);
+        model.setValueAt(employee.getBirthDay(), row, 3);
+        model.setValueAt(employee.getBirthPlace(), row, 4);
+        
+        employees.add(employee);
+    }
+    
+    @Override
+    public void windowClosing(WindowEvent e) {}
+
+    @Override
+    public void windowClosed(WindowEvent e) {}
+
+    @Override
+    public void windowIconified(WindowEvent e) {}
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {}
+
+    @Override
+    public void windowActivated(WindowEvent e) {}
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {}
 
 }
