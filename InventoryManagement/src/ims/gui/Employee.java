@@ -10,7 +10,6 @@ import com.sun.istack.internal.NotNull;
 import ims.dto.City;
 import ims.dto.Computing;
 import ims.dto.Degree;
-import ims.dto.Deparment;
 import ims.dto.EmployeePosition;
 import ims.dto.Folk;
 import ims.dto.Foreignlanguage;
@@ -37,12 +36,9 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import javax.swing.DefaultComboBoxModel;
 
@@ -1057,6 +1053,7 @@ public final class Employee extends javax.swing.JFrame {
     
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
         
+        toEmployee();
         if(action == ACTION.INSERT) {
             
         } else if (action == ACTION.EDIT) {
@@ -1182,49 +1179,47 @@ public final class Employee extends javax.swing.JFrame {
         });
     }
     
-    private ims.dto.Employee toEmployee() {
+    private void toEmployee() {
         
-        ims.dto.Employee localEmployee = new ims.dto.Employee();
+        if (employee == null) employee = new ims.dto.Employee();
         
-        localEmployee.setId(txtEmployeeCode.getText());
-        localEmployee.setFullName(txtFullName.getText());
-        localEmployee.setNickName(txtNickName.getText());
-        localEmployee.setGender(chbGender.isSelected());
-        localEmployee.setMarries(chbMarried.isSelected());
-        localEmployee.setMobieNumber(txtMobie.getText());
-        localEmployee.setPhone(txtPhone.getText());
-        localEmployee.setEmail(txtEmail.getText());
-        localEmployee.setBirthDay((Date) txtBirthDay.getValue());
-        localEmployee.setBirthPlace(txtBirthPlace.getText());
-        localEmployee.setCity((City) combCity.getSelectedItem());
-        localEmployee.setNativeLand(txtNativeLand.getText());
-        localEmployee.setAddress(txtPersonCode.getText());
-        localEmployee.setTakenPCDate((Date) txtTakenCodeDay.getValue());
-        localEmployee.setTakenPCPlace(txtTakenCodePlace.getText());
-        localEmployee.setTabernacle(txtTabernacle.getText());
-        localEmployee.setTypeStaff((Typestaff) combTypeStaff.getSelectedItem());
-        localEmployee.setStartDate((Date) txtDateStart.getValue());
-        localEmployee.setDegree((Degree) combDeparment.getSelectedItem());
-        localEmployee.setJob((Job) combJob.getSelectedItem());
-        localEmployee.setPosition((EmployeePosition) combPosition.getSelectedItem());
-        localEmployee.setBaseSalary((long) txtBaseSalary.getValue());
-        localEmployee.setFactorSalary((double) txtCoefficient.getValue());
-        localEmployee.setSalary((int) txtSalary.getValue());
-        localEmployee.setAllowedSalary((int) txtAllowance.getValue());
-        localEmployee.setBaseSalary((long) txtNumberLabor.getValue());
-        localEmployee.setTakenLaborDate((Date) txtTakenLaborDay.getValue());
-        localEmployee.setTakenLaborPlace(txtTakenCodePlace.getText());
-        localEmployee.setBankId(txtIdBank.getText());
-        localEmployee.setBank(txtBank.getText());
-        localEmployee.setLearning((Learning) combLearning.getSelectedItem());
-        localEmployee.setDegree((Degree) combDegree.getSelectedItem());
-        localEmployee.setForeignLanguage((Foreignlanguage) combForeignLanguage.getSelectedItem());
-        localEmployee.setComputing((Computing) combComputing.getSelectedItem());
-        localEmployee.setFolk((Folk) combFolk.getSelectedItem());
-        localEmployee.setNationality((Nationality) combNationality.getSelectedItem());
-        localEmployee.setReligion((Religion) combReligion.getSelectedItem());
-        
-        return localEmployee;
+        employee.setId(txtEmployeeCode.getText());
+        employee.setFullName(txtFullName.getText());
+        employee.setNickName(txtNickName.getText());
+        employee.setGender(chbGender.isSelected());
+        employee.setMarries(chbMarried.isSelected());
+        employee.setMobieNumber(txtMobie.getText());
+        employee.setPhone(txtPhone.getText());
+        employee.setEmail(txtEmail.getText());
+        employee.setBirthDay((Date) txtBirthDay.getValue());
+        employee.setBirthPlace(txtBirthPlace.getText());
+        employee.setCity((City) combCity.getSelectedItem());
+        employee.setNativeLand(txtNativeLand.getText());
+        employee.setAddress(txtPersonCode.getText());
+        employee.setTakenPCDate((Date) txtTakenCodeDay.getValue());
+        employee.setTakenPCPlace(txtTakenCodePlace.getText());
+        employee.setTabernacle(txtTabernacle.getText());
+        employee.setTypeStaff((Typestaff) combTypeStaff.getSelectedItem());
+        employee.setStartDate((Date) txtDateStart.getValue());
+        employee.setDegree((Degree) combDeparment.getSelectedItem());
+        employee.setJob((Job) combJob.getSelectedItem());
+        employee.setPosition((EmployeePosition) combPosition.getSelectedItem());
+        employee.setBaseSalary((long) txtBaseSalary.getValue());
+        employee.setFactorSalary((double) txtCoefficient.getValue());
+        employee.setSalary((int) txtSalary.getValue());
+        employee.setAllowedSalary((int) txtAllowance.getValue());
+        employee.setBaseSalary((long) txtNumberLabor.getValue());
+        employee.setTakenLaborDate((Date) txtTakenLaborDay.getValue());
+        employee.setTakenLaborPlace(txtTakenCodePlace.getText());
+        employee.setBankId(txtIdBank.getText());
+        employee.setBank(txtBank.getText());
+        employee.setLearning((Learning) combLearning.getSelectedItem());
+        employee.setDegree((Degree) combDegree.getSelectedItem());
+        employee.setForeignLanguage((Foreignlanguage) combForeignLanguage.getSelectedItem());
+        employee.setComputing((Computing) combComputing.getSelectedItem());
+        employee.setFolk((Folk) combFolk.getSelectedItem());
+        employee.setNationality((Nationality) combNationality.getSelectedItem());
+        employee.setReligion((Religion) combReligion.getSelectedItem());
     }
     
     private void activeForm(boolean isActive) {
