@@ -15,7 +15,6 @@ import javax.persistence.criteria.Root;
 import ims.dto.Employee;
 import ims.dto.Job;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,27 +35,27 @@ public class JobJpaController implements Serializable {
     }
 
     public void create(Job job) {
-        if (job.getEmployeeCollection() == null) {
-            job.setEmployeeCollection(new ArrayList<Employee>());
+        if (job.getEmployeeList() == null) {
+            job.setEmployeeList(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : job.getEmployeeCollection()) {
-                employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
-                attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
+            List<Employee> attachedEmployeeList = new ArrayList<Employee>();
+            for (Employee employeeListEmployeeToAttach : job.getEmployeeList()) {
+                employeeListEmployeeToAttach = em.getReference(employeeListEmployeeToAttach.getClass(), employeeListEmployeeToAttach.getId());
+                attachedEmployeeList.add(employeeListEmployeeToAttach);
             }
-            job.setEmployeeCollection(attachedEmployeeCollection);
+            job.setEmployeeList(attachedEmployeeList);
             em.persist(job);
-            for (Employee employeeCollectionEmployee : job.getEmployeeCollection()) {
-                Job oldJobOfEmployeeCollectionEmployee = employeeCollectionEmployee.getJob();
-                employeeCollectionEmployee.setJob(job);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldJobOfEmployeeCollectionEmployee != null) {
-                    oldJobOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldJobOfEmployeeCollectionEmployee = em.merge(oldJobOfEmployeeCollectionEmployee);
+            for (Employee employeeListEmployee : job.getEmployeeList()) {
+                Job oldJobOfEmployeeListEmployee = employeeListEmployee.getJob();
+                employeeListEmployee.setJob(job);
+                employeeListEmployee = em.merge(employeeListEmployee);
+                if (oldJobOfEmployeeListEmployee != null) {
+                    oldJobOfEmployeeListEmployee.getEmployeeList().remove(employeeListEmployee);
+                    oldJobOfEmployeeListEmployee = em.merge(oldJobOfEmployeeListEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -73,36 +72,36 @@ public class JobJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Job persistentJob = em.find(Job.class, job.getId());
-            Collection<Employee> employeeCollectionOld = persistentJob.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = job.getEmployeeCollection();
+            List<Employee> employeeListOld = persistentJob.getEmployeeList();
+            List<Employee> employeeListNew = job.getEmployeeList();
             List<String> illegalOrphanMessages = null;
-            for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
-                if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
+            for (Employee employeeListOldEmployee : employeeListOld) {
+                if (!employeeListNew.contains(employeeListOldEmployee)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Employee " + employeeCollectionOldEmployee + " since its job field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Employee " + employeeListOldEmployee + " since its job field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
-            for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
-                employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
-                attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
+            List<Employee> attachedEmployeeListNew = new ArrayList<Employee>();
+            for (Employee employeeListNewEmployeeToAttach : employeeListNew) {
+                employeeListNewEmployeeToAttach = em.getReference(employeeListNewEmployeeToAttach.getClass(), employeeListNewEmployeeToAttach.getId());
+                attachedEmployeeListNew.add(employeeListNewEmployeeToAttach);
             }
-            employeeCollectionNew = attachedEmployeeCollectionNew;
-            job.setEmployeeCollection(employeeCollectionNew);
+            employeeListNew = attachedEmployeeListNew;
+            job.setEmployeeList(employeeListNew);
             job = em.merge(job);
-            for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
-                if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    Job oldJobOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getJob();
-                    employeeCollectionNewEmployee.setJob(job);
-                    employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldJobOfEmployeeCollectionNewEmployee != null && !oldJobOfEmployeeCollectionNewEmployee.equals(job)) {
-                        oldJobOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldJobOfEmployeeCollectionNewEmployee = em.merge(oldJobOfEmployeeCollectionNewEmployee);
+            for (Employee employeeListNewEmployee : employeeListNew) {
+                if (!employeeListOld.contains(employeeListNewEmployee)) {
+                    Job oldJobOfEmployeeListNewEmployee = employeeListNewEmployee.getJob();
+                    employeeListNewEmployee.setJob(job);
+                    employeeListNewEmployee = em.merge(employeeListNewEmployee);
+                    if (oldJobOfEmployeeListNewEmployee != null && !oldJobOfEmployeeListNewEmployee.equals(job)) {
+                        oldJobOfEmployeeListNewEmployee.getEmployeeList().remove(employeeListNewEmployee);
+                        oldJobOfEmployeeListNewEmployee = em.merge(oldJobOfEmployeeListNewEmployee);
                     }
                 }
             }
@@ -136,12 +135,12 @@ public class JobJpaController implements Serializable {
                 throw new NonexistentEntityException("The job with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<Employee> employeeCollectionOrphanCheck = job.getEmployeeCollection();
-            for (Employee employeeCollectionOrphanCheckEmployee : employeeCollectionOrphanCheck) {
+            List<Employee> employeeListOrphanCheck = job.getEmployeeList();
+            for (Employee employeeListOrphanCheckEmployee : employeeListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Job (" + job + ") cannot be destroyed since the Employee " + employeeCollectionOrphanCheckEmployee + " in its employeeCollection field has a non-nullable job field.");
+                illegalOrphanMessages.add("This Job (" + job + ") cannot be destroyed since the Employee " + employeeListOrphanCheckEmployee + " in its employeeList field has a non-nullable job field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

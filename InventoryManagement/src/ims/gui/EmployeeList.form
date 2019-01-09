@@ -73,9 +73,9 @@
         </Component>
         <Component class="javax.swing.JToolBar$Separator" name="jSeparator3">
         </Component>
-        <Component class="javax.swing.JButton" name="jButton4">
+        <Component class="javax.swing.JButton" name="btnDetail">
           <Properties>
-            <Property name="text" type="java.lang.String" value="In"/>
+            <Property name="text" type="java.lang.String" value="Xem chi ti&#x1ebf;t"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>

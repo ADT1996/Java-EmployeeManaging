@@ -14,7 +14,6 @@ import javax.persistence.criteria.Root;
 import ims.dto.Employee;
 import ims.dto.Religion;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -35,27 +34,27 @@ public class ReligionJpaController implements Serializable {
     }
 
     public void create(Religion religion) {
-        if (religion.getEmployeeCollection() == null) {
-            religion.setEmployeeCollection(new ArrayList<Employee>());
+        if (religion.getEmployeeList() == null) {
+            religion.setEmployeeList(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : religion.getEmployeeCollection()) {
-                employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
-                attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
+            List<Employee> attachedEmployeeList = new ArrayList<Employee>();
+            for (Employee employeeListEmployeeToAttach : religion.getEmployeeList()) {
+                employeeListEmployeeToAttach = em.getReference(employeeListEmployeeToAttach.getClass(), employeeListEmployeeToAttach.getId());
+                attachedEmployeeList.add(employeeListEmployeeToAttach);
             }
-            religion.setEmployeeCollection(attachedEmployeeCollection);
+            religion.setEmployeeList(attachedEmployeeList);
             em.persist(religion);
-            for (Employee employeeCollectionEmployee : religion.getEmployeeCollection()) {
-                Religion oldReligionOfEmployeeCollectionEmployee = employeeCollectionEmployee.getReligion();
-                employeeCollectionEmployee.setReligion(religion);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldReligionOfEmployeeCollectionEmployee != null) {
-                    oldReligionOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldReligionOfEmployeeCollectionEmployee = em.merge(oldReligionOfEmployeeCollectionEmployee);
+            for (Employee employeeListEmployee : religion.getEmployeeList()) {
+                Religion oldReligionOfEmployeeListEmployee = employeeListEmployee.getReligion();
+                employeeListEmployee.setReligion(religion);
+                employeeListEmployee = em.merge(employeeListEmployee);
+                if (oldReligionOfEmployeeListEmployee != null) {
+                    oldReligionOfEmployeeListEmployee.getEmployeeList().remove(employeeListEmployee);
+                    oldReligionOfEmployeeListEmployee = em.merge(oldReligionOfEmployeeListEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -72,30 +71,30 @@ public class ReligionJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Religion persistentReligion = em.find(Religion.class, religion.getId());
-            Collection<Employee> employeeCollectionOld = persistentReligion.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = religion.getEmployeeCollection();
-            Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
-            for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
-                employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
-                attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
+            List<Employee> employeeListOld = persistentReligion.getEmployeeList();
+            List<Employee> employeeListNew = religion.getEmployeeList();
+            List<Employee> attachedEmployeeListNew = new ArrayList<Employee>();
+            for (Employee employeeListNewEmployeeToAttach : employeeListNew) {
+                employeeListNewEmployeeToAttach = em.getReference(employeeListNewEmployeeToAttach.getClass(), employeeListNewEmployeeToAttach.getId());
+                attachedEmployeeListNew.add(employeeListNewEmployeeToAttach);
             }
-            employeeCollectionNew = attachedEmployeeCollectionNew;
-            religion.setEmployeeCollection(employeeCollectionNew);
+            employeeListNew = attachedEmployeeListNew;
+            religion.setEmployeeList(employeeListNew);
             religion = em.merge(religion);
-            for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
-                if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
-                    employeeCollectionOldEmployee.setReligion(null);
-                    employeeCollectionOldEmployee = em.merge(employeeCollectionOldEmployee);
+            for (Employee employeeListOldEmployee : employeeListOld) {
+                if (!employeeListNew.contains(employeeListOldEmployee)) {
+                    employeeListOldEmployee.setReligion(null);
+                    employeeListOldEmployee = em.merge(employeeListOldEmployee);
                 }
             }
-            for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
-                if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    Religion oldReligionOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getReligion();
-                    employeeCollectionNewEmployee.setReligion(religion);
-                    employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldReligionOfEmployeeCollectionNewEmployee != null && !oldReligionOfEmployeeCollectionNewEmployee.equals(religion)) {
-                        oldReligionOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldReligionOfEmployeeCollectionNewEmployee = em.merge(oldReligionOfEmployeeCollectionNewEmployee);
+            for (Employee employeeListNewEmployee : employeeListNew) {
+                if (!employeeListOld.contains(employeeListNewEmployee)) {
+                    Religion oldReligionOfEmployeeListNewEmployee = employeeListNewEmployee.getReligion();
+                    employeeListNewEmployee.setReligion(religion);
+                    employeeListNewEmployee = em.merge(employeeListNewEmployee);
+                    if (oldReligionOfEmployeeListNewEmployee != null && !oldReligionOfEmployeeListNewEmployee.equals(religion)) {
+                        oldReligionOfEmployeeListNewEmployee.getEmployeeList().remove(employeeListNewEmployee);
+                        oldReligionOfEmployeeListNewEmployee = em.merge(oldReligionOfEmployeeListNewEmployee);
                     }
                 }
             }
@@ -128,10 +127,10 @@ public class ReligionJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The religion with id " + id + " no longer exists.", enfe);
             }
-            Collection<Employee> employeeCollection = religion.getEmployeeCollection();
-            for (Employee employeeCollectionEmployee : employeeCollection) {
-                employeeCollectionEmployee.setReligion(null);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
+            List<Employee> employeeList = religion.getEmployeeList();
+            for (Employee employeeListEmployee : employeeList) {
+                employeeListEmployee.setReligion(null);
+                employeeListEmployee = em.merge(employeeListEmployee);
             }
             em.remove(religion);
             em.getTransaction().commit();

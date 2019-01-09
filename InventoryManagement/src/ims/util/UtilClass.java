@@ -17,6 +17,7 @@ public class UtilClass {
     public static String EMPTY_STRING = "";
     public static boolean UNCHECKED = false;
     public static Object NOSELECTEDITEM = null;
+    public static Object NOTVALUE = null;
     
     public static EntityManagerFactory getEMF() {
         return Persistence.createEntityManagerFactory("InventoryManagementPU");

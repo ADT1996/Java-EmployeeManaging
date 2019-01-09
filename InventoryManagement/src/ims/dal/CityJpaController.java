@@ -14,7 +14,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import ims.dto.Employee;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -35,27 +34,27 @@ public class CityJpaController implements Serializable {
     }
 
     public void create(City city) {
-        if (city.getEmployeeCollection() == null) {
-            city.setEmployeeCollection(new ArrayList<Employee>());
+        if (city.getEmployeeList() == null) {
+            city.setEmployeeList(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : city.getEmployeeCollection()) {
-                employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
-                attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
+            List<Employee> attachedEmployeeList = new ArrayList<Employee>();
+            for (Employee employeeListEmployeeToAttach : city.getEmployeeList()) {
+                employeeListEmployeeToAttach = em.getReference(employeeListEmployeeToAttach.getClass(), employeeListEmployeeToAttach.getId());
+                attachedEmployeeList.add(employeeListEmployeeToAttach);
             }
-            city.setEmployeeCollection(attachedEmployeeCollection);
+            city.setEmployeeList(attachedEmployeeList);
             em.persist(city);
-            for (Employee employeeCollectionEmployee : city.getEmployeeCollection()) {
-                City oldCityOfEmployeeCollectionEmployee = employeeCollectionEmployee.getCity();
-                employeeCollectionEmployee.setCity(city);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldCityOfEmployeeCollectionEmployee != null) {
-                    oldCityOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldCityOfEmployeeCollectionEmployee = em.merge(oldCityOfEmployeeCollectionEmployee);
+            for (Employee employeeListEmployee : city.getEmployeeList()) {
+                City oldCityOfEmployeeListEmployee = employeeListEmployee.getCity();
+                employeeListEmployee.setCity(city);
+                employeeListEmployee = em.merge(employeeListEmployee);
+                if (oldCityOfEmployeeListEmployee != null) {
+                    oldCityOfEmployeeListEmployee.getEmployeeList().remove(employeeListEmployee);
+                    oldCityOfEmployeeListEmployee = em.merge(oldCityOfEmployeeListEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -72,30 +71,30 @@ public class CityJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             City persistentCity = em.find(City.class, city.getIdcity());
-            Collection<Employee> employeeCollectionOld = persistentCity.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = city.getEmployeeCollection();
-            Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
-            for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
-                employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
-                attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
+            List<Employee> employeeListOld = persistentCity.getEmployeeList();
+            List<Employee> employeeListNew = city.getEmployeeList();
+            List<Employee> attachedEmployeeListNew = new ArrayList<Employee>();
+            for (Employee employeeListNewEmployeeToAttach : employeeListNew) {
+                employeeListNewEmployeeToAttach = em.getReference(employeeListNewEmployeeToAttach.getClass(), employeeListNewEmployeeToAttach.getId());
+                attachedEmployeeListNew.add(employeeListNewEmployeeToAttach);
             }
-            employeeCollectionNew = attachedEmployeeCollectionNew;
-            city.setEmployeeCollection(employeeCollectionNew);
+            employeeListNew = attachedEmployeeListNew;
+            city.setEmployeeList(employeeListNew);
             city = em.merge(city);
-            for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
-                if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
-                    employeeCollectionOldEmployee.setCity(null);
-                    employeeCollectionOldEmployee = em.merge(employeeCollectionOldEmployee);
+            for (Employee employeeListOldEmployee : employeeListOld) {
+                if (!employeeListNew.contains(employeeListOldEmployee)) {
+                    employeeListOldEmployee.setCity(null);
+                    employeeListOldEmployee = em.merge(employeeListOldEmployee);
                 }
             }
-            for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
-                if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    City oldCityOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getCity();
-                    employeeCollectionNewEmployee.setCity(city);
-                    employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldCityOfEmployeeCollectionNewEmployee != null && !oldCityOfEmployeeCollectionNewEmployee.equals(city)) {
-                        oldCityOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldCityOfEmployeeCollectionNewEmployee = em.merge(oldCityOfEmployeeCollectionNewEmployee);
+            for (Employee employeeListNewEmployee : employeeListNew) {
+                if (!employeeListOld.contains(employeeListNewEmployee)) {
+                    City oldCityOfEmployeeListNewEmployee = employeeListNewEmployee.getCity();
+                    employeeListNewEmployee.setCity(city);
+                    employeeListNewEmployee = em.merge(employeeListNewEmployee);
+                    if (oldCityOfEmployeeListNewEmployee != null && !oldCityOfEmployeeListNewEmployee.equals(city)) {
+                        oldCityOfEmployeeListNewEmployee.getEmployeeList().remove(employeeListNewEmployee);
+                        oldCityOfEmployeeListNewEmployee = em.merge(oldCityOfEmployeeListNewEmployee);
                     }
                 }
             }
@@ -128,10 +127,10 @@ public class CityJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The city with id " + id + " no longer exists.", enfe);
             }
-            Collection<Employee> employeeCollection = city.getEmployeeCollection();
-            for (Employee employeeCollectionEmployee : employeeCollection) {
-                employeeCollectionEmployee.setCity(null);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
+            List<Employee> employeeList = city.getEmployeeList();
+            for (Employee employeeListEmployee : employeeList) {
+                employeeListEmployee.setCity(null);
+                employeeListEmployee = em.merge(employeeListEmployee);
             }
             em.remove(city);
             em.getTransaction().commit();

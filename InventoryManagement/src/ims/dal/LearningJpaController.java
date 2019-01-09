@@ -14,7 +14,6 @@ import javax.persistence.criteria.Root;
 import ims.dto.Employee;
 import ims.dto.Learning;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -35,27 +34,27 @@ public class LearningJpaController implements Serializable {
     }
 
     public void create(Learning learning) {
-        if (learning.getEmployeeCollection() == null) {
-            learning.setEmployeeCollection(new ArrayList<Employee>());
+        if (learning.getEmployeeList() == null) {
+            learning.setEmployeeList(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : learning.getEmployeeCollection()) {
-                employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
-                attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
+            List<Employee> attachedEmployeeList = new ArrayList<Employee>();
+            for (Employee employeeListEmployeeToAttach : learning.getEmployeeList()) {
+                employeeListEmployeeToAttach = em.getReference(employeeListEmployeeToAttach.getClass(), employeeListEmployeeToAttach.getId());
+                attachedEmployeeList.add(employeeListEmployeeToAttach);
             }
-            learning.setEmployeeCollection(attachedEmployeeCollection);
+            learning.setEmployeeList(attachedEmployeeList);
             em.persist(learning);
-            for (Employee employeeCollectionEmployee : learning.getEmployeeCollection()) {
-                Learning oldLearningOfEmployeeCollectionEmployee = employeeCollectionEmployee.getLearning();
-                employeeCollectionEmployee.setLearning(learning);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldLearningOfEmployeeCollectionEmployee != null) {
-                    oldLearningOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldLearningOfEmployeeCollectionEmployee = em.merge(oldLearningOfEmployeeCollectionEmployee);
+            for (Employee employeeListEmployee : learning.getEmployeeList()) {
+                Learning oldLearningOfEmployeeListEmployee = employeeListEmployee.getLearning();
+                employeeListEmployee.setLearning(learning);
+                employeeListEmployee = em.merge(employeeListEmployee);
+                if (oldLearningOfEmployeeListEmployee != null) {
+                    oldLearningOfEmployeeListEmployee.getEmployeeList().remove(employeeListEmployee);
+                    oldLearningOfEmployeeListEmployee = em.merge(oldLearningOfEmployeeListEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -72,30 +71,30 @@ public class LearningJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Learning persistentLearning = em.find(Learning.class, learning.getId());
-            Collection<Employee> employeeCollectionOld = persistentLearning.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = learning.getEmployeeCollection();
-            Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
-            for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
-                employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
-                attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
+            List<Employee> employeeListOld = persistentLearning.getEmployeeList();
+            List<Employee> employeeListNew = learning.getEmployeeList();
+            List<Employee> attachedEmployeeListNew = new ArrayList<Employee>();
+            for (Employee employeeListNewEmployeeToAttach : employeeListNew) {
+                employeeListNewEmployeeToAttach = em.getReference(employeeListNewEmployeeToAttach.getClass(), employeeListNewEmployeeToAttach.getId());
+                attachedEmployeeListNew.add(employeeListNewEmployeeToAttach);
             }
-            employeeCollectionNew = attachedEmployeeCollectionNew;
-            learning.setEmployeeCollection(employeeCollectionNew);
+            employeeListNew = attachedEmployeeListNew;
+            learning.setEmployeeList(employeeListNew);
             learning = em.merge(learning);
-            for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
-                if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
-                    employeeCollectionOldEmployee.setLearning(null);
-                    employeeCollectionOldEmployee = em.merge(employeeCollectionOldEmployee);
+            for (Employee employeeListOldEmployee : employeeListOld) {
+                if (!employeeListNew.contains(employeeListOldEmployee)) {
+                    employeeListOldEmployee.setLearning(null);
+                    employeeListOldEmployee = em.merge(employeeListOldEmployee);
                 }
             }
-            for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
-                if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    Learning oldLearningOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getLearning();
-                    employeeCollectionNewEmployee.setLearning(learning);
-                    employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldLearningOfEmployeeCollectionNewEmployee != null && !oldLearningOfEmployeeCollectionNewEmployee.equals(learning)) {
-                        oldLearningOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldLearningOfEmployeeCollectionNewEmployee = em.merge(oldLearningOfEmployeeCollectionNewEmployee);
+            for (Employee employeeListNewEmployee : employeeListNew) {
+                if (!employeeListOld.contains(employeeListNewEmployee)) {
+                    Learning oldLearningOfEmployeeListNewEmployee = employeeListNewEmployee.getLearning();
+                    employeeListNewEmployee.setLearning(learning);
+                    employeeListNewEmployee = em.merge(employeeListNewEmployee);
+                    if (oldLearningOfEmployeeListNewEmployee != null && !oldLearningOfEmployeeListNewEmployee.equals(learning)) {
+                        oldLearningOfEmployeeListNewEmployee.getEmployeeList().remove(employeeListNewEmployee);
+                        oldLearningOfEmployeeListNewEmployee = em.merge(oldLearningOfEmployeeListNewEmployee);
                     }
                 }
             }
@@ -128,10 +127,10 @@ public class LearningJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The learning with id " + id + " no longer exists.", enfe);
             }
-            Collection<Employee> employeeCollection = learning.getEmployeeCollection();
-            for (Employee employeeCollectionEmployee : employeeCollection) {
-                employeeCollectionEmployee.setLearning(null);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
+            List<Employee> employeeList = learning.getEmployeeList();
+            for (Employee employeeListEmployee : employeeList) {
+                employeeListEmployee.setLearning(null);
+                employeeListEmployee = em.merge(employeeListEmployee);
             }
             em.remove(learning);
             em.getTransaction().commit();

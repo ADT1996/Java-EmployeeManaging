@@ -14,7 +14,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import ims.dto.Employee;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -35,27 +34,27 @@ public class DegreeJpaController implements Serializable {
     }
 
     public void create(Degree degree) {
-        if (degree.getEmployeeCollection() == null) {
-            degree.setEmployeeCollection(new ArrayList<Employee>());
+        if (degree.getEmployeeList() == null) {
+            degree.setEmployeeList(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : degree.getEmployeeCollection()) {
-                employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
-                attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
+            List<Employee> attachedEmployeeList = new ArrayList<Employee>();
+            for (Employee employeeListEmployeeToAttach : degree.getEmployeeList()) {
+                employeeListEmployeeToAttach = em.getReference(employeeListEmployeeToAttach.getClass(), employeeListEmployeeToAttach.getId());
+                attachedEmployeeList.add(employeeListEmployeeToAttach);
             }
-            degree.setEmployeeCollection(attachedEmployeeCollection);
+            degree.setEmployeeList(attachedEmployeeList);
             em.persist(degree);
-            for (Employee employeeCollectionEmployee : degree.getEmployeeCollection()) {
-                Degree oldDegreeOfEmployeeCollectionEmployee = employeeCollectionEmployee.getDegree();
-                employeeCollectionEmployee.setDegree(degree);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldDegreeOfEmployeeCollectionEmployee != null) {
-                    oldDegreeOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldDegreeOfEmployeeCollectionEmployee = em.merge(oldDegreeOfEmployeeCollectionEmployee);
+            for (Employee employeeListEmployee : degree.getEmployeeList()) {
+                Degree oldDegreeOfEmployeeListEmployee = employeeListEmployee.getDegree();
+                employeeListEmployee.setDegree(degree);
+                employeeListEmployee = em.merge(employeeListEmployee);
+                if (oldDegreeOfEmployeeListEmployee != null) {
+                    oldDegreeOfEmployeeListEmployee.getEmployeeList().remove(employeeListEmployee);
+                    oldDegreeOfEmployeeListEmployee = em.merge(oldDegreeOfEmployeeListEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -72,30 +71,30 @@ public class DegreeJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Degree persistentDegree = em.find(Degree.class, degree.getId());
-            Collection<Employee> employeeCollectionOld = persistentDegree.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = degree.getEmployeeCollection();
-            Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
-            for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
-                employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
-                attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
+            List<Employee> employeeListOld = persistentDegree.getEmployeeList();
+            List<Employee> employeeListNew = degree.getEmployeeList();
+            List<Employee> attachedEmployeeListNew = new ArrayList<Employee>();
+            for (Employee employeeListNewEmployeeToAttach : employeeListNew) {
+                employeeListNewEmployeeToAttach = em.getReference(employeeListNewEmployeeToAttach.getClass(), employeeListNewEmployeeToAttach.getId());
+                attachedEmployeeListNew.add(employeeListNewEmployeeToAttach);
             }
-            employeeCollectionNew = attachedEmployeeCollectionNew;
-            degree.setEmployeeCollection(employeeCollectionNew);
+            employeeListNew = attachedEmployeeListNew;
+            degree.setEmployeeList(employeeListNew);
             degree = em.merge(degree);
-            for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
-                if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
-                    employeeCollectionOldEmployee.setDegree(null);
-                    employeeCollectionOldEmployee = em.merge(employeeCollectionOldEmployee);
+            for (Employee employeeListOldEmployee : employeeListOld) {
+                if (!employeeListNew.contains(employeeListOldEmployee)) {
+                    employeeListOldEmployee.setDegree(null);
+                    employeeListOldEmployee = em.merge(employeeListOldEmployee);
                 }
             }
-            for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
-                if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    Degree oldDegreeOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getDegree();
-                    employeeCollectionNewEmployee.setDegree(degree);
-                    employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldDegreeOfEmployeeCollectionNewEmployee != null && !oldDegreeOfEmployeeCollectionNewEmployee.equals(degree)) {
-                        oldDegreeOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldDegreeOfEmployeeCollectionNewEmployee = em.merge(oldDegreeOfEmployeeCollectionNewEmployee);
+            for (Employee employeeListNewEmployee : employeeListNew) {
+                if (!employeeListOld.contains(employeeListNewEmployee)) {
+                    Degree oldDegreeOfEmployeeListNewEmployee = employeeListNewEmployee.getDegree();
+                    employeeListNewEmployee.setDegree(degree);
+                    employeeListNewEmployee = em.merge(employeeListNewEmployee);
+                    if (oldDegreeOfEmployeeListNewEmployee != null && !oldDegreeOfEmployeeListNewEmployee.equals(degree)) {
+                        oldDegreeOfEmployeeListNewEmployee.getEmployeeList().remove(employeeListNewEmployee);
+                        oldDegreeOfEmployeeListNewEmployee = em.merge(oldDegreeOfEmployeeListNewEmployee);
                     }
                 }
             }
@@ -128,10 +127,10 @@ public class DegreeJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The degree with id " + id + " no longer exists.", enfe);
             }
-            Collection<Employee> employeeCollection = degree.getEmployeeCollection();
-            for (Employee employeeCollectionEmployee : employeeCollection) {
-                employeeCollectionEmployee.setDegree(null);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
+            List<Employee> employeeList = degree.getEmployeeList();
+            for (Employee employeeListEmployee : employeeList) {
+                employeeListEmployee.setDegree(null);
+                employeeListEmployee = em.merge(employeeListEmployee);
             }
             em.remove(degree);
             em.getTransaction().commit();

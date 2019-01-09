@@ -6,6 +6,7 @@
 package ims.dto;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -85,12 +86,12 @@ public class Employee implements Serializable {
     private double factorSalary;
     @Basic(optional = false)
     @Column(name = "Salary", nullable = false)
-    private int salary;
+    private long salary;
     @Basic(optional = false)
     @Column(name = "AllowedSalary", nullable = false)
-    private int allowedSalary;
+    private long allowedSalary;
     @Column(name = "LaborCode")
-    private Integer laborCode;
+    private BigInteger laborCode;
     @Column(name = "TakenLaborPlace", length = 50)
     private String takenLaborPlace;
     @Column(name = "TakenLaborDate")
@@ -100,6 +101,9 @@ public class Employee implements Serializable {
     private String bankId;
     @Column(name = "Bank", length = 50)
     private String bank;
+    @JoinColumn(name = "Learning", referencedColumnName = "id")
+    @ManyToOne
+    private Learning learning;
     @JoinColumn(name = "City", referencedColumnName = "idcity")
     @ManyToOne
     private City city;
@@ -115,6 +119,9 @@ public class Employee implements Serializable {
     @JoinColumn(name = "Position", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private EmployeePosition position;
+    @JoinColumn(name = "TypeStaff", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Typestaff typeStaff;
     @JoinColumn(name = "Folk", referencedColumnName = "id")
     @ManyToOne
     private Folk folk;
@@ -124,18 +131,12 @@ public class Employee implements Serializable {
     @JoinColumn(name = "Job", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Job job;
-    @JoinColumn(name = "Learning", referencedColumnName = "id")
-    @ManyToOne
-    private Learning learning;
     @JoinColumn(name = "Nationality", referencedColumnName = "id")
     @ManyToOne
     private Nationality nationality;
     @JoinColumn(name = "Religion", referencedColumnName = "id")
     @ManyToOne
     private Religion religion;
-    @JoinColumn(name = "TypeStaff", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private Typestaff typeStaff;
 
     public Employee() {
     }
@@ -144,7 +145,7 @@ public class Employee implements Serializable {
         this.id = id;
     }
 
-    public Employee(String id, String fullName, boolean gender, boolean marries, Date startDate, long baseSalary, double factorSalary, int salary, int allowedSalary) {
+    public Employee(String id, String fullName, boolean gender, boolean marries, Date startDate, long baseSalary, double factorSalary, long salary, long allowedSalary) {
         this.id = id;
         this.fullName = fullName;
         this.gender = gender;
@@ -308,27 +309,27 @@ public class Employee implements Serializable {
         this.factorSalary = factorSalary;
     }
 
-    public int getSalary() {
+    public long getSalary() {
         return salary;
     }
 
-    public void setSalary(int salary) {
+    public void setSalary(long salary) {
         this.salary = salary;
     }
 
-    public int getAllowedSalary() {
+    public long getAllowedSalary() {
         return allowedSalary;
     }
 
-    public void setAllowedSalary(int allowedSalary) {
+    public void setAllowedSalary(long allowedSalary) {
         this.allowedSalary = allowedSalary;
     }
 
-    public Integer getLaborCode() {
+    public BigInteger getLaborCode() {
         return laborCode;
     }
 
-    public void setLaborCode(Integer laborCode) {
+    public void setLaborCode(BigInteger laborCode) {
         this.laborCode = laborCode;
     }
 
@@ -362,6 +363,14 @@ public class Employee implements Serializable {
 
     public void setBank(String bank) {
         this.bank = bank;
+    }
+
+    public Learning getLearning() {
+        return learning;
+    }
+
+    public void setLearning(Learning learning) {
+        this.learning = learning;
     }
 
     public City getCity() {
@@ -404,6 +413,14 @@ public class Employee implements Serializable {
         this.position = position;
     }
 
+    public Typestaff getTypeStaff() {
+        return typeStaff;
+    }
+
+    public void setTypeStaff(Typestaff typeStaff) {
+        this.typeStaff = typeStaff;
+    }
+
     public Folk getFolk() {
         return folk;
     }
@@ -428,14 +445,6 @@ public class Employee implements Serializable {
         this.job = job;
     }
 
-    public Learning getLearning() {
-        return learning;
-    }
-
-    public void setLearning(Learning learning) {
-        this.learning = learning;
-    }
-
     public Nationality getNationality() {
         return nationality;
     }
@@ -450,14 +459,6 @@ public class Employee implements Serializable {
 
     public void setReligion(Religion religion) {
         this.religion = religion;
-    }
-
-    public Typestaff getTypeStaff() {
-        return typeStaff;
-    }
-
-    public void setTypeStaff(Typestaff typeStaff) {
-        this.typeStaff = typeStaff;
     }
 
     @Override

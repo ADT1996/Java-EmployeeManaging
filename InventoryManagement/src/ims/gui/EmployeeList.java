@@ -58,7 +58,7 @@ public class EmployeeList extends javax.swing.JFrame implements WindowListener{
         jSeparator2 = new javax.swing.JToolBar.Separator();
         btnDelete = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
-        jButton4 = new javax.swing.JButton();
+        btnDetail = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
         btnExit = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -100,11 +100,11 @@ public class EmployeeList extends javax.swing.JFrame implements WindowListener{
         jToolBar1.add(btnDelete);
         jToolBar1.add(jSeparator3);
 
-        jButton4.setText("In");
-        jButton4.setFocusable(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton4);
+        btnDetail.setText("Xem chi tiết");
+        btnDetail.setFocusable(false);
+        btnDetail.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDetail.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(btnDetail);
         jToolBar1.add(jSeparator4);
 
         btnExit.setText("Thoát");
@@ -172,7 +172,7 @@ public class EmployeeList extends javax.swing.JFrame implements WindowListener{
         int pos = tbEmployees.getSelectedRow();
         if(pos != -1) {
             ims.gui.Employee emGui= new ims.gui.Employee(employees.get(pos),ims.gui.Employee.ACTION.EDIT);
-        emGui.setVisible(true);
+            emGui.setVisible(true);
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
@@ -215,10 +215,10 @@ public class EmployeeList extends javax.swing.JFrame implements WindowListener{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDetail;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnNew;
-    private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;

@@ -96,13 +96,6 @@ public final class Employee extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        btNew = new javax.swing.JButton();
-        btEdit = new javax.swing.JButton();
-        btDelete = new javax.swing.JButton();
-        btPrint = new javax.swing.JButton();
-        btClose = new javax.swing.JButton();
-        btSave = new javax.swing.JButton();
-        btCancel = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLayeredPane2 = new javax.swing.JLayeredPane();
         jLabel17 = new javax.swing.JLabel();
@@ -141,8 +134,6 @@ public final class Employee extends javax.swing.JFrame {
         txtNativeLand = new javax.swing.JTextField();
         txtMobie = new javax.swing.JTextField();
         txtPhone = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        jLayeredPane1 = new javax.swing.JLayeredPane();
         jLabel1 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
@@ -194,6 +185,13 @@ public final class Employee extends javax.swing.JFrame {
         txtAllowance = new javax.swing.JFormattedTextField();
         txtTakenLaborPlace = new javax.swing.JTextField();
         txtNumberLabor = new javax.swing.JFormattedTextField();
+        btNew = new javax.swing.JButton();
+        btEdit = new javax.swing.JButton();
+        btDelete = new javax.swing.JButton();
+        btPrint = new javax.swing.JButton();
+        btClose = new javax.swing.JButton();
+        btSave = new javax.swing.JButton();
+        btCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -202,49 +200,10 @@ public final class Employee extends javax.swing.JFrame {
             }
         });
 
-        btNew.setText("Thêm");
-        btNew.setPreferredSize(new java.awt.Dimension(75, 23));
-        btNew.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btNewActionPerformed(evt);
-            }
-        });
-
-        btEdit.setText("Sửa");
-        btEdit.setPreferredSize(new java.awt.Dimension(75, 23));
-        btEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btEditActionPerformed(evt);
-            }
-        });
-
-        btDelete.setText("Xóa");
-        btDelete.setPreferredSize(new java.awt.Dimension(75, 23));
-
-        btPrint.setText("In");
-        btPrint.setPreferredSize(new java.awt.Dimension(75, 23));
-
-        btClose.setText("Thoát");
-        btClose.setPreferredSize(new java.awt.Dimension(75, 23));
-
-        btSave.setText("Ghi");
-        btSave.setPreferredSize(new java.awt.Dimension(75, 23));
-        btSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btSaveActionPerformed(evt);
-            }
-        });
-
-        btCancel.setText("Hủy");
-        btCancel.setPreferredSize(new java.awt.Dimension(75, 23));
-        btCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btCancelActionPerformed(evt);
-            }
-        });
-
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        jPanel1.setPreferredSize(new java.awt.Dimension(998, 231));
 
+        jLayeredPane2.setPreferredSize(new java.awt.Dimension(996, 229));
         jLayeredPane2.setLayout(new java.awt.GridBagLayout());
 
         jLabel17.setBackground(new java.awt.Color(0, 240, 240));
@@ -254,15 +213,25 @@ public final class Employee extends javax.swing.JFrame {
         jLabel17.setText("Thông tin cá nhân");
         jLabel17.setToolTipText("");
         jLabel17.setAlignmentY(0.0F);
+        jLabel17.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.gridwidth = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 7;
         jLayeredPane2.add(jLabel17, gridBagConstraints);
 
         jLabel18.setText("Mã nhân viên");
+        jLabel18.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -270,6 +239,12 @@ public final class Employee extends javax.swing.JFrame {
         gridBagConstraints.ipady = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jLayeredPane2.add(jLabel18, gridBagConstraints);
+
+        txtEmployeeCode.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -278,12 +253,23 @@ public final class Employee extends javax.swing.JFrame {
         jLayeredPane2.add(txtEmployeeCode, gridBagConstraints);
 
         jLabel19.setText(" Họ tên");
+        jLabel19.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jLayeredPane2.add(jLabel19, gridBagConstraints);
+
+        txtFullName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 2;
@@ -292,32 +278,58 @@ public final class Employee extends javax.swing.JFrame {
         jLayeredPane2.add(txtFullName, gridBagConstraints);
 
         jLabel20.setText(" Bí danh");
+        jLabel20.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.ipadx = 40;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jLayeredPane2.add(jLabel20, gridBagConstraints);
+
+        txtNickName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 150;
         jLayeredPane2.add(txtNickName, gridBagConstraints);
 
         chbGender.setText("Nữ");
+        chbGender.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridx = 9;
         gridBagConstraints.gridy = 2;
         jLayeredPane2.add(chbGender, gridBagConstraints);
 
         chbMarried.setText("Có gia đình");
+        chbMarried.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 9;
+        gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 2;
         jLayeredPane2.add(chbMarried, gridBagConstraints);
 
         jLabel21.setText("Di động");
+        jLabel21.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -326,6 +338,11 @@ public final class Employee extends javax.swing.JFrame {
         jLayeredPane2.add(jLabel21, gridBagConstraints);
 
         jLabel22.setText(" Điện thoại nhà");
+        jLabel22.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
@@ -333,19 +350,35 @@ public final class Employee extends javax.swing.JFrame {
         jLayeredPane2.add(jLabel22, gridBagConstraints);
 
         jLabel23.setText(" Địa chỉ Email");
+        jLabel23.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jLayeredPane2.add(jLabel23, gridBagConstraints);
+
+        txtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(txtEmail, gridBagConstraints);
 
         jLabel24.setText("Ngày sinh");
+        jLabel24.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -355,14 +388,23 @@ public final class Employee extends javax.swing.JFrame {
 
         txtBirthDay.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd-MM-yyyy"))));
         txtBirthDay.setToolTipText("MM/dd/yy");
+        txtBirthDay.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(txtBirthDay, gridBagConstraints);
-        txtBirthDay.getAccessibleContext().setAccessibleDescription("");
 
         jLabel25.setText(" Nơi sinh");
+        jLabel25.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 4;
@@ -370,6 +412,11 @@ public final class Employee extends javax.swing.JFrame {
         jLayeredPane2.add(jLabel25, gridBagConstraints);
 
         jLabel26.setText(" Tỉnh thành");
+        jLabel26.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 4;
@@ -380,14 +427,24 @@ public final class Employee extends javax.swing.JFrame {
             new CityBLL().findCityEntities()
         ));
         combCity.setToolTipText("");
+        combCity.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(combCity, gridBagConstraints);
 
         jLabel27.setText("CMND");
+        jLabel27.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -397,6 +454,11 @@ public final class Employee extends javax.swing.JFrame {
 
         txtPersonCode.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         txtPersonCode.setToolTipText("Chỉ nhập số");
+        txtPersonCode.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
@@ -404,6 +466,11 @@ public final class Employee extends javax.swing.JFrame {
         jLayeredPane2.add(txtPersonCode, gridBagConstraints);
 
         jLabel28.setText(" Ngày cấp");
+        jLabel28.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 5;
@@ -412,6 +479,11 @@ public final class Employee extends javax.swing.JFrame {
 
         txtTakenCodeDay.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd-MM-yyyy"))));
         txtTakenCodeDay.setToolTipText("MM/dd/yy");
+        txtTakenCodeDay.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 5;
@@ -419,6 +491,11 @@ public final class Employee extends javax.swing.JFrame {
         jLayeredPane2.add(txtTakenCodeDay, gridBagConstraints);
 
         jLabel29.setText(" Nơi cấp");
+        jLabel29.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 5;
@@ -426,6 +503,11 @@ public final class Employee extends javax.swing.JFrame {
         jLayeredPane2.add(jLabel29, gridBagConstraints);
 
         jLabel30.setText("Quê quán");
+        jLabel30.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -434,6 +516,11 @@ public final class Employee extends javax.swing.JFrame {
         jLayeredPane2.add(jLabel30, gridBagConstraints);
 
         jLabel31.setText("Địa chỉ");
+        jLabel31.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -442,33 +529,61 @@ public final class Employee extends javax.swing.JFrame {
         jLayeredPane2.add(jLabel31, gridBagConstraints);
 
         jLabel32.setText("Tạm trú");
+        jLabel32.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jLayeredPane2.add(jLabel32, gridBagConstraints);
+
+        txtAddress.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 8;
+        gridBagConstraints.gridwidth = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(txtAddress, gridBagConstraints);
+
+        txtTabernacle.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 8;
+        gridBagConstraints.gridwidth = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(txtTabernacle, gridBagConstraints);
+
+        jSeparator1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 10;
+        gridBagConstraints.gridwidth = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(jSeparator1, gridBagConstraints);
 
         jLabel46.setForeground(new java.awt.Color(255, 0, 0));
         jLabel46.setText("(*)");
+        jLabel46.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -478,280 +593,422 @@ public final class Employee extends javax.swing.JFrame {
 
         jLabel47.setForeground(new java.awt.Color(255, 0, 0));
         jLabel47.setText("(*)");
+        jLabel47.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 20;
         jLayeredPane2.add(jLabel47, gridBagConstraints);
+
+        txtBirthPlace.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(txtBirthPlace, gridBagConstraints);
+
+        txtTakenCodePlace.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(txtTakenCodePlace, gridBagConstraints);
+
+        txtNativeLand.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 8;
+        gridBagConstraints.gridwidth = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(txtNativeLand, gridBagConstraints);
+
+        txtMobie.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(txtMobie, gridBagConstraints);
+
+        txtPhone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jLayeredPane2.add(txtPhone, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLayeredPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 229, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addComponent(jLayeredPane2)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-
-        jLayeredPane1.setLayout(new java.awt.GridBagLayout());
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 30, 150));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Thông tin công việc");
+        jLabel1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridwidth = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 7;
-        jLayeredPane1.add(jLabel1, gridBagConstraints);
+        jLayeredPane2.add(jLabel1, gridBagConstraints);
+
+        jSeparator2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 4;
-        jLayeredPane1.add(jSeparator2, gridBagConstraints);
+        jLayeredPane2.add(jSeparator2, gridBagConstraints);
 
         jLabel2.setText("Loại nhân viên");
+        jLabel2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 15;
         gridBagConstraints.ipady = 15;
-        jLayeredPane1.add(jLabel2, gridBagConstraints);
+        jLayeredPane2.add(jLabel2, gridBagConstraints);
 
         combTypeStaff.setModel(new DefaultComboBoxModel(
             new TypeStaffBLL()
             .findTypeStaffEntities()
         ));
         combTypeStaff.setToolTipText("");
+        combTypeStaff.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 50;
-        jLayeredPane1.add(combTypeStaff, gridBagConstraints);
+        jLayeredPane2.add(combTypeStaff, gridBagConstraints);
 
         jLabel3.setText(" Ngày vào làm");
+        jLabel3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 25;
-        jLayeredPane1.add(jLabel3, gridBagConstraints);
+        jLayeredPane2.add(jLabel3, gridBagConstraints);
 
         txtDateStart.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd-MM-yyyy"))));
+        txtDateStart.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 100;
-        jLayeredPane1.add(txtDateStart, gridBagConstraints);
+        jLayeredPane2.add(txtDateStart, gridBagConstraints);
 
         jLabel4.setText(" Phòng ban");
+        jLabel4.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 15;
-        jLayeredPane1.add(jLabel4, gridBagConstraints);
+        jLayeredPane2.add(jLabel4, gridBagConstraints);
 
         combDeparment.setModel(new DefaultComboBoxModel(
             new DeparmentBLL()
             .findDeparmentEntities()
         ));
         combDeparment.setToolTipText("");
+        combDeparment.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jLayeredPane1.add(combDeparment, gridBagConstraints);
+        jLayeredPane2.add(combDeparment, gridBagConstraints);
 
         jLabel5.setText("Công việc");
+        jLabel5.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel17FocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 15;
-        jLayeredPane1.add(jLabel5, gridBagConstraints);
+        jLayeredPane2.add(jLabel5, gridBagConstraints);
 
         combJob.setModel(new DefaultComboBoxModel(
             new JobBLL().findJobEntities()
         )
     );
+    combJob.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
-    gridBagConstraints.gridy = 3;
+    gridBagConstraints.gridy = 13;
     gridBagConstraints.gridwidth = 4;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(combJob, gridBagConstraints);
+    jLayeredPane2.add(combJob, gridBagConstraints);
 
     jLabel6.setText(" Chức vụ");
+    jLabel6.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 6;
-    gridBagConstraints.gridy = 3;
+    gridBagConstraints.gridy = 13;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(jLabel6, gridBagConstraints);
+    jLayeredPane2.add(jLabel6, gridBagConstraints);
 
     combPosition.setModel(new DefaultComboBoxModel(
         new PositionBLL()
         .findEmployeePositionEntities()
     ));
+    combPosition.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
-    gridBagConstraints.gridy = 3;
+    gridBagConstraints.gridy = 13;
     gridBagConstraints.gridwidth = 3;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(combPosition, gridBagConstraints);
+    jLayeredPane2.add(combPosition, gridBagConstraints);
 
     jLabel7.setText("Mức lương CB");
+    jLabel7.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridy = 14;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipady = 15;
-    jLayeredPane1.add(jLabel7, gridBagConstraints);
+    jLayeredPane2.add(jLabel7, gridBagConstraints);
 
     jLabel8.setText(" Hệ số");
+    jLabel8.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 3;
-    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridy = 14;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(jLabel8, gridBagConstraints);
+    jLayeredPane2.add(jLabel8, gridBagConstraints);
 
-    txtCoefficient.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
+    txtCoefficient.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
     txtCoefficient.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-    txtCoefficient.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyReleased(java.awt.event.KeyEvent evt) {
-            txtCoefficientKeyReleased(evt);
+    txtCoefficient.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            txtCoefficientFocusGained(evt);
         }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 5;
-    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridy = 14;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(txtCoefficient, gridBagConstraints);
+    jLayeredPane2.add(txtCoefficient, gridBagConstraints);
 
     jLabel9.setText(" Mức lương");
+    jLabel9.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 6;
-    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridy = 14;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(jLabel9, gridBagConstraints);
+    jLayeredPane2.add(jLabel9, gridBagConstraints);
 
     jLabel10.setText(" Phụ cấp lương");
+    jLabel10.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 9;
-    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridy = 14;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipadx = 15;
-    jLayeredPane1.add(jLabel10, gridBagConstraints);
+    jLayeredPane2.add(jLabel10, gridBagConstraints);
 
     jLabel11.setText("Số sổ lao động");
+    jLabel11.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridy = 15;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipady = 15;
-    jLayeredPane1.add(jLabel11, gridBagConstraints);
+    jLayeredPane2.add(jLabel11, gridBagConstraints);
 
     jLabel12.setText(" Ngày cấp");
+    jLabel12.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 3;
-    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridy = 15;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(jLabel12, gridBagConstraints);
+    jLayeredPane2.add(jLabel12, gridBagConstraints);
 
     txtTakenLaborDay.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd-MM-yyyy"))));
+    txtTakenLaborDay.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 5;
-    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridy = 15;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(txtTakenLaborDay, gridBagConstraints);
+    jLayeredPane2.add(txtTakenLaborDay, gridBagConstraints);
 
     jLabel13.setText(" Nơi cấp");
+    jLabel13.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 6;
-    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridy = 15;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(jLabel13, gridBagConstraints);
+    jLayeredPane2.add(jLabel13, gridBagConstraints);
 
     jLabel14.setText("TK.Ngân hàng");
+    jLabel14.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 6;
+    gridBagConstraints.gridy = 16;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipady = 15;
-    jLayeredPane1.add(jLabel14, gridBagConstraints);
+    jLayeredPane2.add(jLabel14, gridBagConstraints);
+
+    txtIdBank.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
-    gridBagConstraints.gridy = 6;
+    gridBagConstraints.gridy = 16;
     gridBagConstraints.gridwidth = 4;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(txtIdBank, gridBagConstraints);
+    jLayeredPane2.add(txtIdBank, gridBagConstraints);
 
     jLabel15.setText(" Ngân hàng");
+    jLabel15.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 6;
-    gridBagConstraints.gridy = 6;
+    gridBagConstraints.gridy = 16;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(jLabel15, gridBagConstraints);
+    jLayeredPane2.add(jLabel15, gridBagConstraints);
+
+    txtBank.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
-    gridBagConstraints.gridy = 6;
+    gridBagConstraints.gridy = 16;
     gridBagConstraints.gridwidth = 3;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(txtBank, gridBagConstraints);
+    jLayeredPane2.add(txtBank, gridBagConstraints);
 
     jLabel16.setText("Học vấn");
+    jLabel16.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 7;
+    gridBagConstraints.gridy = 17;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipady = 15;
-    jLayeredPane1.add(jLabel16, gridBagConstraints);
+    jLayeredPane2.add(jLabel16, gridBagConstraints);
 
     combLearning.setModel(new DefaultComboBoxModel(
         new LearningBLL()
@@ -759,249 +1016,418 @@ public final class Employee extends javax.swing.JFrame {
     )
     );
     combLearning.setToolTipText("");
+    combLearning.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
-    gridBagConstraints.gridy = 7;
+    gridBagConstraints.gridy = 17;
     gridBagConstraints.gridwidth = 4;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(combLearning, gridBagConstraints);
+    jLayeredPane2.add(combLearning, gridBagConstraints);
 
     jLabel33.setText(" Bằng cấp");
+    jLabel33.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 6;
-    gridBagConstraints.gridy = 7;
+    gridBagConstraints.gridy = 17;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(jLabel33, gridBagConstraints);
+    jLayeredPane2.add(jLabel33, gridBagConstraints);
 
     combDegree.setModel(new DefaultComboBoxModel(
         new DegreeBLL()
         .findDegreeEntities()
     ));
     combDegree.setToolTipText("");
+    combDegree.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
-    gridBagConstraints.gridy = 7;
+    gridBagConstraints.gridy = 17;
     gridBagConstraints.gridwidth = 3;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(combDegree, gridBagConstraints);
+    jLayeredPane2.add(combDegree, gridBagConstraints);
 
     jLabel34.setText("Ngoại ngữ");
+    jLabel34.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 8;
+    gridBagConstraints.gridy = 18;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipady = 15;
-    jLayeredPane1.add(jLabel34, gridBagConstraints);
+    jLayeredPane2.add(jLabel34, gridBagConstraints);
 
     combForeignLanguage.setModel(new DefaultComboBoxModel(
         new ForeignLanguageBLL()
         .findForeignlanguageEntities()
     ));
     combForeignLanguage.setToolTipText("");
+    combForeignLanguage.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
-    gridBagConstraints.gridy = 8;
+    gridBagConstraints.gridy = 18;
     gridBagConstraints.gridwidth = 4;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(combForeignLanguage, gridBagConstraints);
+    jLayeredPane2.add(combForeignLanguage, gridBagConstraints);
 
     jLabel35.setText(" Tin học");
+    jLabel35.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 6;
-    gridBagConstraints.gridy = 8;
+    gridBagConstraints.gridy = 18;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(jLabel35, gridBagConstraints);
+    jLayeredPane2.add(jLabel35, gridBagConstraints);
 
     combComputing.setModel(new DefaultComboBoxModel(
         new ComputingBLL()
         .findComputingEntities()
     ));
     combComputing.setToolTipText("");
+    combComputing.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
-    gridBagConstraints.gridy = 8;
+    gridBagConstraints.gridy = 18;
     gridBagConstraints.gridwidth = 3;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(combComputing, gridBagConstraints);
+    jLayeredPane2.add(combComputing, gridBagConstraints);
 
     jLabel36.setText("Dân tộc");
+    jLabel36.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 9;
+    gridBagConstraints.gridy = 19;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipady = 15;
-    jLayeredPane1.add(jLabel36, gridBagConstraints);
+    jLayeredPane2.add(jLabel36, gridBagConstraints);
 
     combFolk.setModel(new DefaultComboBoxModel(
         new FolkBLL()
         .findFolkEntities()
     ));
     combFolk.setToolTipText("");
+    combFolk.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
-    gridBagConstraints.gridy = 9;
+    gridBagConstraints.gridy = 19;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(combFolk, gridBagConstraints);
+    jLayeredPane2.add(combFolk, gridBagConstraints);
 
     jLabel37.setText(" Quốc tịch");
+    jLabel37.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 3;
-    gridBagConstraints.gridy = 9;
+    gridBagConstraints.gridy = 19;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(jLabel37, gridBagConstraints);
+    jLayeredPane2.add(jLabel37, gridBagConstraints);
 
     combNationality.setModel(new DefaultComboBoxModel(
         new NationalityBLL()
         .findNationalityEntities()
     ));
     combNationality.setToolTipText("");
+    combNationality.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 5;
-    gridBagConstraints.gridy = 9;
+    gridBagConstraints.gridy = 19;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(combNationality, gridBagConstraints);
+    jLayeredPane2.add(combNationality, gridBagConstraints);
 
     jLabel38.setText(" Tôn giáo");
+    jLabel38.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 6;
-    gridBagConstraints.gridy = 9;
+    gridBagConstraints.gridy = 19;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(jLabel38, gridBagConstraints);
+    jLayeredPane2.add(jLabel38, gridBagConstraints);
 
     combReligion.setModel(new DefaultComboBoxModel(
         new ReligionBLL()
         .findReligionEntities()
     ));
     combReligion.setToolTipText("");
+    combReligion.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
-    gridBagConstraints.gridy = 9;
+    gridBagConstraints.gridy = 19;
     gridBagConstraints.gridwidth = 3;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(combReligion, gridBagConstraints);
+    jLayeredPane2.add(combReligion, gridBagConstraints);
 
     jLabel39.setForeground(new java.awt.Color(255, 0, 0));
     jLabel39.setText("(*)");
+    jLabel39.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 1;
-    gridBagConstraints.gridy = 2;
+    gridBagConstraints.gridy = 12;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipadx = 20;
-    jLayeredPane1.add(jLabel39, gridBagConstraints);
+    jLayeredPane2.add(jLabel39, gridBagConstraints);
 
     jLabel40.setForeground(new java.awt.Color(255, 0, 0));
     jLabel40.setText("(*)");
+    jLabel40.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 1;
-    gridBagConstraints.gridy = 3;
+    gridBagConstraints.gridy = 13;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(jLabel40, gridBagConstraints);
+    jLayeredPane2.add(jLabel40, gridBagConstraints);
 
     jLabel41.setForeground(new java.awt.Color(255, 0, 0));
     jLabel41.setText("(*)");
+    jLabel41.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 1;
-    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridy = 14;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(jLabel41, gridBagConstraints);
+    jLayeredPane2.add(jLabel41, gridBagConstraints);
 
     jLabel42.setForeground(new java.awt.Color(255, 0, 0));
     jLabel42.setText("(*)");
+    jLabel42.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 4;
-    gridBagConstraints.gridy = 2;
+    gridBagConstraints.gridy = 12;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipadx = 20;
-    jLayeredPane1.add(jLabel42, gridBagConstraints);
+    jLayeredPane2.add(jLabel42, gridBagConstraints);
 
     jLabel43.setForeground(new java.awt.Color(255, 0, 0));
     jLabel43.setText("(*)");
+    jLabel43.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 4;
-    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridy = 14;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(jLabel43, gridBagConstraints);
+    jLayeredPane2.add(jLabel43, gridBagConstraints);
 
     jLabel44.setForeground(new java.awt.Color(255, 0, 0));
     jLabel44.setText("(*)");
+    jLabel44.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 7;
-    gridBagConstraints.gridy = 2;
+    gridBagConstraints.gridy = 12;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipadx = 20;
-    jLayeredPane1.add(jLabel44, gridBagConstraints);
+    jLayeredPane2.add(jLabel44, gridBagConstraints);
 
     jLabel45.setForeground(new java.awt.Color(255, 0, 0));
     jLabel45.setText("(*)");
+    jLabel45.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 7;
-    gridBagConstraints.gridy = 3;
+    gridBagConstraints.gridy = 13;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(jLabel45, gridBagConstraints);
+    jLayeredPane2.add(jLabel45, gridBagConstraints);
 
-    txtBaseSalary.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+    txtBaseSalary.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
     txtBaseSalary.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-    txtBaseSalary.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyReleased(java.awt.event.KeyEvent evt) {
-            txtBaseSalaryKeyReleased(evt);
+    txtBaseSalary.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            txtBaseSalaryFocusGained(evt);
         }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
-    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridy = 14;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipadx = 100;
-    jLayeredPane1.add(txtBaseSalary, gridBagConstraints);
+    jLayeredPane2.add(txtBaseSalary, gridBagConstraints);
 
     txtSalary.setEditable(false);
-    txtSalary.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+    txtSalary.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
     txtSalary.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+    txtSalary.setFocusable(false);
+    txtSalary.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
-    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridy = 14;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipadx = 100;
-    jLayeredPane1.add(txtSalary, gridBagConstraints);
+    jLayeredPane2.add(txtSalary, gridBagConstraints);
 
-    txtAllowance.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+    txtAllowance.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
     txtAllowance.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+    txtAllowance.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 10;
-    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridy = 14;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.ipadx = 100;
-    jLayeredPane1.add(txtAllowance, gridBagConstraints);
+    jLayeredPane2.add(txtAllowance, gridBagConstraints);
+
+    txtTakenLaborPlace.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 8;
-    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridy = 15;
     gridBagConstraints.gridwidth = 3;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(txtTakenLaborPlace, gridBagConstraints);
+    jLayeredPane2.add(txtTakenLaborPlace, gridBagConstraints);
 
     txtNumberLabor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+    txtNumberLabor.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            jLabel17FocusGained(evt);
+        }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
-    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridy = 15;
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-    jLayeredPane1.add(txtNumberLabor, gridBagConstraints);
+    jLayeredPane2.add(txtNumberLabor, gridBagConstraints);
 
-    javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-    jPanel2.setLayout(jPanel2Layout);
-    jPanel2Layout.setHorizontalGroup(
-        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jLayeredPane1)
+    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+    jPanel1.setLayout(jPanel1Layout);
+    jPanel1Layout.setHorizontalGroup(
+        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 1037, Short.MAX_VALUE)
+        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLayeredPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1037, Short.MAX_VALUE))
     );
-    jPanel2Layout.setVerticalGroup(
-        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+    jPanel1Layout.setVerticalGroup(
+        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 489, Short.MAX_VALUE)
+        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLayeredPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)))
     );
+
+    btNew.setText("Thêm");
+    btNew.setPreferredSize(new java.awt.Dimension(75, 23));
+    btNew.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btNewActionPerformed(evt);
+        }
+    });
+
+    btEdit.setText("Sửa");
+    btEdit.setPreferredSize(new java.awt.Dimension(75, 23));
+    btEdit.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btEditActionPerformed(evt);
+        }
+    });
+
+    btDelete.setText("Xóa");
+    btDelete.setPreferredSize(new java.awt.Dimension(75, 23));
+
+    btPrint.setText("In");
+    btPrint.setPreferredSize(new java.awt.Dimension(75, 23));
+
+    btClose.setText("Thoát");
+    btClose.setPreferredSize(new java.awt.Dimension(75, 23));
+
+    btSave.setText("Ghi");
+    btSave.setPreferredSize(new java.awt.Dimension(75, 23));
+    btSave.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btSaveActionPerformed(evt);
+        }
+    });
+
+    btCancel.setText("Hủy");
+    btCancel.setPreferredSize(new java.awt.Dimension(75, 23));
+    btCancel.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btCancelActionPerformed(evt);
+        }
+    });
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addContainerGap(321, Short.MAX_VALUE)
+            .addContainerGap(451, Short.MAX_VALUE)
             .addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(btCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1016,16 +1442,13 @@ public final class Employee extends javax.swing.JFrame {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(btClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addContainerGap())
-        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1039, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 519, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(btPrint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1036,6 +1459,10 @@ public final class Employee extends javax.swing.JFrame {
                     .addComponent(btCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addContainerGap())
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 62, Short.MAX_VALUE)))
     );
 
     pack();
@@ -1109,41 +1536,36 @@ public final class Employee extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
-    private void calSalary(java.awt.event.KeyEvent evt) {
-        try {
-            // TODO add your handling code here:
-            if (('0' <= evt.getKeyChar() && evt.getKeyChar() <= '9')
-                    || evt.getKeyChar() == KeyEvent.VK_DELETE
-                    || evt.getKeyChar() == KeyEvent.VK_BACK_SPACE
-                    || evt.getKeyChar() == KeyEvent.VK_ENTER
-                    || evt.getKeyChar() == KeyEvent.VK_ESCAPE) {
-                
-                Long x = (Long) txtBaseSalary.getFormatter().stringToValue(txtBaseSalary.getText());
-                Object y = txtCoefficient.getFormatter().stringToValue(txtCoefficient.getText());
-                Object z;
-                if (y instanceof Long) {
-                    z = x * ((Long) y);
-                } else {
-                    z = (Double) y * x;
-                }
-                
-                String k = txtSalary.getFormatter().valueToString(z);
-                txtSalary.setText(k);
-            }
-        } catch (ParseException ex) {
-            Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
+    private void txtBaseSalaryFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBaseSalaryFocusGained
+        // TODO add your handling code here:
+        calSalary();
+    }//GEN-LAST:event_txtBaseSalaryFocusGained
+
+    private void txtCoefficientFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCoefficientFocusGained
+        // TODO add your handling code here:
+        calSalary();
+    }//GEN-LAST:event_txtCoefficientFocusGained
+
+    private void jLabel17FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jLabel17FocusGained
+        // TODO add your handling code here:
+        calSalary();
+    }//GEN-LAST:event_jLabel17FocusGained
+
+    private void calSalary() {
+        Long x = (Long) txtBaseSalary.getValue();
+        Object y = txtCoefficient.getValue();
+        Double k = null;
+
+        if (y instanceof Long) {
+            Long z = (Long) y;
+            k = z.doubleValue() * x;
+        } else {
+            Double z = (Double) y;
+            k = z * x;
         }
+        txtSalary.setValue(k.longValue());
     }
     
-    private void txtBaseSalaryKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBaseSalaryKeyReleased
-        calSalary(evt);
-    }//GEN-LAST:event_txtBaseSalaryKeyReleased
-
-    private void txtCoefficientKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCoefficientKeyReleased
-        // TODO add your handling code here:
-        calSalary(evt);
-    }//GEN-LAST:event_txtCoefficientKeyReleased
-
     /**
      * @param args the command line arguments
      */
@@ -1205,7 +1627,14 @@ public final class Employee extends javax.swing.JFrame {
         employee.setJob((Job) combJob.getSelectedItem());
         employee.setPosition((EmployeePosition) combPosition.getSelectedItem());
         employee.setBaseSalary((long) txtBaseSalary.getValue());
-        employee.setFactorSalary((double) txtCoefficient.getValue());
+        Object fact = txtCoefficient.getValue();
+        if(fact instanceof Long) {
+            Long factLong = (Long) fact;
+            employee.setFactorSalary(factLong.longValue());
+        } else {
+            Double factLong = (Double) fact;
+            employee.setFactorSalary(factLong.doubleValue());
+        }
         employee.setSalary((int) txtSalary.getValue());
         employee.setAllowedSalary((int) txtAllowance.getValue());
         employee.setBaseSalary((long) txtNumberLabor.getValue());
@@ -1274,24 +1703,24 @@ public final class Employee extends javax.swing.JFrame {
         txtMobie.setText(UtilClass.EMPTY_STRING);
         txtPhone.setText(UtilClass.EMPTY_STRING);
         txtEmail.setText(UtilClass.EMPTY_STRING);
-        txtBirthDay.setText(UtilClass.EMPTY_STRING);
+        txtBirthDay.setValue(UtilClass.NOTVALUE);
         txtBirthPlace.setText(UtilClass.EMPTY_STRING);
         combCity.setSelectedItem(UtilClass.NOSELECTEDITEM);
-        txtPersonCode.setText(UtilClass.EMPTY_STRING);
-        txtTakenCodeDay.setText(UtilClass.EMPTY_STRING);
+        txtPersonCode.setValue(UtilClass.NOTVALUE);
+        txtTakenCodeDay.setValue(UtilClass.NOTVALUE);
         txtTakenCodePlace.setText(UtilClass.EMPTY_STRING);
         txtNativeLand.setText(UtilClass.EMPTY_STRING);
         txtAddress.setText(UtilClass.EMPTY_STRING);
         txtTabernacle.setText(UtilClass.EMPTY_STRING);
         combTypeStaff.setSelectedItem(UtilClass.NOSELECTEDITEM);
-        txtDateStart.setText(UtilClass.EMPTY_STRING);
+        txtDateStart.setValue(UtilClass.NOTVALUE);
         combDeparment.setSelectedItem(UtilClass.NOSELECTEDITEM);
         combJob.setSelectedItem(UtilClass.NOSELECTEDITEM);
         combPosition.setSelectedItem(UtilClass.NOSELECTEDITEM);
-        txtBaseSalary.setText("0");
-        txtCoefficient.setText("1.00");
-        txtSalary.setText("0");
-        txtAllowance.setText("0");
+        txtBaseSalary.setValue(0l);
+        txtCoefficient.setValue(1.00d);
+        txtSalary.setValue(0l);
+        txtAllowance.setValue(0l);
         txtNumberLabor.setText(UtilClass.EMPTY_STRING);
         txtTakenLaborDay.setText(UtilClass.EMPTY_STRING);
         txtTakenLaborPlace.setText(UtilClass.EMPTY_STRING);
@@ -1308,14 +1737,6 @@ public final class Employee extends javax.swing.JFrame {
     
     private void loadEmployee(ims.dto.Employee employee) throws ParseException {
         
-        String birthDayString = txtBirthDay.getFormatter().valueToString(employee.getBirthDay());
-        String personCodeDay = txtTakenCodeDay.getFormatter().valueToString(employee.getTakenPCDate());
-        String startDate = txtDateStart.getFormatter().valueToString(employee.getStartDate());
-        String labordate = txtTakenLaborDay.getFormatter().valueToString(employee.getTakenLaborDate());
-        String salary = txtSalary.getFormatter().valueToString(employee.getSalary());
-        String factorySalary = txtCoefficient.getFormatter().valueToString(employee.getFactorSalary());
-        String baseLarary = txtBaseSalary.getFormatter().valueToString(employee.getBaseSalary());
-        
         txtEmployeeCode.setText(employee.getId());
         txtFullName.setText(employee.getFullName());
         txtNickName.setText(employee.getNickName());
@@ -1324,26 +1745,26 @@ public final class Employee extends javax.swing.JFrame {
         txtMobie.setText(employee.getMobieNumber());
         txtPhone.setText(employee.getPhone());
         txtEmail.setText(employee.getEmail());
-        txtBirthDay.setText(birthDayString);
+        txtBirthDay.setValue(employee.getBirthDay());
         txtBirthPlace.setText(employee.getBirthPlace());
         combCity.setSelectedItem(employee.getCity());
         txtPersonCode.setText(employee.getPersonCode());
-        txtTakenCodeDay.setText(personCodeDay);
+        txtTakenCodeDay.setValue(employee.getTakenPCDate());
         txtTakenCodePlace.setText(employee.getTakenPCPlace());
         txtNativeLand.setText(employee.getNativeLand());
         txtAddress.setText(employee.getAddress());
         txtTabernacle.setText(employee.getTabernacle());
         combTypeStaff.setSelectedItem(employee.getTypeStaff());
-        txtDateStart.setText(startDate);
+        txtDateStart.setValue(employee.getStartDate());
         combDeparment.setSelectedItem(employee.getDeparment());
         combJob.setSelectedItem(employee.getJob());
         combPosition.setSelectedItem(employee.getPosition());
-        txtBaseSalary.setText(baseLarary);
-        txtCoefficient.setText(factorySalary);
-        txtSalary.setText(salary);
+        txtBaseSalary.setValue(employee.getBaseSalary());
+        txtCoefficient.setValue(employee.getFactorSalary());
+        txtSalary.setValue(employee.getSalary());
         txtAllowance.setText(String.valueOf(employee.getAllowedSalary()));
         txtNumberLabor.setText(employee.getLaborCode().toString());
-        txtTakenLaborDay.setText(labordate);
+        txtTakenLaborDay.setValue(employee.getTakenLaborDate());
         txtTakenLaborPlace.setText(employee.getTakenLaborPlace());
         txtIdBank.setText(employee.getBankId());
         txtBank.setText(employee.getBank());
@@ -1425,10 +1846,8 @@ public final class Employee extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField txtAddress;

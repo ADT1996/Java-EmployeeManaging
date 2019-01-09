@@ -15,7 +15,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import ims.dto.Employee;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,27 +35,27 @@ public class DeparmentJpaController implements Serializable {
     }
 
     public void create(Deparment deparment) {
-        if (deparment.getEmployeeCollection() == null) {
-            deparment.setEmployeeCollection(new ArrayList<Employee>());
+        if (deparment.getEmployeeList() == null) {
+            deparment.setEmployeeList(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : deparment.getEmployeeCollection()) {
-                employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
-                attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
+            List<Employee> attachedEmployeeList = new ArrayList<Employee>();
+            for (Employee employeeListEmployeeToAttach : deparment.getEmployeeList()) {
+                employeeListEmployeeToAttach = em.getReference(employeeListEmployeeToAttach.getClass(), employeeListEmployeeToAttach.getId());
+                attachedEmployeeList.add(employeeListEmployeeToAttach);
             }
-            deparment.setEmployeeCollection(attachedEmployeeCollection);
+            deparment.setEmployeeList(attachedEmployeeList);
             em.persist(deparment);
-            for (Employee employeeCollectionEmployee : deparment.getEmployeeCollection()) {
-                Deparment oldDeparmentOfEmployeeCollectionEmployee = employeeCollectionEmployee.getDeparment();
-                employeeCollectionEmployee.setDeparment(deparment);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldDeparmentOfEmployeeCollectionEmployee != null) {
-                    oldDeparmentOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldDeparmentOfEmployeeCollectionEmployee = em.merge(oldDeparmentOfEmployeeCollectionEmployee);
+            for (Employee employeeListEmployee : deparment.getEmployeeList()) {
+                Deparment oldDeparmentOfEmployeeListEmployee = employeeListEmployee.getDeparment();
+                employeeListEmployee.setDeparment(deparment);
+                employeeListEmployee = em.merge(employeeListEmployee);
+                if (oldDeparmentOfEmployeeListEmployee != null) {
+                    oldDeparmentOfEmployeeListEmployee.getEmployeeList().remove(employeeListEmployee);
+                    oldDeparmentOfEmployeeListEmployee = em.merge(oldDeparmentOfEmployeeListEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -73,36 +72,36 @@ public class DeparmentJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Deparment persistentDeparment = em.find(Deparment.class, deparment.getId());
-            Collection<Employee> employeeCollectionOld = persistentDeparment.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = deparment.getEmployeeCollection();
+            List<Employee> employeeListOld = persistentDeparment.getEmployeeList();
+            List<Employee> employeeListNew = deparment.getEmployeeList();
             List<String> illegalOrphanMessages = null;
-            for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
-                if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
+            for (Employee employeeListOldEmployee : employeeListOld) {
+                if (!employeeListNew.contains(employeeListOldEmployee)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Employee " + employeeCollectionOldEmployee + " since its deparment field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Employee " + employeeListOldEmployee + " since its deparment field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
-            for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
-                employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
-                attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
+            List<Employee> attachedEmployeeListNew = new ArrayList<Employee>();
+            for (Employee employeeListNewEmployeeToAttach : employeeListNew) {
+                employeeListNewEmployeeToAttach = em.getReference(employeeListNewEmployeeToAttach.getClass(), employeeListNewEmployeeToAttach.getId());
+                attachedEmployeeListNew.add(employeeListNewEmployeeToAttach);
             }
-            employeeCollectionNew = attachedEmployeeCollectionNew;
-            deparment.setEmployeeCollection(employeeCollectionNew);
+            employeeListNew = attachedEmployeeListNew;
+            deparment.setEmployeeList(employeeListNew);
             deparment = em.merge(deparment);
-            for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
-                if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    Deparment oldDeparmentOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getDeparment();
-                    employeeCollectionNewEmployee.setDeparment(deparment);
-                    employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldDeparmentOfEmployeeCollectionNewEmployee != null && !oldDeparmentOfEmployeeCollectionNewEmployee.equals(deparment)) {
-                        oldDeparmentOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldDeparmentOfEmployeeCollectionNewEmployee = em.merge(oldDeparmentOfEmployeeCollectionNewEmployee);
+            for (Employee employeeListNewEmployee : employeeListNew) {
+                if (!employeeListOld.contains(employeeListNewEmployee)) {
+                    Deparment oldDeparmentOfEmployeeListNewEmployee = employeeListNewEmployee.getDeparment();
+                    employeeListNewEmployee.setDeparment(deparment);
+                    employeeListNewEmployee = em.merge(employeeListNewEmployee);
+                    if (oldDeparmentOfEmployeeListNewEmployee != null && !oldDeparmentOfEmployeeListNewEmployee.equals(deparment)) {
+                        oldDeparmentOfEmployeeListNewEmployee.getEmployeeList().remove(employeeListNewEmployee);
+                        oldDeparmentOfEmployeeListNewEmployee = em.merge(oldDeparmentOfEmployeeListNewEmployee);
                     }
                 }
             }
@@ -136,12 +135,12 @@ public class DeparmentJpaController implements Serializable {
                 throw new NonexistentEntityException("The deparment with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<Employee> employeeCollectionOrphanCheck = deparment.getEmployeeCollection();
-            for (Employee employeeCollectionOrphanCheckEmployee : employeeCollectionOrphanCheck) {
+            List<Employee> employeeListOrphanCheck = deparment.getEmployeeList();
+            for (Employee employeeListOrphanCheckEmployee : employeeListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Deparment (" + deparment + ") cannot be destroyed since the Employee " + employeeCollectionOrphanCheckEmployee + " in its employeeCollection field has a non-nullable deparment field.");
+                illegalOrphanMessages.add("This Deparment (" + deparment + ") cannot be destroyed since the Employee " + employeeListOrphanCheckEmployee + " in its employeeList field has a non-nullable deparment field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

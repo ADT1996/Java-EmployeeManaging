@@ -14,7 +14,6 @@ import javax.persistence.criteria.Root;
 import ims.dto.Employee;
 import ims.dto.Foreignlanguage;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -35,27 +34,27 @@ public class ForeignlanguageJpaController implements Serializable {
     }
 
     public void create(Foreignlanguage foreignlanguage) {
-        if (foreignlanguage.getEmployeeCollection() == null) {
-            foreignlanguage.setEmployeeCollection(new ArrayList<Employee>());
+        if (foreignlanguage.getEmployeeList() == null) {
+            foreignlanguage.setEmployeeList(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : foreignlanguage.getEmployeeCollection()) {
-                employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
-                attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
+            List<Employee> attachedEmployeeList = new ArrayList<Employee>();
+            for (Employee employeeListEmployeeToAttach : foreignlanguage.getEmployeeList()) {
+                employeeListEmployeeToAttach = em.getReference(employeeListEmployeeToAttach.getClass(), employeeListEmployeeToAttach.getId());
+                attachedEmployeeList.add(employeeListEmployeeToAttach);
             }
-            foreignlanguage.setEmployeeCollection(attachedEmployeeCollection);
+            foreignlanguage.setEmployeeList(attachedEmployeeList);
             em.persist(foreignlanguage);
-            for (Employee employeeCollectionEmployee : foreignlanguage.getEmployeeCollection()) {
-                Foreignlanguage oldForeignLanguageOfEmployeeCollectionEmployee = employeeCollectionEmployee.getForeignLanguage();
-                employeeCollectionEmployee.setForeignLanguage(foreignlanguage);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldForeignLanguageOfEmployeeCollectionEmployee != null) {
-                    oldForeignLanguageOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldForeignLanguageOfEmployeeCollectionEmployee = em.merge(oldForeignLanguageOfEmployeeCollectionEmployee);
+            for (Employee employeeListEmployee : foreignlanguage.getEmployeeList()) {
+                Foreignlanguage oldForeignLanguageOfEmployeeListEmployee = employeeListEmployee.getForeignLanguage();
+                employeeListEmployee.setForeignLanguage(foreignlanguage);
+                employeeListEmployee = em.merge(employeeListEmployee);
+                if (oldForeignLanguageOfEmployeeListEmployee != null) {
+                    oldForeignLanguageOfEmployeeListEmployee.getEmployeeList().remove(employeeListEmployee);
+                    oldForeignLanguageOfEmployeeListEmployee = em.merge(oldForeignLanguageOfEmployeeListEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -72,30 +71,30 @@ public class ForeignlanguageJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Foreignlanguage persistentForeignlanguage = em.find(Foreignlanguage.class, foreignlanguage.getId());
-            Collection<Employee> employeeCollectionOld = persistentForeignlanguage.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = foreignlanguage.getEmployeeCollection();
-            Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
-            for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
-                employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
-                attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
+            List<Employee> employeeListOld = persistentForeignlanguage.getEmployeeList();
+            List<Employee> employeeListNew = foreignlanguage.getEmployeeList();
+            List<Employee> attachedEmployeeListNew = new ArrayList<Employee>();
+            for (Employee employeeListNewEmployeeToAttach : employeeListNew) {
+                employeeListNewEmployeeToAttach = em.getReference(employeeListNewEmployeeToAttach.getClass(), employeeListNewEmployeeToAttach.getId());
+                attachedEmployeeListNew.add(employeeListNewEmployeeToAttach);
             }
-            employeeCollectionNew = attachedEmployeeCollectionNew;
-            foreignlanguage.setEmployeeCollection(employeeCollectionNew);
+            employeeListNew = attachedEmployeeListNew;
+            foreignlanguage.setEmployeeList(employeeListNew);
             foreignlanguage = em.merge(foreignlanguage);
-            for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
-                if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
-                    employeeCollectionOldEmployee.setForeignLanguage(null);
-                    employeeCollectionOldEmployee = em.merge(employeeCollectionOldEmployee);
+            for (Employee employeeListOldEmployee : employeeListOld) {
+                if (!employeeListNew.contains(employeeListOldEmployee)) {
+                    employeeListOldEmployee.setForeignLanguage(null);
+                    employeeListOldEmployee = em.merge(employeeListOldEmployee);
                 }
             }
-            for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
-                if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    Foreignlanguage oldForeignLanguageOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getForeignLanguage();
-                    employeeCollectionNewEmployee.setForeignLanguage(foreignlanguage);
-                    employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldForeignLanguageOfEmployeeCollectionNewEmployee != null && !oldForeignLanguageOfEmployeeCollectionNewEmployee.equals(foreignlanguage)) {
-                        oldForeignLanguageOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldForeignLanguageOfEmployeeCollectionNewEmployee = em.merge(oldForeignLanguageOfEmployeeCollectionNewEmployee);
+            for (Employee employeeListNewEmployee : employeeListNew) {
+                if (!employeeListOld.contains(employeeListNewEmployee)) {
+                    Foreignlanguage oldForeignLanguageOfEmployeeListNewEmployee = employeeListNewEmployee.getForeignLanguage();
+                    employeeListNewEmployee.setForeignLanguage(foreignlanguage);
+                    employeeListNewEmployee = em.merge(employeeListNewEmployee);
+                    if (oldForeignLanguageOfEmployeeListNewEmployee != null && !oldForeignLanguageOfEmployeeListNewEmployee.equals(foreignlanguage)) {
+                        oldForeignLanguageOfEmployeeListNewEmployee.getEmployeeList().remove(employeeListNewEmployee);
+                        oldForeignLanguageOfEmployeeListNewEmployee = em.merge(oldForeignLanguageOfEmployeeListNewEmployee);
                     }
                 }
             }
@@ -128,10 +127,10 @@ public class ForeignlanguageJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The foreignlanguage with id " + id + " no longer exists.", enfe);
             }
-            Collection<Employee> employeeCollection = foreignlanguage.getEmployeeCollection();
-            for (Employee employeeCollectionEmployee : employeeCollection) {
-                employeeCollectionEmployee.setForeignLanguage(null);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
+            List<Employee> employeeList = foreignlanguage.getEmployeeList();
+            for (Employee employeeListEmployee : employeeList) {
+                employeeListEmployee.setForeignLanguage(null);
+                employeeListEmployee = em.merge(employeeListEmployee);
             }
             em.remove(foreignlanguage);
             em.getTransaction().commit();

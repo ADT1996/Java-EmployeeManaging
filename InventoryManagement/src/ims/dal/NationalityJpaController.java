@@ -14,7 +14,6 @@ import javax.persistence.criteria.Root;
 import ims.dto.Employee;
 import ims.dto.Nationality;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -35,27 +34,27 @@ public class NationalityJpaController implements Serializable {
     }
 
     public void create(Nationality nationality) {
-        if (nationality.getEmployeeCollection() == null) {
-            nationality.setEmployeeCollection(new ArrayList<Employee>());
+        if (nationality.getEmployeeList() == null) {
+            nationality.setEmployeeList(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : nationality.getEmployeeCollection()) {
-                employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
-                attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
+            List<Employee> attachedEmployeeList = new ArrayList<Employee>();
+            for (Employee employeeListEmployeeToAttach : nationality.getEmployeeList()) {
+                employeeListEmployeeToAttach = em.getReference(employeeListEmployeeToAttach.getClass(), employeeListEmployeeToAttach.getId());
+                attachedEmployeeList.add(employeeListEmployeeToAttach);
             }
-            nationality.setEmployeeCollection(attachedEmployeeCollection);
+            nationality.setEmployeeList(attachedEmployeeList);
             em.persist(nationality);
-            for (Employee employeeCollectionEmployee : nationality.getEmployeeCollection()) {
-                Nationality oldNationalityOfEmployeeCollectionEmployee = employeeCollectionEmployee.getNationality();
-                employeeCollectionEmployee.setNationality(nationality);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldNationalityOfEmployeeCollectionEmployee != null) {
-                    oldNationalityOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldNationalityOfEmployeeCollectionEmployee = em.merge(oldNationalityOfEmployeeCollectionEmployee);
+            for (Employee employeeListEmployee : nationality.getEmployeeList()) {
+                Nationality oldNationalityOfEmployeeListEmployee = employeeListEmployee.getNationality();
+                employeeListEmployee.setNationality(nationality);
+                employeeListEmployee = em.merge(employeeListEmployee);
+                if (oldNationalityOfEmployeeListEmployee != null) {
+                    oldNationalityOfEmployeeListEmployee.getEmployeeList().remove(employeeListEmployee);
+                    oldNationalityOfEmployeeListEmployee = em.merge(oldNationalityOfEmployeeListEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -72,30 +71,30 @@ public class NationalityJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Nationality persistentNationality = em.find(Nationality.class, nationality.getId());
-            Collection<Employee> employeeCollectionOld = persistentNationality.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = nationality.getEmployeeCollection();
-            Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
-            for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
-                employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
-                attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
+            List<Employee> employeeListOld = persistentNationality.getEmployeeList();
+            List<Employee> employeeListNew = nationality.getEmployeeList();
+            List<Employee> attachedEmployeeListNew = new ArrayList<Employee>();
+            for (Employee employeeListNewEmployeeToAttach : employeeListNew) {
+                employeeListNewEmployeeToAttach = em.getReference(employeeListNewEmployeeToAttach.getClass(), employeeListNewEmployeeToAttach.getId());
+                attachedEmployeeListNew.add(employeeListNewEmployeeToAttach);
             }
-            employeeCollectionNew = attachedEmployeeCollectionNew;
-            nationality.setEmployeeCollection(employeeCollectionNew);
+            employeeListNew = attachedEmployeeListNew;
+            nationality.setEmployeeList(employeeListNew);
             nationality = em.merge(nationality);
-            for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
-                if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
-                    employeeCollectionOldEmployee.setNationality(null);
-                    employeeCollectionOldEmployee = em.merge(employeeCollectionOldEmployee);
+            for (Employee employeeListOldEmployee : employeeListOld) {
+                if (!employeeListNew.contains(employeeListOldEmployee)) {
+                    employeeListOldEmployee.setNationality(null);
+                    employeeListOldEmployee = em.merge(employeeListOldEmployee);
                 }
             }
-            for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
-                if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    Nationality oldNationalityOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getNationality();
-                    employeeCollectionNewEmployee.setNationality(nationality);
-                    employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldNationalityOfEmployeeCollectionNewEmployee != null && !oldNationalityOfEmployeeCollectionNewEmployee.equals(nationality)) {
-                        oldNationalityOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldNationalityOfEmployeeCollectionNewEmployee = em.merge(oldNationalityOfEmployeeCollectionNewEmployee);
+            for (Employee employeeListNewEmployee : employeeListNew) {
+                if (!employeeListOld.contains(employeeListNewEmployee)) {
+                    Nationality oldNationalityOfEmployeeListNewEmployee = employeeListNewEmployee.getNationality();
+                    employeeListNewEmployee.setNationality(nationality);
+                    employeeListNewEmployee = em.merge(employeeListNewEmployee);
+                    if (oldNationalityOfEmployeeListNewEmployee != null && !oldNationalityOfEmployeeListNewEmployee.equals(nationality)) {
+                        oldNationalityOfEmployeeListNewEmployee.getEmployeeList().remove(employeeListNewEmployee);
+                        oldNationalityOfEmployeeListNewEmployee = em.merge(oldNationalityOfEmployeeListNewEmployee);
                     }
                 }
             }
@@ -128,10 +127,10 @@ public class NationalityJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The nationality with id " + id + " no longer exists.", enfe);
             }
-            Collection<Employee> employeeCollection = nationality.getEmployeeCollection();
-            for (Employee employeeCollectionEmployee : employeeCollection) {
-                employeeCollectionEmployee.setNationality(null);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
+            List<Employee> employeeList = nationality.getEmployeeList();
+            for (Employee employeeListEmployee : employeeList) {
+                employeeListEmployee.setNationality(null);
+                employeeListEmployee = em.merge(employeeListEmployee);
             }
             em.remove(nationality);
             em.getTransaction().commit();

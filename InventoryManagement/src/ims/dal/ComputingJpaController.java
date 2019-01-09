@@ -14,7 +14,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import ims.dto.Employee;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -35,27 +34,27 @@ public class ComputingJpaController implements Serializable {
     }
 
     public void create(Computing computing) {
-        if (computing.getEmployeeCollection() == null) {
-            computing.setEmployeeCollection(new ArrayList<Employee>());
+        if (computing.getEmployeeList() == null) {
+            computing.setEmployeeList(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : computing.getEmployeeCollection()) {
-                employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
-                attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
+            List<Employee> attachedEmployeeList = new ArrayList<Employee>();
+            for (Employee employeeListEmployeeToAttach : computing.getEmployeeList()) {
+                employeeListEmployeeToAttach = em.getReference(employeeListEmployeeToAttach.getClass(), employeeListEmployeeToAttach.getId());
+                attachedEmployeeList.add(employeeListEmployeeToAttach);
             }
-            computing.setEmployeeCollection(attachedEmployeeCollection);
+            computing.setEmployeeList(attachedEmployeeList);
             em.persist(computing);
-            for (Employee employeeCollectionEmployee : computing.getEmployeeCollection()) {
-                Computing oldComputingOfEmployeeCollectionEmployee = employeeCollectionEmployee.getComputing();
-                employeeCollectionEmployee.setComputing(computing);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldComputingOfEmployeeCollectionEmployee != null) {
-                    oldComputingOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldComputingOfEmployeeCollectionEmployee = em.merge(oldComputingOfEmployeeCollectionEmployee);
+            for (Employee employeeListEmployee : computing.getEmployeeList()) {
+                Computing oldComputingOfEmployeeListEmployee = employeeListEmployee.getComputing();
+                employeeListEmployee.setComputing(computing);
+                employeeListEmployee = em.merge(employeeListEmployee);
+                if (oldComputingOfEmployeeListEmployee != null) {
+                    oldComputingOfEmployeeListEmployee.getEmployeeList().remove(employeeListEmployee);
+                    oldComputingOfEmployeeListEmployee = em.merge(oldComputingOfEmployeeListEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -72,30 +71,30 @@ public class ComputingJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Computing persistentComputing = em.find(Computing.class, computing.getId());
-            Collection<Employee> employeeCollectionOld = persistentComputing.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = computing.getEmployeeCollection();
-            Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
-            for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
-                employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
-                attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
+            List<Employee> employeeListOld = persistentComputing.getEmployeeList();
+            List<Employee> employeeListNew = computing.getEmployeeList();
+            List<Employee> attachedEmployeeListNew = new ArrayList<Employee>();
+            for (Employee employeeListNewEmployeeToAttach : employeeListNew) {
+                employeeListNewEmployeeToAttach = em.getReference(employeeListNewEmployeeToAttach.getClass(), employeeListNewEmployeeToAttach.getId());
+                attachedEmployeeListNew.add(employeeListNewEmployeeToAttach);
             }
-            employeeCollectionNew = attachedEmployeeCollectionNew;
-            computing.setEmployeeCollection(employeeCollectionNew);
+            employeeListNew = attachedEmployeeListNew;
+            computing.setEmployeeList(employeeListNew);
             computing = em.merge(computing);
-            for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
-                if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
-                    employeeCollectionOldEmployee.setComputing(null);
-                    employeeCollectionOldEmployee = em.merge(employeeCollectionOldEmployee);
+            for (Employee employeeListOldEmployee : employeeListOld) {
+                if (!employeeListNew.contains(employeeListOldEmployee)) {
+                    employeeListOldEmployee.setComputing(null);
+                    employeeListOldEmployee = em.merge(employeeListOldEmployee);
                 }
             }
-            for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
-                if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    Computing oldComputingOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getComputing();
-                    employeeCollectionNewEmployee.setComputing(computing);
-                    employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldComputingOfEmployeeCollectionNewEmployee != null && !oldComputingOfEmployeeCollectionNewEmployee.equals(computing)) {
-                        oldComputingOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldComputingOfEmployeeCollectionNewEmployee = em.merge(oldComputingOfEmployeeCollectionNewEmployee);
+            for (Employee employeeListNewEmployee : employeeListNew) {
+                if (!employeeListOld.contains(employeeListNewEmployee)) {
+                    Computing oldComputingOfEmployeeListNewEmployee = employeeListNewEmployee.getComputing();
+                    employeeListNewEmployee.setComputing(computing);
+                    employeeListNewEmployee = em.merge(employeeListNewEmployee);
+                    if (oldComputingOfEmployeeListNewEmployee != null && !oldComputingOfEmployeeListNewEmployee.equals(computing)) {
+                        oldComputingOfEmployeeListNewEmployee.getEmployeeList().remove(employeeListNewEmployee);
+                        oldComputingOfEmployeeListNewEmployee = em.merge(oldComputingOfEmployeeListNewEmployee);
                     }
                 }
             }
@@ -128,10 +127,10 @@ public class ComputingJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The computing with id " + id + " no longer exists.", enfe);
             }
-            Collection<Employee> employeeCollection = computing.getEmployeeCollection();
-            for (Employee employeeCollectionEmployee : employeeCollection) {
-                employeeCollectionEmployee.setComputing(null);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
+            List<Employee> employeeList = computing.getEmployeeList();
+            for (Employee employeeListEmployee : employeeList) {
+                employeeListEmployee.setComputing(null);
+                employeeListEmployee = em.merge(employeeListEmployee);
             }
             em.remove(computing);
             em.getTransaction().commit();

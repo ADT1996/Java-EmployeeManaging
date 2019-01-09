@@ -6,7 +6,7 @@
 package ims.dto;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,7 +41,7 @@ public class Folk implements Serializable {
     @Column(name = "Folk", nullable = false, length = 45)
     private String folk;
     @OneToMany(mappedBy = "folk")
-    private Collection<Employee> employeeCollection;
+    private List<Employee> employeeList;
 
     public Folk() {
     }
@@ -72,12 +72,12 @@ public class Folk implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Employee> getEmployeeCollection() {
-        return employeeCollection;
+    public List<Employee> getEmployeeList() {
+        return employeeList;
     }
 
-    public void setEmployeeCollection(Collection<Employee> employeeCollection) {
-        this.employeeCollection = employeeCollection;
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
     }
 
     @Override
@@ -102,7 +102,7 @@ public class Folk implements Serializable {
 
     @Override
     public String toString() {
-        return folk;
+        return "ims.dto.Folk[ id=" + id + " ]";
     }
     
 }

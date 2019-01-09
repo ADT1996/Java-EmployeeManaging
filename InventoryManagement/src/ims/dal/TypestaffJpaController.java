@@ -15,7 +15,6 @@ import javax.persistence.criteria.Root;
 import ims.dto.Employee;
 import ims.dto.Typestaff;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,27 +35,27 @@ public class TypestaffJpaController implements Serializable {
     }
 
     public void create(Typestaff typestaff) {
-        if (typestaff.getEmployeeCollection() == null) {
-            typestaff.setEmployeeCollection(new ArrayList<Employee>());
+        if (typestaff.getEmployeeList() == null) {
+            typestaff.setEmployeeList(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : typestaff.getEmployeeCollection()) {
-                employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
-                attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
+            List<Employee> attachedEmployeeList = new ArrayList<Employee>();
+            for (Employee employeeListEmployeeToAttach : typestaff.getEmployeeList()) {
+                employeeListEmployeeToAttach = em.getReference(employeeListEmployeeToAttach.getClass(), employeeListEmployeeToAttach.getId());
+                attachedEmployeeList.add(employeeListEmployeeToAttach);
             }
-            typestaff.setEmployeeCollection(attachedEmployeeCollection);
+            typestaff.setEmployeeList(attachedEmployeeList);
             em.persist(typestaff);
-            for (Employee employeeCollectionEmployee : typestaff.getEmployeeCollection()) {
-                Typestaff oldTypeStaffOfEmployeeCollectionEmployee = employeeCollectionEmployee.getTypeStaff();
-                employeeCollectionEmployee.setTypeStaff(typestaff);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldTypeStaffOfEmployeeCollectionEmployee != null) {
-                    oldTypeStaffOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldTypeStaffOfEmployeeCollectionEmployee = em.merge(oldTypeStaffOfEmployeeCollectionEmployee);
+            for (Employee employeeListEmployee : typestaff.getEmployeeList()) {
+                Typestaff oldTypeStaffOfEmployeeListEmployee = employeeListEmployee.getTypeStaff();
+                employeeListEmployee.setTypeStaff(typestaff);
+                employeeListEmployee = em.merge(employeeListEmployee);
+                if (oldTypeStaffOfEmployeeListEmployee != null) {
+                    oldTypeStaffOfEmployeeListEmployee.getEmployeeList().remove(employeeListEmployee);
+                    oldTypeStaffOfEmployeeListEmployee = em.merge(oldTypeStaffOfEmployeeListEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -73,36 +72,36 @@ public class TypestaffJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Typestaff persistentTypestaff = em.find(Typestaff.class, typestaff.getId());
-            Collection<Employee> employeeCollectionOld = persistentTypestaff.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = typestaff.getEmployeeCollection();
+            List<Employee> employeeListOld = persistentTypestaff.getEmployeeList();
+            List<Employee> employeeListNew = typestaff.getEmployeeList();
             List<String> illegalOrphanMessages = null;
-            for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
-                if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
+            for (Employee employeeListOldEmployee : employeeListOld) {
+                if (!employeeListNew.contains(employeeListOldEmployee)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Employee " + employeeCollectionOldEmployee + " since its typeStaff field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Employee " + employeeListOldEmployee + " since its typeStaff field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
-            for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
-                employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
-                attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
+            List<Employee> attachedEmployeeListNew = new ArrayList<Employee>();
+            for (Employee employeeListNewEmployeeToAttach : employeeListNew) {
+                employeeListNewEmployeeToAttach = em.getReference(employeeListNewEmployeeToAttach.getClass(), employeeListNewEmployeeToAttach.getId());
+                attachedEmployeeListNew.add(employeeListNewEmployeeToAttach);
             }
-            employeeCollectionNew = attachedEmployeeCollectionNew;
-            typestaff.setEmployeeCollection(employeeCollectionNew);
+            employeeListNew = attachedEmployeeListNew;
+            typestaff.setEmployeeList(employeeListNew);
             typestaff = em.merge(typestaff);
-            for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
-                if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    Typestaff oldTypeStaffOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getTypeStaff();
-                    employeeCollectionNewEmployee.setTypeStaff(typestaff);
-                    employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldTypeStaffOfEmployeeCollectionNewEmployee != null && !oldTypeStaffOfEmployeeCollectionNewEmployee.equals(typestaff)) {
-                        oldTypeStaffOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldTypeStaffOfEmployeeCollectionNewEmployee = em.merge(oldTypeStaffOfEmployeeCollectionNewEmployee);
+            for (Employee employeeListNewEmployee : employeeListNew) {
+                if (!employeeListOld.contains(employeeListNewEmployee)) {
+                    Typestaff oldTypeStaffOfEmployeeListNewEmployee = employeeListNewEmployee.getTypeStaff();
+                    employeeListNewEmployee.setTypeStaff(typestaff);
+                    employeeListNewEmployee = em.merge(employeeListNewEmployee);
+                    if (oldTypeStaffOfEmployeeListNewEmployee != null && !oldTypeStaffOfEmployeeListNewEmployee.equals(typestaff)) {
+                        oldTypeStaffOfEmployeeListNewEmployee.getEmployeeList().remove(employeeListNewEmployee);
+                        oldTypeStaffOfEmployeeListNewEmployee = em.merge(oldTypeStaffOfEmployeeListNewEmployee);
                     }
                 }
             }
@@ -136,12 +135,12 @@ public class TypestaffJpaController implements Serializable {
                 throw new NonexistentEntityException("The typestaff with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<Employee> employeeCollectionOrphanCheck = typestaff.getEmployeeCollection();
-            for (Employee employeeCollectionOrphanCheckEmployee : employeeCollectionOrphanCheck) {
+            List<Employee> employeeListOrphanCheck = typestaff.getEmployeeList();
+            for (Employee employeeListOrphanCheckEmployee : employeeListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Typestaff (" + typestaff + ") cannot be destroyed since the Employee " + employeeCollectionOrphanCheckEmployee + " in its employeeCollection field has a non-nullable typeStaff field.");
+                illegalOrphanMessages.add("This Typestaff (" + typestaff + ") cannot be destroyed since the Employee " + employeeListOrphanCheckEmployee + " in its employeeList field has a non-nullable typeStaff field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

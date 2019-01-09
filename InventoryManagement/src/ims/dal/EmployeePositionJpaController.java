@@ -15,7 +15,6 @@ import javax.persistence.criteria.Root;
 import ims.dto.Employee;
 import ims.dto.EmployeePosition;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,27 +35,27 @@ public class EmployeePositionJpaController implements Serializable {
     }
 
     public void create(EmployeePosition employeePosition) {
-        if (employeePosition.getEmployeeCollection() == null) {
-            employeePosition.setEmployeeCollection(new ArrayList<Employee>());
+        if (employeePosition.getEmployeeList() == null) {
+            employeePosition.setEmployeeList(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : employeePosition.getEmployeeCollection()) {
-                employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
-                attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
+            List<Employee> attachedEmployeeList = new ArrayList<Employee>();
+            for (Employee employeeListEmployeeToAttach : employeePosition.getEmployeeList()) {
+                employeeListEmployeeToAttach = em.getReference(employeeListEmployeeToAttach.getClass(), employeeListEmployeeToAttach.getId());
+                attachedEmployeeList.add(employeeListEmployeeToAttach);
             }
-            employeePosition.setEmployeeCollection(attachedEmployeeCollection);
+            employeePosition.setEmployeeList(attachedEmployeeList);
             em.persist(employeePosition);
-            for (Employee employeeCollectionEmployee : employeePosition.getEmployeeCollection()) {
-                EmployeePosition oldPositionOfEmployeeCollectionEmployee = employeeCollectionEmployee.getPosition();
-                employeeCollectionEmployee.setPosition(employeePosition);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldPositionOfEmployeeCollectionEmployee != null) {
-                    oldPositionOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldPositionOfEmployeeCollectionEmployee = em.merge(oldPositionOfEmployeeCollectionEmployee);
+            for (Employee employeeListEmployee : employeePosition.getEmployeeList()) {
+                EmployeePosition oldPositionOfEmployeeListEmployee = employeeListEmployee.getPosition();
+                employeeListEmployee.setPosition(employeePosition);
+                employeeListEmployee = em.merge(employeeListEmployee);
+                if (oldPositionOfEmployeeListEmployee != null) {
+                    oldPositionOfEmployeeListEmployee.getEmployeeList().remove(employeeListEmployee);
+                    oldPositionOfEmployeeListEmployee = em.merge(oldPositionOfEmployeeListEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -73,36 +72,36 @@ public class EmployeePositionJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             EmployeePosition persistentEmployeePosition = em.find(EmployeePosition.class, employeePosition.getId());
-            Collection<Employee> employeeCollectionOld = persistentEmployeePosition.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = employeePosition.getEmployeeCollection();
+            List<Employee> employeeListOld = persistentEmployeePosition.getEmployeeList();
+            List<Employee> employeeListNew = employeePosition.getEmployeeList();
             List<String> illegalOrphanMessages = null;
-            for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
-                if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
+            for (Employee employeeListOldEmployee : employeeListOld) {
+                if (!employeeListNew.contains(employeeListOldEmployee)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Employee " + employeeCollectionOldEmployee + " since its position field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Employee " + employeeListOldEmployee + " since its position field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
-            for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
-                employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
-                attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
+            List<Employee> attachedEmployeeListNew = new ArrayList<Employee>();
+            for (Employee employeeListNewEmployeeToAttach : employeeListNew) {
+                employeeListNewEmployeeToAttach = em.getReference(employeeListNewEmployeeToAttach.getClass(), employeeListNewEmployeeToAttach.getId());
+                attachedEmployeeListNew.add(employeeListNewEmployeeToAttach);
             }
-            employeeCollectionNew = attachedEmployeeCollectionNew;
-            employeePosition.setEmployeeCollection(employeeCollectionNew);
+            employeeListNew = attachedEmployeeListNew;
+            employeePosition.setEmployeeList(employeeListNew);
             employeePosition = em.merge(employeePosition);
-            for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
-                if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    EmployeePosition oldPositionOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getPosition();
-                    employeeCollectionNewEmployee.setPosition(employeePosition);
-                    employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldPositionOfEmployeeCollectionNewEmployee != null && !oldPositionOfEmployeeCollectionNewEmployee.equals(employeePosition)) {
-                        oldPositionOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldPositionOfEmployeeCollectionNewEmployee = em.merge(oldPositionOfEmployeeCollectionNewEmployee);
+            for (Employee employeeListNewEmployee : employeeListNew) {
+                if (!employeeListOld.contains(employeeListNewEmployee)) {
+                    EmployeePosition oldPositionOfEmployeeListNewEmployee = employeeListNewEmployee.getPosition();
+                    employeeListNewEmployee.setPosition(employeePosition);
+                    employeeListNewEmployee = em.merge(employeeListNewEmployee);
+                    if (oldPositionOfEmployeeListNewEmployee != null && !oldPositionOfEmployeeListNewEmployee.equals(employeePosition)) {
+                        oldPositionOfEmployeeListNewEmployee.getEmployeeList().remove(employeeListNewEmployee);
+                        oldPositionOfEmployeeListNewEmployee = em.merge(oldPositionOfEmployeeListNewEmployee);
                     }
                 }
             }
@@ -136,12 +135,12 @@ public class EmployeePositionJpaController implements Serializable {
                 throw new NonexistentEntityException("The employeePosition with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<Employee> employeeCollectionOrphanCheck = employeePosition.getEmployeeCollection();
-            for (Employee employeeCollectionOrphanCheckEmployee : employeeCollectionOrphanCheck) {
+            List<Employee> employeeListOrphanCheck = employeePosition.getEmployeeList();
+            for (Employee employeeListOrphanCheckEmployee : employeeListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This EmployeePosition (" + employeePosition + ") cannot be destroyed since the Employee " + employeeCollectionOrphanCheckEmployee + " in its employeeCollection field has a non-nullable position field.");
+                illegalOrphanMessages.add("This EmployeePosition (" + employeePosition + ") cannot be destroyed since the Employee " + employeeListOrphanCheckEmployee + " in its employeeList field has a non-nullable position field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

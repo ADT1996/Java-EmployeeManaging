@@ -14,7 +14,6 @@ import javax.persistence.criteria.Root;
 import ims.dto.Employee;
 import ims.dto.Folk;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -35,27 +34,27 @@ public class FolkJpaController implements Serializable {
     }
 
     public void create(Folk folk) {
-        if (folk.getEmployeeCollection() == null) {
-            folk.setEmployeeCollection(new ArrayList<Employee>());
+        if (folk.getEmployeeList() == null) {
+            folk.setEmployeeList(new ArrayList<Employee>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Employee> attachedEmployeeCollection = new ArrayList<Employee>();
-            for (Employee employeeCollectionEmployeeToAttach : folk.getEmployeeCollection()) {
-                employeeCollectionEmployeeToAttach = em.getReference(employeeCollectionEmployeeToAttach.getClass(), employeeCollectionEmployeeToAttach.getId());
-                attachedEmployeeCollection.add(employeeCollectionEmployeeToAttach);
+            List<Employee> attachedEmployeeList = new ArrayList<Employee>();
+            for (Employee employeeListEmployeeToAttach : folk.getEmployeeList()) {
+                employeeListEmployeeToAttach = em.getReference(employeeListEmployeeToAttach.getClass(), employeeListEmployeeToAttach.getId());
+                attachedEmployeeList.add(employeeListEmployeeToAttach);
             }
-            folk.setEmployeeCollection(attachedEmployeeCollection);
+            folk.setEmployeeList(attachedEmployeeList);
             em.persist(folk);
-            for (Employee employeeCollectionEmployee : folk.getEmployeeCollection()) {
-                Folk oldFolkOfEmployeeCollectionEmployee = employeeCollectionEmployee.getFolk();
-                employeeCollectionEmployee.setFolk(folk);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
-                if (oldFolkOfEmployeeCollectionEmployee != null) {
-                    oldFolkOfEmployeeCollectionEmployee.getEmployeeCollection().remove(employeeCollectionEmployee);
-                    oldFolkOfEmployeeCollectionEmployee = em.merge(oldFolkOfEmployeeCollectionEmployee);
+            for (Employee employeeListEmployee : folk.getEmployeeList()) {
+                Folk oldFolkOfEmployeeListEmployee = employeeListEmployee.getFolk();
+                employeeListEmployee.setFolk(folk);
+                employeeListEmployee = em.merge(employeeListEmployee);
+                if (oldFolkOfEmployeeListEmployee != null) {
+                    oldFolkOfEmployeeListEmployee.getEmployeeList().remove(employeeListEmployee);
+                    oldFolkOfEmployeeListEmployee = em.merge(oldFolkOfEmployeeListEmployee);
                 }
             }
             em.getTransaction().commit();
@@ -72,30 +71,30 @@ public class FolkJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Folk persistentFolk = em.find(Folk.class, folk.getId());
-            Collection<Employee> employeeCollectionOld = persistentFolk.getEmployeeCollection();
-            Collection<Employee> employeeCollectionNew = folk.getEmployeeCollection();
-            Collection<Employee> attachedEmployeeCollectionNew = new ArrayList<Employee>();
-            for (Employee employeeCollectionNewEmployeeToAttach : employeeCollectionNew) {
-                employeeCollectionNewEmployeeToAttach = em.getReference(employeeCollectionNewEmployeeToAttach.getClass(), employeeCollectionNewEmployeeToAttach.getId());
-                attachedEmployeeCollectionNew.add(employeeCollectionNewEmployeeToAttach);
+            List<Employee> employeeListOld = persistentFolk.getEmployeeList();
+            List<Employee> employeeListNew = folk.getEmployeeList();
+            List<Employee> attachedEmployeeListNew = new ArrayList<Employee>();
+            for (Employee employeeListNewEmployeeToAttach : employeeListNew) {
+                employeeListNewEmployeeToAttach = em.getReference(employeeListNewEmployeeToAttach.getClass(), employeeListNewEmployeeToAttach.getId());
+                attachedEmployeeListNew.add(employeeListNewEmployeeToAttach);
             }
-            employeeCollectionNew = attachedEmployeeCollectionNew;
-            folk.setEmployeeCollection(employeeCollectionNew);
+            employeeListNew = attachedEmployeeListNew;
+            folk.setEmployeeList(employeeListNew);
             folk = em.merge(folk);
-            for (Employee employeeCollectionOldEmployee : employeeCollectionOld) {
-                if (!employeeCollectionNew.contains(employeeCollectionOldEmployee)) {
-                    employeeCollectionOldEmployee.setFolk(null);
-                    employeeCollectionOldEmployee = em.merge(employeeCollectionOldEmployee);
+            for (Employee employeeListOldEmployee : employeeListOld) {
+                if (!employeeListNew.contains(employeeListOldEmployee)) {
+                    employeeListOldEmployee.setFolk(null);
+                    employeeListOldEmployee = em.merge(employeeListOldEmployee);
                 }
             }
-            for (Employee employeeCollectionNewEmployee : employeeCollectionNew) {
-                if (!employeeCollectionOld.contains(employeeCollectionNewEmployee)) {
-                    Folk oldFolkOfEmployeeCollectionNewEmployee = employeeCollectionNewEmployee.getFolk();
-                    employeeCollectionNewEmployee.setFolk(folk);
-                    employeeCollectionNewEmployee = em.merge(employeeCollectionNewEmployee);
-                    if (oldFolkOfEmployeeCollectionNewEmployee != null && !oldFolkOfEmployeeCollectionNewEmployee.equals(folk)) {
-                        oldFolkOfEmployeeCollectionNewEmployee.getEmployeeCollection().remove(employeeCollectionNewEmployee);
-                        oldFolkOfEmployeeCollectionNewEmployee = em.merge(oldFolkOfEmployeeCollectionNewEmployee);
+            for (Employee employeeListNewEmployee : employeeListNew) {
+                if (!employeeListOld.contains(employeeListNewEmployee)) {
+                    Folk oldFolkOfEmployeeListNewEmployee = employeeListNewEmployee.getFolk();
+                    employeeListNewEmployee.setFolk(folk);
+                    employeeListNewEmployee = em.merge(employeeListNewEmployee);
+                    if (oldFolkOfEmployeeListNewEmployee != null && !oldFolkOfEmployeeListNewEmployee.equals(folk)) {
+                        oldFolkOfEmployeeListNewEmployee.getEmployeeList().remove(employeeListNewEmployee);
+                        oldFolkOfEmployeeListNewEmployee = em.merge(oldFolkOfEmployeeListNewEmployee);
                     }
                 }
             }
@@ -128,10 +127,10 @@ public class FolkJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The folk with id " + id + " no longer exists.", enfe);
             }
-            Collection<Employee> employeeCollection = folk.getEmployeeCollection();
-            for (Employee employeeCollectionEmployee : employeeCollection) {
-                employeeCollectionEmployee.setFolk(null);
-                employeeCollectionEmployee = em.merge(employeeCollectionEmployee);
+            List<Employee> employeeList = folk.getEmployeeList();
+            for (Employee employeeListEmployee : employeeList) {
+                employeeListEmployee.setFolk(null);
+                employeeListEmployee = em.merge(employeeListEmployee);
             }
             em.remove(folk);
             em.getTransaction().commit();
