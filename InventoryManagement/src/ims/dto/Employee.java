@@ -14,12 +14,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,11 +24,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author abc
  */
 @Entity
-@Table(name = "employee", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"MobieNumber"})})
+@Table(name = "employee")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")})
 public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;

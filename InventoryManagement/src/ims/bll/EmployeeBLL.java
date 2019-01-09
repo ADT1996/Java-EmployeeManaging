@@ -5,7 +5,6 @@
  */
 package ims.bll;
 
-import ims.bll.exceptions.EmployeeException;
 import ims.dal.EmployeeJpaController;
 import ims.dal.exceptions.NonexistentEntityException;
 import ims.dto.Employee;
