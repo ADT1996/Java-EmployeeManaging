@@ -7,6 +7,7 @@
 package ims.gui;
 
 import ims.bll.EmployeeBLL;
+import ims.dal.exceptions.NonexistentEntityException;
 import ims.util.UtilClass;
 import ims.dto.Employee;
 
@@ -17,6 +18,9 @@ import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -60,11 +64,18 @@ public class EmployeeList extends javax.swing.JFrame implements WindowListener{
         jSeparator3 = new javax.swing.JToolBar.Separator();
         btnDetail = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
+        btnUpdate = new javax.swing.JButton();
+        jSeparator5 = new javax.swing.JToolBar.Separator();
         btnExit = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbEmployees = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jToolBar1.setRollover(true);
@@ -97,6 +108,11 @@ public class EmployeeList extends javax.swing.JFrame implements WindowListener{
         btnDelete.setFocusable(false);
         btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnDelete);
         jToolBar1.add(jSeparator3);
 
@@ -104,8 +120,25 @@ public class EmployeeList extends javax.swing.JFrame implements WindowListener{
         btnDetail.setFocusable(false);
         btnDetail.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDetail.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDetail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetailActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnDetail);
         jToolBar1.add(jSeparator4);
+
+        btnUpdate.setText("Cập nhật");
+        btnUpdate.setFocusable(false);
+        btnUpdate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnUpdate.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnUpdate);
+        jToolBar1.add(jSeparator5);
 
         btnExit.setText("Thoát");
         btnExit.setFocusable(false);
@@ -158,25 +191,74 @@ public class EmployeeList extends javax.swing.JFrame implements WindowListener{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        ims.gui.Employee emGui= new ims.gui.Employee();
+        ims.gui.Employee emGui= new ims.gui.Employee(employees,-1,ims.gui.Employee.ACTION.INSERT);
         emGui.setVisible(true);
     }//GEN-LAST:event_btnNewActionPerformed
 
-    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_btnExitActionPerformed
+        initTable();
+        
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
         int pos = tbEmployees.getSelectedRow();
         if(pos != -1) {
-            ims.gui.Employee emGui= new ims.gui.Employee(employees.get(pos),ims.gui.Employee.ACTION.EDIT);
+            ims.gui.Employee emGui= new ims.gui.Employee(employees,pos,ims.gui.Employee.ACTION.EDIT);
             emGui.setVisible(true);
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        model = (DefaultTableModel) tbEmployees.getModel();
+        employees = new EmployeeBLL().findAll();
+        initTable();
+        
+    }//GEN-LAST:event_formWindowOpened
 
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
+        // TODO add your handling code here:
+        int pos = tbEmployees.getSelectedRow();
+        if(pos != -1) {
+            Employee emp = employees.get(pos);
+            new ims.gui.Employee(employees,pos,ims.gui.Employee.ACTION.VIEW);
+        }
+    }//GEN-LAST:event_btnDetailActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        try {
+            int pos = tbEmployees.getSelectedRow();
+            if (pos != -1) {
+                Employee emp = employees.get(pos);
+                int code = JOptionPane.showConfirmDialog(this, "Đồng ý xóa nhân viên " + emp.getId(),""
+                        , JOptionPane.OK_CANCEL_OPTION);
+                
+                if(code == JOptionPane.OK_OPTION) {
+                    new EmployeeBLL().delete(emp.getId());
+                    employees.remove(pos);
+                    model.removeRow(pos);
+                }
+            }
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    public void initTable() {
+        model.setRowCount(0);
+        row = 0;
+        
+        for(Employee employee : employees) {
+            addEmployee(employee);
+        }
+    }
     
     /**
      * @param args the command line arguments
@@ -206,11 +288,11 @@ public class EmployeeList extends javax.swing.JFrame implements WindowListener{
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EmployeeList().setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new EmployeeList().setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -219,39 +301,36 @@ public class EmployeeList extends javax.swing.JFrame implements WindowListener{
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
+    private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTable tbEmployees;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void windowOpened(WindowEvent e) {
-        model = (DefaultTableModel) tbEmployees.getModel();
-        employees = new ArrayList<>();
-
-        List<Employee> listEmp = new EmployeeBLL().findAll();
-        row = 0;
         
-        for(Employee employee : listEmp) {
-            addEmployee(employee);
-        }
     }
 
     private void addEmployee(Employee employee) {
         model.addRow(new Object[0]);
+        String dateString = employee.getBirthDay().getDate() + "-"
+                + employee.getBirthDay().getMonth() + "-"
+                + (employee.getBirthDay().getYear() + 1900);
         String fullName = employee.getFullName();
         int lastChar = fullName.lastIndexOf(' ');
         model.setValueAt(employee.getId(), row, 0);
         model.setValueAt(fullName.substring(0, lastChar), row, 1);
         model.setValueAt(fullName.substring(lastChar), row, 2);
-        model.setValueAt(employee.getBirthDay(), row, 3);
+        model.setValueAt(dateString, row, 3);
         model.setValueAt(employee.getBirthPlace(), row, 4);
         
-        employees.add(employee);
+        row++;
     }
     
     @Override

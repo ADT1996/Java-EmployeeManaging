@@ -103,7 +103,7 @@ public class Job implements Serializable {
 
     @Override
     public String toString() {
-        return "ims.dto.Job[ id=" + id + " ]";
+        return job;
     }
     
 }

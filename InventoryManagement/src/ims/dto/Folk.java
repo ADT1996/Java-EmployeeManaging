@@ -102,7 +102,7 @@ public class Folk implements Serializable {
 
     @Override
     public String toString() {
-        return "ims.dto.Folk[ id=" + id + " ]";
+        return folk;
     }
     
 }

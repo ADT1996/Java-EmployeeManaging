@@ -102,7 +102,7 @@ public class Learning implements Serializable {
 
     @Override
     public String toString() {
-        return "ims.dto.Learning[ id=" + id + " ]";
+        return level;
     }
     
 }

@@ -102,7 +102,7 @@ public class Religion implements Serializable {
 
     @Override
     public String toString() {
-        return "ims.dto.Religion[ id=" + id + " ]";
+        return religion;
     }
     
 }

@@ -22,6 +22,7 @@ import ims.bll.CityBLL;
 import ims.bll.ComputingBLL;
 import ims.bll.DegreeBLL;
 import ims.bll.DeparmentBLL;
+import ims.bll.EmployeeBLL;
 import ims.bll.FolkBLL;
 import ims.bll.ForeignLanguageBLL;
 import ims.bll.LearningBLL;
@@ -30,17 +31,23 @@ import ims.bll.NationalityBLL;
 import ims.bll.PositionBLL;
 import ims.bll.ReligionBLL;
 import ims.bll.TypeStaffBLL;
+import ims.dal.exceptions.NonexistentEntityException;
+import ims.dto.Deparment;
+import ims.gui.exception.EmployeeException;
 import ims.util.UtilClass;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -54,18 +61,29 @@ public final class Employee extends javax.swing.JFrame {
     public static enum ACTION {INSERT, EDIT, VIEW};
     private ACTION action;
     private ims.dto.Employee employee;
+    private List<ims.dto.Employee> employees;
     
     public Employee() {
         initComponents();
         setInfoDialog();
+        setVisible(true);
+    }
+    
+    public Employee(List<ims.dto.Employee> employees) {
+        this();
+        this.employees = employees;
         action = ACTION.INSERT;
     }
     
-    public Employee(@NotNull ims.dto.Employee employee,@NotNull ACTION action) {
-        initComponents();
-        setInfoDialog();
-        this.action = action;
-        this.employee = employee;
+    public Employee(List<ims.dto.Employee> employees,int index,@NotNull ACTION action) {
+        this(employees);
+        
+        if(index != -1) {
+            this.employee = employees.get(index);
+            this.action = action;
+        } else {
+            this.action = ACTION.INSERT;
+        }
     }
     
     public  void setInfoDialog() {
@@ -75,6 +93,12 @@ public final class Employee extends javax.swing.JFrame {
         setLocation(x, y);        
         setResizable(false);
     }
+    
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
+    
     public void stateButton(boolean value){
         
         btNew.setVisible(value);
@@ -392,6 +416,9 @@ public final class Employee extends javax.swing.JFrame {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jLabel17FocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtBirthDayFocusLost(evt);
+            }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -458,6 +485,9 @@ public final class Employee extends javax.swing.JFrame {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jLabel17FocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPersonCodeFocusLost(evt);
+            }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -482,6 +512,9 @@ public final class Employee extends javax.swing.JFrame {
         txtTakenCodeDay.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jLabel17FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtTakenCodeDayFocusLost(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -741,6 +774,9 @@ public final class Employee extends javax.swing.JFrame {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jLabel17FocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtDateStartFocusLost(evt);
+            }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
@@ -867,6 +903,9 @@ public final class Employee extends javax.swing.JFrame {
         public void focusGained(java.awt.event.FocusEvent evt) {
             txtCoefficientFocusGained(evt);
         }
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            txtCoefficientFocusLost(evt);
+        }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 5;
@@ -928,6 +967,9 @@ public final class Employee extends javax.swing.JFrame {
     txtTakenLaborDay.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusGained(java.awt.event.FocusEvent evt) {
             jLabel17FocusGained(evt);
+        }
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            txtTakenLaborDayFocusLost(evt);
         }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1134,6 +1176,11 @@ public final class Employee extends javax.swing.JFrame {
         .findFolkEntities()
     ));
     combFolk.setToolTipText("");
+    combFolk.addItemListener(new java.awt.event.ItemListener() {
+        public void itemStateChanged(java.awt.event.ItemEvent evt) {
+            combFolkItemStateChanged(evt);
+        }
+    });
     combFolk.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusGained(java.awt.event.FocusEvent evt) {
             jLabel17FocusGained(evt);
@@ -1302,6 +1349,9 @@ public final class Employee extends javax.swing.JFrame {
         public void focusGained(java.awt.event.FocusEvent evt) {
             txtBaseSalaryFocusGained(evt);
         }
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            txtBaseSalaryFocusLost(evt);
+        }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
@@ -1332,6 +1382,9 @@ public final class Employee extends javax.swing.JFrame {
         public void focusGained(java.awt.event.FocusEvent evt) {
             jLabel17FocusGained(evt);
         }
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            txtAllowanceFocusLost(evt);
+        }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 10;
@@ -1356,6 +1409,9 @@ public final class Employee extends javax.swing.JFrame {
     txtNumberLabor.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusGained(java.awt.event.FocusEvent evt) {
             jLabel17FocusGained(evt);
+        }
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            txtNumberLaborFocusLost(evt);
         }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1399,12 +1455,22 @@ public final class Employee extends javax.swing.JFrame {
 
     btDelete.setText("Xóa");
     btDelete.setPreferredSize(new java.awt.Dimension(75, 23));
+    btDelete.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btDeleteActionPerformed(evt);
+        }
+    });
 
     btPrint.setText("In");
     btPrint.setPreferredSize(new java.awt.Dimension(75, 23));
 
     btClose.setText("Thoát");
     btClose.setPreferredSize(new java.awt.Dimension(75, 23));
+    btClose.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btCloseActionPerformed(evt);
+        }
+    });
 
     btSave.setText("Ghi");
     btSave.setPreferredSize(new java.awt.Dimension(75, 23));
@@ -1461,7 +1527,7 @@ public final class Employee extends javax.swing.JFrame {
             .addContainerGap())
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
                 .addGap(0, 62, Short.MAX_VALUE)))
     );
 
@@ -1479,14 +1545,25 @@ public final class Employee extends javax.swing.JFrame {
     
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
         
-        toEmployee();
-        if(action == ACTION.INSERT) {
-            
-        } else if (action == ACTION.EDIT) {
-            
+        try {
+            validForm();
+            toEmployee();
+            if (action == ACTION.INSERT) {
+                new EmployeeBLL().create(employee);
+                employees.add(employee);
+                
+            } else if (action == ACTION.EDIT) {
+                new EmployeeBLL().edit(employee);
+            }
+            stateButton(true);
+            activeForm(false);
+        } catch (Exception ex) {
+             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
+             String mess = ex.getMessage() + "\n" + 
+                     "Nguyên nhân: " + ex.getCause().getMessage();
+            JOptionPane.showMessageDialog(this, mess, "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
         
-        stateButton(true);
     }//GEN-LAST:event_btSaveActionPerformed
 
     private void btEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditActionPerformed
@@ -1516,6 +1593,8 @@ public final class Employee extends javax.swing.JFrame {
             if (action == ACTION.VIEW) {
                 stateButton(true);
                 activeForm(false);
+                cleanForm();
+                loadEmployee(employee);
             } else {
                 stateButton(false);
                 activeForm(true);
@@ -1526,10 +1605,6 @@ public final class Employee extends javax.swing.JFrame {
                 } else if (action == ACTION.INSERT) {
                     cleanForm();
                 }
-            }
-
-            if (employee != null) {
-                loadEmployee(employee);
             }
         } catch (ParseException ex) {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
@@ -1550,6 +1625,93 @@ public final class Employee extends javax.swing.JFrame {
         // TODO add your handling code here:
         calSalary();
     }//GEN-LAST:event_jLabel17FocusGained
+
+    private void btCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCloseActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btCloseActionPerformed
+
+    private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
+        try {
+            // TODO add your handling code here:
+            int code = JOptionPane.showConfirmDialog(this, "Đồng ý xóa nhân viên này?","",JOptionPane.OK_CANCEL_OPTION);
+            if (code == JOptionPane.OK_OPTION) {
+                new EmployeeBLL().delete(txtEmployeeCode.getText());
+                employees.remove(employee);
+                dispose();
+            }
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btDeleteActionPerformed
+
+    private void txtBirthDayFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBirthDayFocusLost
+        // TODO add your handling code here:
+        if(txtBirthDay.getText().trim().isEmpty()) {
+            txtBirthDay.setValue(null);
+        }
+    }//GEN-LAST:event_txtBirthDayFocusLost
+
+    private void txtTakenCodeDayFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTakenCodeDayFocusLost
+        // TODO add your handling code here:
+        if(txtTakenCodeDay.getText().trim().isEmpty()) {
+            txtTakenCodeDay.setValue(null);
+        }
+    }//GEN-LAST:event_txtTakenCodeDayFocusLost
+
+    private void txtDateStartFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDateStartFocusLost
+        // TODO add your handling code here:
+        if(txtDateStart.getText().trim().isEmpty()) {
+            txtDateStart.setValue(null);
+        }
+    }//GEN-LAST:event_txtDateStartFocusLost
+
+    private void txtTakenLaborDayFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTakenLaborDayFocusLost
+        // TODO add your handling code here:
+        if(txtTakenLaborDay.getText().trim().isEmpty()) {
+            txtTakenLaborDay.setValue(null);
+        }
+    }//GEN-LAST:event_txtTakenLaborDayFocusLost
+
+    private void txtNumberLaborFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNumberLaborFocusLost
+        // TODO add your handling code here:
+        if(txtNumberLabor.getText().trim().isEmpty()) {
+            txtNumberLabor.setValue(null);
+        }
+    }//GEN-LAST:event_txtNumberLaborFocusLost
+
+    private void txtPersonCodeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPersonCodeFocusLost
+        // TODO add your handling code here:
+        if(txtPersonCode.getText().trim().isEmpty()) {
+            txtPersonCode.setValue(null);
+        }
+    }//GEN-LAST:event_txtPersonCodeFocusLost
+
+    private void txtBaseSalaryFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBaseSalaryFocusLost
+        // TODO add your handling code here:
+        if(txtBaseSalary.getText().trim().isEmpty()) {
+            txtBaseSalary.setValue(0l);
+        }
+    }//GEN-LAST:event_txtBaseSalaryFocusLost
+
+    private void txtCoefficientFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCoefficientFocusLost
+        // TODO add your handling code here:
+        if(txtCoefficient.getText().trim().isEmpty()) {
+            txtCoefficient.setValue(0.00d);
+        }
+    }//GEN-LAST:event_txtCoefficientFocusLost
+
+    private void txtAllowanceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAllowanceFocusLost
+        // TODO add your handling code here:
+        if(txtAllowance.getText().trim().isEmpty()) {
+            txtAllowance.setValue(0l);
+        }
+    }//GEN-LAST:event_txtAllowanceFocusLost
+
+    private void combFolkItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combFolkItemStateChanged
+        // TODO add your handling code here:
+        System.out.println(evt.getItem());
+    }//GEN-LAST:event_combFolkItemStateChanged
 
     private void calSalary() {
         Long x = (Long) txtBaseSalary.getValue();
@@ -1603,7 +1765,7 @@ public final class Employee extends javax.swing.JFrame {
     
     private void toEmployee() {
         
-        if (employee == null) employee = new ims.dto.Employee();
+        if (employee == null || action == ACTION.INSERT) employee = new ims.dto.Employee();
         
         employee.setId(txtEmployeeCode.getText());
         employee.setFullName(txtFullName.getText());
@@ -1617,33 +1779,40 @@ public final class Employee extends javax.swing.JFrame {
         employee.setBirthPlace(txtBirthPlace.getText());
         employee.setCity((City) combCity.getSelectedItem());
         employee.setNativeLand(txtNativeLand.getText());
-        employee.setAddress(txtPersonCode.getText());
+        employee.setAddress(txtAddress.getText());
         employee.setTakenPCDate((Date) txtTakenCodeDay.getValue());
         employee.setTakenPCPlace(txtTakenCodePlace.getText());
         employee.setTabernacle(txtTabernacle.getText());
         employee.setTypeStaff((Typestaff) combTypeStaff.getSelectedItem());
         employee.setStartDate((Date) txtDateStart.getValue());
-        employee.setDegree((Degree) combDeparment.getSelectedItem());
+        employee.setDegree((Degree) combDegree.getSelectedItem());
         employee.setJob((Job) combJob.getSelectedItem());
         employee.setPosition((EmployeePosition) combPosition.getSelectedItem());
-        employee.setBaseSalary((long) txtBaseSalary.getValue());
+        employee.setBaseSalary((Long) txtBaseSalary.getValue());
+        employee.setPersonCode(txtPersonCode.getText());
         Object fact = txtCoefficient.getValue();
         if(fact instanceof Long) {
             Long factLong = (Long) fact;
-            employee.setFactorSalary(factLong.longValue());
+            employee.setFactorSalary(factLong);
         } else {
             Double factLong = (Double) fact;
-            employee.setFactorSalary(factLong.doubleValue());
+            employee.setFactorSalary(factLong);
         }
-        employee.setSalary((int) txtSalary.getValue());
-        employee.setAllowedSalary((int) txtAllowance.getValue());
-        employee.setBaseSalary((long) txtNumberLabor.getValue());
+        employee.setSalary((Long) txtSalary.getValue());
+        employee.setAllowedSalary((Long) txtAllowance.getValue());
+        employee.setBaseSalary((Long) txtBaseSalary.getValue());
+        if(txtNumberLabor.getValue() != null) {
+            BigInteger numberLabor = BigInteger.valueOf(((Long) txtNumberLabor.getValue()));
+            employee.setLaborCode(numberLabor);
+        } else {
+            employee.setLaborCode(null);
+        }
         employee.setTakenLaborDate((Date) txtTakenLaborDay.getValue());
-        employee.setTakenLaborPlace(txtTakenCodePlace.getText());
+        employee.setTakenLaborPlace(txtTakenLaborPlace.getText());
         employee.setBankId(txtIdBank.getText());
         employee.setBank(txtBank.getText());
         employee.setLearning((Learning) combLearning.getSelectedItem());
-        employee.setDegree((Degree) combDegree.getSelectedItem());
+        employee.setDeparment((Deparment) combDeparment.getSelectedItem());
         employee.setForeignLanguage((Foreignlanguage) combForeignLanguage.getSelectedItem());
         employee.setComputing((Computing) combComputing.getSelectedItem());
         employee.setFolk((Folk) combFolk.getSelectedItem());
@@ -1762,8 +1931,8 @@ public final class Employee extends javax.swing.JFrame {
         txtBaseSalary.setValue(employee.getBaseSalary());
         txtCoefficient.setValue(employee.getFactorSalary());
         txtSalary.setValue(employee.getSalary());
-        txtAllowance.setText(String.valueOf(employee.getAllowedSalary()));
-        txtNumberLabor.setText(employee.getLaborCode().toString());
+        txtAllowance.setValue(employee.getAllowedSalary());
+        txtNumberLabor.setValue(employee.getLaborCode());
         txtTakenLaborDay.setValue(employee.getTakenLaborDate());
         txtTakenLaborPlace.setText(employee.getTakenLaborPlace());
         txtIdBank.setText(employee.getBankId());
@@ -1775,6 +1944,160 @@ public final class Employee extends javax.swing.JFrame {
         combFolk.setSelectedItem(employee.getFolk());
         combNationality.setSelectedItem(employee.getNationality());
         combReligion.setSelectedItem(employee.getReligion());
+    }
+    
+    private void validForm() throws EmployeeException {
+        if (txtEmployeeCode.getText().trim().isEmpty()) {
+            throw new EmployeeException("Mã nhân viên không được bỏ trống"
+                    ,"Thông tin bắt buộc");
+        }
+        
+        if (txtFullName.getText().trim().isEmpty()) {
+            throw new EmployeeException("Tên nhân viên không được bỏ trống"
+                    ,"Thông tin bắt buộc");
+        }
+        
+        if (!txtBirthDay.getText().trim().isEmpty() || !txtBirthPlace.getText().trim().isEmpty()) {
+            if (txtBirthPlace.getText().trim().isEmpty()) {
+                throw new EmployeeException("Nơi sinh không được bỏ trống"
+                        ,"Ngày sinh đã được nhập");
+            }
+            if (txtBirthDay.getText().trim().isEmpty()) {
+                throw new EmployeeException("Ngày sinh không được bỏ trống"
+                        ,"Nơi sinh đã được nhập");
+            }
+        }
+        
+        if (!txtPersonCode.getText().trim().isEmpty()) {
+            if(txtTakenCodePlace.getText().trim().isEmpty()) {
+                throw new EmployeeException("Nơi cấp CMND không được bở trống"
+                        ,"Số CMND đã được nhập");
+            }
+            
+            if(txtTakenCodeDay.getText().trim().isEmpty()) {
+                throw new EmployeeException("Ngày cấp CMND không được bỏ trống"
+                        ,"Số CMND đã được nhập");
+            }
+        }
+        
+        if (!txtTakenCodeDay.getText().trim().isEmpty()) {
+            if(txtPersonCode.getText().trim().isEmpty()) {
+                throw new EmployeeException("Số CMND không được bỏ trống"
+                        ,"Ngày cấp CMND đã được nhập");
+            }
+            
+            if(txtTakenCodePlace.getText().trim().isEmpty()) {
+                throw new EmployeeException("Nơi cấp CMND không được bở trống"
+                        ,"Ngày cấp CMND đã được nhập");
+            }
+        }
+        
+        if (!txtTakenCodePlace.getText().trim().isEmpty()) {
+            if(txtPersonCode.getText().trim().isEmpty()) {
+                throw new EmployeeException("Số CMND không được bỏ trống"
+                        ,"Nơi cấp CMND đã được nhập");
+            }
+            
+            if(txtTakenCodeDay.getText().trim().isEmpty()) {
+                throw new EmployeeException("Ngày cấp CMND không được bở trống"
+                        ,"Nơi cấp CMND đã được nhập");
+            }
+        }
+        
+        if (combTypeStaff.getSelectedItem() == null) {
+            throw new EmployeeException("Chưa chọn loại nhân viên"
+                        ,"Thông tin bắt buộc");
+        }
+        
+        if (txtDateStart.getText().trim().isEmpty()) {
+            throw new EmployeeException("Chưa nhập ngày vào làm"
+                        ,"Thông tin bắt buộc");
+        }
+        
+        if (combDeparment.getSelectedItem() == null) {
+            throw new EmployeeException("Chưa chọn phòng ban"
+                        ,"Thông tin bắt buộc");
+        }
+        
+        if (combJob.getSelectedItem() == null) {
+            throw new EmployeeException("Chưa chọn chọn công việc"
+                        ,"Thông tin bắt buộc");
+        }
+        
+        if (combPosition.getSelectedItem() == null) {
+            throw new EmployeeException("Chưa chọn chức vụ"
+                        ,"Thông tin bắt buộc");
+        }
+        
+        if (txtBaseSalary.getText().isEmpty()){
+            throw new EmployeeException("Chưa nhập lương cơ bản"
+                        ,"Thông tin bắt buộc");
+        }
+        
+        if (txtCoefficient.getText().isEmpty()){
+            throw new EmployeeException("Chưa nhập hệ số lương"
+                        ,"Thông tin bắt buộc");
+        }
+        
+        if (!txtNumberLabor.getText().trim().isEmpty()) {
+            if (txtTakenLaborDay.getText().trim().isEmpty()) {
+                throw new EmployeeException("Chưa nhập ngày lấy sổ lao động"
+                        ,"Số sổ lao động đã được nhập");
+            }
+            
+            if (txtTakenLaborPlace.getText().trim().isEmpty()) {
+                throw new EmployeeException("Chưa nhập nơi lấy sổ lao động"
+                        ,"Số sổ lao động đã được nhập");
+            }
+        }
+        
+        if (!txtTakenLaborDay.getText().trim().isEmpty()) {
+            if (txtNumberLabor.getText().trim().isEmpty()) {
+                throw new EmployeeException("Chưa nhập số sổ lao động"
+                        ,"Ngày lấy sổ đã được nhập");
+            }
+            
+            if (txtTakenLaborPlace.getText().trim().isEmpty()) {
+                throw new EmployeeException("Chưa nhập nơi lấy sổ lao động"
+                        ,"Ngày lấy sổ đã được nhập");
+            }
+        }
+        
+        if (!txtTakenLaborPlace.getText().trim().isEmpty()) {
+            if (txtNumberLabor.getText().trim().isEmpty()) {
+                throw new EmployeeException("Chưa nhập số sổ sổ lao động"
+                        ,"Nơi lấy sổ đã được nhập");
+            }
+            
+            if (txtTakenLaborDay.getText().trim().isEmpty()) {
+                throw new EmployeeException("Chưa nhập ngày lấy sổ lao động"
+                        ,"Nơi lấy sổ đã được nhập");
+            }
+        }
+        
+        if(!txtIdBank.getText().trim().isEmpty() || !txtBank.getText().trim().isEmpty()) {
+            if (txtIdBank.getText().trim().isEmpty()) {
+                throw new EmployeeException("Chưa nhập tài khoản ngân hàng"
+                        ,"Tên ngân hàng đã được nhập");
+            }
+            
+            if (txtBank.getText().trim().isEmpty()) {
+                throw new EmployeeException("Tên ngân hàng chưa được nhập"
+                        ,"Tài khoảng ngân hàng đã được nhập");
+            }
+        }
+        
+        if(combLearning.getSelectedItem() != null || combDegree.getSelectedItem() != null) {
+            if (combLearning.getSelectedItem() == null) {
+                throw new EmployeeException("Chưa chọn học vấn"
+                        ,"Bằng cấp đã được chọn");
+            }
+            
+            if (combDegree.getSelectedItem() == null) {
+                throw new EmployeeException("Chưa chọn bằng cấp"
+                        ,"Học vấn đã được chọn");
+            }
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

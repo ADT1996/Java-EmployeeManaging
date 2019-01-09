@@ -102,7 +102,7 @@ public class Foreignlanguage implements Serializable {
 
     @Override
     public String toString() {
-        return "ims.dto.Foreignlanguage[ id=" + id + " ]";
+        return level;
     }
     
 }

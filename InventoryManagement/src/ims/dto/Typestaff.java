@@ -103,7 +103,7 @@ public class Typestaff implements Serializable {
 
     @Override
     public String toString() {
-        return "ims.dto.Typestaff[ id=" + id + " ]";
+        return typeStaff;
     }
     
 }

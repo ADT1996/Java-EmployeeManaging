@@ -103,7 +103,7 @@ public class EmployeePosition implements Serializable {
 
     @Override
     public String toString() {
-        return "ims.dto.EmployeePosition[ id=" + id + " ]";
+        return position;
     }
     
 }

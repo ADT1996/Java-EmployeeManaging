@@ -102,7 +102,7 @@ public class Nationality implements Serializable {
 
     @Override
     public String toString() {
-        return "ims.dto.Nationality[ id=" + id + " ]";
+        return nationality;
     }
     
 }
