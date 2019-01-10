@@ -49,9 +49,9 @@ CREATE TABLE `employee` (
   `Position` int(11) NOT NULL,
   `BaseSalary` bigint(11) NOT NULL,
   `FactorSalary` double NOT NULL,
-  `Salary` int(11) NOT NULL DEFAULT '0',
-  `AllowedSalary` int(11) NOT NULL DEFAULT '0',
-  `LaborCode` int(15) DEFAULT NULL,
+  `Salary` bigint(11) NOT NULL DEFAULT '0',
+  `AllowedSalary` bigint(11) NOT NULL DEFAULT '0',
+  `LaborCode` bigint(11) DEFAULT NULL,
   `TakenLaborPlace` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `TakenLaborDate` date DEFAULT NULL,
   `BankId` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
@@ -64,7 +64,6 @@ CREATE TABLE `employee` (
   `Nationality` int(11) DEFAULT NULL,
   `Religion` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `MobieNumber_UNIQUE` (`MobieNumber`),
   KEY `FK_City_city_idx` (`City`),
   KEY `FK_Computing_Computing_idx` (`Computing`),
   KEY `FK_Degree_Degree_idx` (`Degree`),
@@ -98,6 +97,7 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
+INSERT INTO `employee` VALUES ('ADT','Âu Dương Trọng Tuyến','ADT',_binary '\0',_binary '\0','0908847363','','autuyen199633@gmail.com','1996-12-25','Sao Hỏa',1,'79096001011','2016-04-08','Hỏa Tinh','Sao Hỏa','','',4,'2018-05-14',6,2,4,0,1,0,50000,NULL,'',NULL,'','',1,4,5,1,1,14,2);
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -110,4 +110,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-09  2:42:33
+-- Dump completed on 2019-01-10  9:29:46
